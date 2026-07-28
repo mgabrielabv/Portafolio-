@@ -95,6 +95,7 @@ export default function Login() {
               type="email"
               autoComplete="email"
               autoFocus
+              maxLength={30}
               placeholder={t("login.email.ph")}
               error={errors.email?.message}
               {...register("email")}
@@ -105,6 +106,7 @@ export default function Login() {
             <PasswordInput
               label={t("login.password")}
               autoComplete="current-password"
+              maxLength={12}
               placeholder={t("login.password.ph")}
               error={errors.password?.message}
               {...register("password")}

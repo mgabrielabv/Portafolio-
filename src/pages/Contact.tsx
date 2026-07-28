@@ -37,7 +37,8 @@ export default function Contact() {
 
   const onSubmit = handleSubmit(async (values) => {
     await new Promise((resolve) => setTimeout(resolve, 900));
-    toast.success(interpolate(t("contact.toast"), { name: values.name.split(" ")[0] }));
+    const name = values.name.trim();
+    toast.success(interpolate(t("contact.toast"), { name: name.split(" ")[0] }));
     reset();
   });
 
@@ -116,17 +117,18 @@ export default function Contact() {
               </div>
             )}
             <div className="grid gap-5 sm:grid-cols-2">
-              <Input label={t("contact.name")} placeholder={t("contact.name.ph")} error={errors.name?.message} autoComplete="name" {...register("name")} />
-              <Input label={t("contact.email")} type="email" placeholder={t("contact.email.ph")} error={errors.email?.message} autoComplete="email" {...register("email")} />
+              <Input label={t("contact.name")} placeholder={t("contact.name.ph")} maxLength={40} error={errors.name?.message} autoComplete="name" {...register("name")} />
+              <Input label={t("contact.email")} type="email" placeholder={t("contact.email.ph")} maxLength={120} error={errors.email?.message} autoComplete="email" {...register("email")} />
             </div>
             <div className="mt-5">
-              <Input label={t("contact.subject")} placeholder={t("contact.subject.ph")} error={errors.subject?.message} {...register("subject")} />
+              <Input label={t("contact.subject")} placeholder={t("contact.subject.ph")} maxLength={80} error={errors.subject?.message} {...register("subject")} />
             </div>
             <div className="mt-5">
               <Textarea
                 label={t("contact.message")}
                 placeholder={t("contact.message.ph")}
                 className="min-h-36"
+                maxLength={500}
                 error={errors.message?.message}
                 {...register("message")}
               />

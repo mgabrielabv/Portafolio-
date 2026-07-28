@@ -11,24 +11,29 @@ export const contactSchema = z
     message: z.string(),
   })
   .superRefine((data, ctx) => {
-    if (data.name.length < 2) {
+    const name = data.name.trim();
+    const email = data.email.trim();
+    const subject = data.subject.trim();
+    const message = data.message.trim();
+
+    if (name.length < 2) {
       ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["name"], message: translate("validate.name.min") });
-    } else if (data.name.length > 60) {
+    } else if (name.length > 40) {
       ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["name"], message: translate("validate.name.max") });
     }
-    if (!data.email) {
+    if (!email) {
       ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["email"], message: translate("validate.email.required") });
-    } else if (!EMAIL_RE.test(data.email)) {
+    } else if (!EMAIL_RE.test(email)) {
       ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["email"], message: translate("validate.email.invalid") });
     }
-    if (data.subject.length < 3) {
+    if (subject.length < 3) {
       ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["subject"], message: translate("validate.subject.min") });
-    } else if (data.subject.length > 120) {
+    } else if (subject.length > 80) {
       ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["subject"], message: translate("validate.subject.max") });
     }
-    if (data.message.length < 10) {
+    if (message.length < 10) {
       ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["message"], message: translate("validate.message.min") });
-    } else if (data.message.length > 2000) {
+    } else if (message.length > 500) {
       ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["message"], message: translate("validate.message.max") });
     }
   });

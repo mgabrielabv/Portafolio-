@@ -133,6 +133,7 @@ export default function Register() {
               type="text"
               autoComplete="name"
               autoFocus
+              maxLength={30}
               placeholder={t("register.name.ph")}
               error={errors.name?.message}
               {...register("name")}
@@ -144,6 +145,7 @@ export default function Register() {
               label={t("register.username")}
               type="text"
               autoComplete="username"
+              maxLength={20}
               placeholder={t("register.username.ph")}
               error={errors.username?.message}
               {...register("username")}
@@ -155,6 +157,7 @@ export default function Register() {
               label={t("register.email")}
               type="email"
               autoComplete="email"
+              maxLength={30}
               placeholder={t("register.email.ph")}
               error={errors.email?.message}
               {...register("email")}
@@ -165,6 +168,7 @@ export default function Register() {
             <PasswordInput
               label={t("register.password")}
               autoComplete="new-password"
+              maxLength={12}
               placeholder={t("register.password.ph")}
               error={errors.password?.message}
               hint={t("register.password.hint")}
@@ -177,6 +181,7 @@ export default function Register() {
             <PasswordInput
               label={t("register.confirm")}
               autoComplete="new-password"
+              maxLength={12}
               placeholder={t("register.confirm.ph")}
               error={errors.confirmPassword?.message}
               {...register("confirmPassword")}

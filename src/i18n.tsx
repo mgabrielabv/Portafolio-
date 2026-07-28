@@ -311,7 +311,9 @@ export const DICT: Record<Lang, Record<string, string>> = {
     // Validación
     "validate.email.required": "El email es obligatorio",
     "validate.email.invalid": "Introduce un email válido",
+    "validate.email.max": "El email no puede superar 30 caracteres",
     "validate.password.min6": "La contraseña debe tener al menos 6 caracteres",
+    "validate.password.max": "La contraseña no puede superar 12 caracteres",
     "validate.password.min8": "La contraseña debe tener al menos 8 caracteres",
     "validate.password.upper": "Incluye al menos una letra mayúscula",
     "validate.password.number": "Incluye al menos un número",
@@ -636,7 +638,9 @@ export const DICT: Record<Lang, Record<string, string>> = {
     // Validación
     "validate.email.required": "Email is required",
     "validate.email.invalid": "Enter a valid email",
+    "validate.email.max": "Email cannot exceed 30 characters",
     "validate.password.min6": "Password must be at least 6 characters",
+    "validate.password.max": "Password cannot exceed 12 characters",
     "validate.password.min8": "Password must be at least 8 characters",
     "validate.password.upper": "Include at least one uppercase letter",
     "validate.password.number": "Include at least one number",

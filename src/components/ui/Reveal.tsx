@@ -8,14 +8,14 @@ interface RevealProps {
   className?: string;
 }
 
-/** Envuelve contenido y lo anima (fade-in + slide-up) al entrar en viewport. */
-export function Reveal({ children, delay = 0, y = 24, className }: RevealProps) {
+/** Fade-in + slide corto al entrar en viewport, con la curva de easing única del sitio. */
+export function Reveal({ children, delay = 0, y = 12, className }: RevealProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.55, delay, ease: [0.32, 0.72, 0, 1] }}
+      transition={{ duration: 0.28, delay, ease: [0.22, 1, 0.36, 1] }}
       className={className}
     >
       {children}

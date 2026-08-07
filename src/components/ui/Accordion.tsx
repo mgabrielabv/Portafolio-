@@ -28,7 +28,7 @@ export function Accordion({ items, multiple = false, defaultOpenIndex, className
   };
 
   return (
-    <div className={cn("divide-y divide-line rounded-2xl border border-line bg-surface", className)}>
+    <div className={cn("divide-y divide-line rounded-lg border border-line bg-surface", className)}>
       {items.map((item, index) => {
         const isOpen = open.includes(index);
         const panelId = `${baseId}-panel-${index}`;
@@ -46,7 +46,7 @@ export function Accordion({ items, multiple = false, defaultOpenIndex, className
                 <span className="font-display font-medium text-content">{item.title}</span>
                 <motion.span
                   animate={{ rotate: isOpen ? 180 : 0 }}
-                  transition={{ duration: 0.25 }}
+                  transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
                   className="grid size-7 shrink-0 place-items-center rounded-full bg-surface-2 text-muted"
                   aria-hidden
                 >
@@ -63,7 +63,7 @@ export function Accordion({ items, multiple = false, defaultOpenIndex, className
                   initial={{ height: 0, opacity: 0 }}
                   animate={{ height: "auto", opacity: 1 }}
                   exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.28, ease: [0.32, 0.72, 0, 1] }}
+                  transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
                   className="overflow-hidden"
                 >
                   <div className="px-5 pb-5 text-sm leading-relaxed text-muted">{item.content}</div>

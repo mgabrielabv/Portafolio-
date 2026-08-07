@@ -1,35 +1,22 @@
-import { Award, Download, GraduationCap, TrendingUp } from "lucide-react";
+import { Download } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Cell,
-  Legend,
-  Pie,
-  PieChart,
-  PolarAngleAxis,
-  PolarGrid,
-  Radar,
-  RadarChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
 import { Accordion } from "@/components/ui/Accordion";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { FAQS, SKILL_LEVELS, SOFT_SKILLS, TIMELINE } from "@/data/about";
 import { CATEGORIES } from "@/data/projects";
-import { useChartColors } from "@/hooks/useChartColors";
 import { listProjects } from "@/services/projects";
 import type { Project } from "@/types";
 
-const CHART_FILLS = ["#6d5df6", "#a3e635", "#0ea5e9", "#f59e0b", "#ec4899"];
+function LevelBar({ value }: { value: number }) {
+  return (
+    <span aria-hidden className="relative block h-px w-full bg-line">
+      <span className="absolute inset-y-0 left-0 bg-accent" style={{ width: `${value}%` }} />
+    </span>
+  );
+}
 
 export default function About() {
-  const colors = useChartColors();
   const [projects, setProjects] = useState<Project[]>([]);
 
   useEffect(() => {
@@ -46,39 +33,38 @@ export default function About() {
     return [...counts.entries()].map(([cat, value]) => ({
       name: CATEGORIES[cat as keyof typeof CATEGORIES].label,
       value,
-      fill: CHART_FILLS[[...counts.keys()].indexOf(cat) % CHART_FILLS.length],
     }));
   }, [projects]);
 
-  const tooltipStyle = {
-    backgroundColor: colors.surface,
-    border: `1px solid ${colors.line}`,
-    borderRadius: 12,
-    color: colors.content,
-    fontSize: 13,
-  };
-
   return (
-    <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
       {/* ------- Header ------- */}
-      <Reveal>
-        <p className="mb-3 text-xs font-semibold tracking-[0.2em] text-primary uppercase">Sobre mí</p>
-        <h1 className="text-4xl text-content sm:text-5xl">Diseño y código, un mismo oficio</h1>
-        <div className="mt-8 flex flex-col gap-8 md:flex-row md:items-start">
+      <header>
+        <p className="font-mono text-xs tracking-[0.18em] text-muted uppercase">
+          {"// sobre mí"}
+        </p>
+        <h1 className="mt-6 font-display text-[clamp(2.5rem,6vw,5rem)] leading-[1.02] tracking-[-0.02em] text-content">
+          Diseño y código,<br />
+          <span className="font-light text-muted italic">un mismo oficio.</span>
+        </h1>
+
+        <div className="mt-10 grid gap-8 md:grid-cols-[auto_1fr] md:items-start">
           <img
             src="/images/avatar.svg"
             alt="Retrato ilustrado de María Bermúdez"
             width={640}
             height={640}
             loading="lazy"
-            className="h-40 w-40 shrink-0 rounded-3xl border border-line shadow-card object-cover"
+            className="h-44 w-44 shrink-0 rounded-lg border border-accent/60 object-cover shadow-card"
           />
           <div className="max-w-2xl space-y-4 text-[15px] leading-7 text-muted">
             <p>
-              Soy María, <strong className="font-semibold text-content">estudiante de Ingeniería en
-              Computación</strong> en la Universidad Rafael Urdaneta, en Maracaibo (Venezuela).
-              Me muevo igual de cómoda en Figma que en un editor de código: prototipo, valido con
-              usuarios y construyo interfaces rápidas, accesibles y con atención al detalle.
+              Soy María,{" "}
+              <strong className="font-medium text-content">estudiante de Ingeniería en
+              Computación</strong>{" "}
+              en la Universidad Rafael Urdaneta, en Maracaibo (Venezuela). Me muevo igual de
+              cómoda en Figma que en un editor de código: prototipo, valido con usuarios y
+              construyo interfaces rápidas, accesibles y con atención al detalle.
             </p>
             <p>
               He desarrollado aplicaciones web para proyectos universitarios y clientes reales,
@@ -91,132 +77,111 @@ export default function About() {
             </p>
           </div>
         </div>
-      </Reveal>
+      </header>
 
       {/* ------- Timeline ------- */}
-      <section className="mt-20" aria-label="Experiencia profesional">
-        <SectionHeading
-          eyebrow="Trayectoria"
-          title="Experiencia profesional"
-          description="De freelance a liderar el frontend de productos usados por decenas de miles de personas."
-        />
-        <ol className="relative mt-10 space-y-8 border-l border-line pl-8">
+      <section className="mt-24" aria-label="Experiencia profesional">
+        <SectionHeading index="01" eyebrow="Trayectoria" title="Recorrido" />
+        <ol className="relative mt-10 border-l border-line">
           {TIMELINE.map((entry, i) => (
-            <Reveal key={entry.period} delay={i * 0.06}>
-              <li className="relative">
+            <Reveal key={entry.period} delay={Math.min(i * 0.05, 0.2)}>
+              <li className="relative border-b border-line py-6 first:pt-0 last:border-b-0 last:pb-0">
                 <span
                   aria-hidden
-                  className="absolute top-1 -left-[37px] grid size-5 place-items-center rounded-full border-4 border-bg bg-primary"
+                  className="absolute top-8 -left-[37px] size-2 rounded-full bg-accent"
                 />
-                <p className="text-xs font-semibold tracking-wide text-primary uppercase">{entry.period}</p>
-                <h3 className="mt-1 font-display text-lg font-semibold text-content">{entry.role}</h3>
-                <p className="text-sm font-medium text-muted">{entry.company}</p>
-                <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted">{entry.description}</p>
+                <p className="font-mono text-xs tracking-[0.16em] text-muted uppercase">
+                  {entry.period}
+                </p>
+                <h3 className="mt-2 font-display text-xl font-medium text-content">
+                  {entry.role}
+                </h3>
+                <p className="mt-0.5 font-mono text-xs text-muted">{entry.company}</p>
+                <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">
+                  {entry.description}
+                </p>
               </li>
             </Reveal>
           ))}
         </ol>
       </section>
 
-      {/* ------- Charts ------- */}
-      <section className="mt-20" aria-label="Habilidades">
+      {/* ------- Habilidades ------- */}
+      <section className="mt-24" aria-label="Habilidades">
         <SectionHeading
+          index="02"
           eyebrow="Habilidades"
-          title="Mis herramientas y capacidades"
-          description="Nivel de dominio por tecnología, soft skills y distribución de proyectos por categoría."
+          title="Herramientas y capacidades"
+          description="El peso tipográfico hace el trabajo que antes hacía el color."
         />
-        <div className="mt-10 grid gap-6 lg:grid-cols-2">
-          <Reveal>
-            <div className="rounded-2xl border border-line bg-surface p-6 shadow-card">
-              <h3 className="flex items-center gap-2 font-display text-base font-semibold text-content">
-                <TrendingUp className="size-4 text-primary" aria-hidden />
-                Dominio por tecnología
-              </h3>
-              <div className="mt-6 h-72">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={SKILL_LEVELS} margin={{ top: 0, right: 0, bottom: 0, left: -22 }}>
-                    <CartesianGrid strokeDasharray="4 4" stroke={colors.grid} vertical={false} />
-                    <XAxis dataKey="tech" tick={{ fill: colors.muted, fontSize: 12 }} axisLine={false} tickLine={false} />
-                    <YAxis domain={[0, 100]} tick={{ fill: colors.muted, fontSize: 12 }} axisLine={false} tickLine={false} />
-                    <Tooltip cursor={{ fill: colors.grid + "33" }} contentStyle={tooltipStyle} formatter={(v) => [`${v}%`, "Nivel"]} />
-                    <Bar dataKey="level" radius={[8, 8, 0, 0]} fill={colors.primary} />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-          </Reveal>
 
-          <Reveal delay={0.08}>
-            <div className="rounded-2xl border border-line bg-surface p-6 shadow-card">
-              <h3 className="flex items-center gap-2 font-display text-base font-semibold text-content">
-                <Award className="size-4 text-primary" aria-hidden />
-                Soft skills
-              </h3>
-              <div className="mt-6 h-72">
-                <ResponsiveContainer width="100%" height="100%">
-                  <RadarChart data={SOFT_SKILLS} outerRadius="72%">
-                    <PolarGrid stroke={colors.grid} />
-                    <PolarAngleAxis dataKey="skill" tick={{ fill: colors.muted, fontSize: 12 }} />
-                    <Radar dataKey="value" stroke={colors.accent} fill={colors.accent} fillOpacity={0.35} />
-                    <Tooltip contentStyle={tooltipStyle} formatter={(v) => [`${v}/100`, "Nivel"]} />
-                  </RadarChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-          </Reveal>
+        <div className="mt-10 grid gap-12 lg:grid-cols-2">
+          <div>
+            <h3 className="font-mono text-xs tracking-[0.18em] text-muted uppercase">
+              {"// tecnologías"}
+            </h3>
+            <ul className="mt-6 border-t border-line">
+              {SKILL_LEVELS.map((s) => (
+                <li
+                  key={s.tech}
+                  className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-6 gap-y-2 border-b border-line py-4 sm:grid-cols-[minmax(0,1fr)_3rem]"
+                >
+                  <span className="font-display text-base font-medium text-content">{s.tech}</span>
+                  <span className="text-right font-mono text-xs text-muted">{s.level}</span>
+                  <LevelBar value={s.level} />
+                </li>
+              ))}
+            </ul>
+          </div>
 
-          <Reveal delay={0.16} className="lg:col-span-2">
-            <div className="rounded-2xl border border-line bg-surface p-6 shadow-card">
-              <h3 className="flex items-center gap-2 font-display text-base font-semibold text-content">
-                <GraduationCap className="size-4 text-primary" aria-hidden />
-                Distribución de proyectos por categoría
-              </h3>
-              <div className="mt-6 flex h-64 flex-col items-center gap-6 sm:flex-row sm:justify-center">
-                <div className="h-64 w-full max-w-sm">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Pie
-                        data={categoryData}
-                        dataKey="value"
-                        nameKey="name"
-                        innerRadius="58%"
-                        outerRadius="82%"
-                        paddingAngle={3}
-                        stroke="none"
-                      >
-                        {categoryData.map((entry) => (
-                          <Cell key={entry.name} fill={entry.fill} />
-                        ))}
-                      </Pie>
-                      <Tooltip contentStyle={tooltipStyle} />
-                    </PieChart>
-                  </ResponsiveContainer>
-                </div>
-                <Legend
-                  content={({ payload }) => (
-                    <ul className="flex flex-wrap justify-center gap-x-5 gap-y-2">
-                      {(payload ?? []).map((item) => (
-                        <li key={item.value} className="flex items-center gap-2 text-sm text-muted">
-                          <span className="size-2.5 rounded-full" style={{ backgroundColor: item.color }} aria-hidden />
-                          {item.value}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                />
-              </div>
-            </div>
-          </Reveal>
+          <div>
+            <h3 className="font-mono text-xs tracking-[0.18em] text-muted uppercase">
+              {"// soft skills"}
+            </h3>
+            <ul className="mt-6 grid grid-cols-1 gap-x-8 border-t border-line sm:grid-cols-2">
+              {SOFT_SKILLS.map((s) => (
+                <li
+                  key={s.skill}
+                  className="flex items-baseline justify-between gap-4 border-b border-line py-3"
+                >
+                  <span className="text-sm text-content">{s.skill}</span>
+                  <span className="font-mono text-xs text-muted">{s.value}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="mt-12">
+          <h3 className="font-mono text-xs tracking-[0.18em] text-muted uppercase">
+            {"// proyectos por categoría"}
+          </h3>
+          <ul className="mt-6 max-w-xl border-t border-line">
+            {categoryData.length > 0 ? (
+              categoryData.map((c, i) => (
+                <li
+                  key={c.name}
+                  className="grid grid-cols-[2rem_minmax(0,1fr)_3rem] items-baseline gap-4 border-b border-line py-4"
+                >
+                  <span aria-hidden className="font-mono text-xs text-accent">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className="text-sm text-content">{c.name}</span>
+                  <span className="text-right font-mono text-xs text-muted">{c.value}</span>
+                </li>
+              ))
+            ) : (
+              <li className="border-b border-line py-4 font-mono text-xs text-muted">
+                {"// sin proyectos todavía"}
+              </li>
+            )}
+          </ul>
         </div>
       </section>
 
       {/* ------- FAQ ------- */}
-      <section className="mt-20" aria-label="Preguntas frecuentes">
-        <SectionHeading
-          eyebrow="Preguntas frecuentes"
-          title="Cómo trabajo"
-          description="Respuestas a lo que suelen preguntarme antes de empezar un proyecto."
-        />
+      <section className="mt-24" aria-label="Preguntas frecuentes">
+        <SectionHeading index="03" eyebrow="Preguntas frecuentes" title="Cómo trabajo" />
         <Reveal delay={0.1} className="mx-auto mt-10 max-w-3xl">
           <Accordion
             items={FAQS.map((f) => ({ title: f.title, content: f.content }))}
@@ -226,25 +191,29 @@ export default function About() {
       </section>
 
       {/* ------- CV ------- */}
-      <Reveal delay={0.1} className="mt-20">
-        <div
-          id="descargar-cv"
-          className="flex flex-col items-center justify-between gap-6 rounded-3xl border border-line bg-surface px-8 py-10 text-center shadow-card sm:flex-row sm:text-left"
-        >
+      <section id="descargar-cv" className="mt-24 border border-line bg-surface p-8 sm:p-12">
+        <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
           <div>
-            <h2 className="font-display text-2xl font-semibold text-content">¿Quieres el resumen en una página?</h2>
-            <p className="mt-2 text-sm text-muted">Descarga mi currículum en PDF, listo para compartir.</p>
+            <p className="font-mono text-xs tracking-[0.18em] text-muted uppercase">
+              {"// resumen en una página"}
+            </p>
+            <h2 className="mt-3 font-display text-2xl font-medium text-content sm:text-3xl">
+              ¿Quieres mi CV?
+            </h2>
+            <p className="mt-2 text-sm text-muted">
+              Un PDF con el recorrido, las habilidades y el contacto, listo para compartir.
+            </p>
           </div>
           <a
             href="/cv.pdf"
             download="Maria-Bermudez-CV.pdf"
-            className="inline-flex h-12 shrink-0 items-center gap-2 rounded-full bg-primary px-7 text-sm font-medium text-white transition-all hover:bg-primary/90 active:scale-[0.98]"
+            className="inline-flex h-12 shrink-0 items-center gap-2 rounded-lg bg-inverse px-7 font-mono text-xs tracking-[0.12em] text-bg uppercase transition-[transform,opacity] duration-fast hover:opacity-85 active:scale-[0.98]"
           >
             <Download className="size-4" aria-hidden />
-            Descargar CV (PDF)
+            Descargar CV
           </a>
         </div>
-      </Reveal>
+      </section>
     </div>
   );
 }

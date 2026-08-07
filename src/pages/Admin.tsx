@@ -82,10 +82,12 @@ export default function Admin() {
       <Reveal>
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="mb-2 text-xs font-semibold tracking-[0.2em] text-primary uppercase">Panel de administración</p>
-            <h1 className="text-3xl text-content sm:text-4xl">
+            <p className="font-mono text-xs tracking-[0.18em] text-muted uppercase">
+              {"// panel de administración"}
+            </p>
+            <h1 className="mt-3 text-3xl text-content sm:text-4xl">
               Hola, {user?.name.split(" ")[0]}
-              <span className="text-primary">.</span>
+              <span className="text-accent">.</span>
             </h1>
             <p className="mt-2 text-sm text-muted">Gestiona los proyectos de tu portafolio.</p>
           </div>
@@ -110,9 +112,9 @@ export default function Admin() {
             { label: "Categorías", value: categoryCount, icon: FolderPlus },
             { label: "Destacados", value: featuredCount, icon: Star },
           ].map(({ label, value, icon: Icon }) => (
-            <div key={label} className="rounded-2xl border border-line bg-surface p-4 shadow-card sm:p-5">
+            <div key={label} className="rounded-lg border border-line bg-surface p-4 shadow-card sm:p-5">
               <div className="flex items-center gap-3">
-                <span className="grid size-9 place-items-center rounded-xl bg-primary/10 text-primary">
+                <span className="grid size-9 place-items-center rounded-lg bg-accent/10 text-accent">
                   <Icon className="size-4.5" aria-hidden />
                 </span>
                 <div>
@@ -138,7 +140,7 @@ export default function Admin() {
             {optimisticProjects.map((project) => (
               <div
                 key={project.id}
-                className="flex flex-col gap-4 rounded-2xl border border-line bg-surface p-4 shadow-card transition-opacity sm:flex-row sm:items-center"
+                className="flex flex-col gap-4 rounded-lg border border-line bg-surface p-4 shadow-card transition-opacity sm:flex-row sm:items-center"
                 style={{ opacity: isPending ? 0.6 : 1 }}
               >
                 <img
@@ -152,7 +154,7 @@ export default function Admin() {
                     <h3 className="font-display font-semibold text-content">{project.title}</h3>
                     <Badge primary>{CATEGORIES[project.category].label}</Badge>
                     {project.featured && (
-                      <Badge className="text-amber-600">
+                      <Badge className="border-accent/30 bg-accent/10 text-accent">
                         <Star className="size-3 fill-current" aria-hidden />
                         Destacado
                       </Badge>
@@ -163,7 +165,7 @@ export default function Admin() {
                 <div className="flex shrink-0 items-center gap-2">
                   <Link
                     to={`/proyectos/${project.id}`}
-                    className="inline-flex h-9 items-center rounded-full border border-line px-4 text-xs font-medium text-muted transition-colors hover:border-primary/40 hover:text-primary"
+                    className="inline-flex h-9 items-center rounded-lg border border-line px-4 font-mono text-xs tracking-[0.1em] text-muted uppercase transition-colors duration-fast hover:border-accent/60 hover:text-accent"
                   >
                     Ver
                   </Link>

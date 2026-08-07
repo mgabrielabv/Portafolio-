@@ -91,7 +91,7 @@ export default function Login() {
 
         <p className="mt-2 text-center text-sm text-muted">
           ¿No tienes cuenta?{" "}
-          <Link to="/registro" className="font-medium text-primary transition-colors hover:text-primary/80">
+          <Link to="/registro" className="font-medium text-accent transition-colors duration-fast hover:text-accent/80">
             Regístrate gratis
           </Link>
         </p>

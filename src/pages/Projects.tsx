@@ -2,7 +2,7 @@ import { FolderOpen, Search } from "lucide-react";
 import { useMemo, useState } from "react";
 import { ProjectCard } from "@/components/ProjectCard";
 import { EmptyState } from "@/components/ui/EmptyState";
-import { Reveal } from "@/components/ui/Reveal";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ProjectCardSkeleton } from "@/components/ui/Skeleton";
 import { Tabs } from "@/components/ui/Tabs";
 import { CATEGORIES, CATEGORY_ORDER } from "@/data/projects";
@@ -45,17 +45,16 @@ export default function Projects() {
   ];
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-      <Reveal>
-        <p className="mb-3 text-xs font-semibold tracking-[0.2em] text-primary uppercase">Portafolio</p>
-        <h1 className="text-4xl text-content sm:text-5xl">Proyectos</h1>
-        <p className="mt-4 max-w-2xl text-base text-muted">
-          Una selección de aplicaciones web, móviles y de datos en las que he trabajado. Filtra por
-          categoría o busca por tecnología.
-        </p>
-      </Reveal>
+    <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+      <SectionHeading
+        as="h1"
+        index="01"
+        eyebrow="Portafolio"
+        title="Proyectos"
+        description="Una selección honesta de lo que construyo: sistemas con login y base de datos, más el recorrido de fundamentos de la cursada."
+      />
 
-      <Reveal delay={0.1} className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <Tabs
           tabs={tabs}
           value={category}
@@ -63,31 +62,32 @@ export default function Projects() {
           ariaLabel="Filtrar proyectos por categoría"
         />
         <div className="relative w-full sm:max-w-64">
-          <Search className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted" aria-hidden />
+          <Search
+            className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted"
+            aria-hidden
+          />
           <input
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Buscar por tecnología…"
             aria-label="Buscar proyectos"
-            className="h-11 w-full rounded-full border border-line bg-surface pl-10 pr-4 text-sm text-content placeholder:text-muted/60 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/25"
+            className="h-11 w-full rounded-lg border border-line bg-surface pl-10 pr-4 text-sm text-content placeholder:text-muted/60 focus:border-accent focus:ring-2 focus:ring-accent/25 focus:outline-none"
           />
         </div>
-      </Reveal>
+      </div>
 
       <div className="mt-10">
         {!projects ? (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="border-t border-line">
             {Array.from({ length: 6 }).map((_, i) => (
               <ProjectCardSkeleton key={i} />
             ))}
           </div>
         ) : filtered.length > 0 ? (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="border-t border-line">
             {filtered.map((project, i) => (
-              <Reveal key={project.id} delay={Math.min(i * 0.05, 0.3)}>
-                <ProjectCard project={project} />
-              </Reveal>
+              <ProjectCard key={project.id} project={project} index={i} />
             ))}
           </div>
         ) : (

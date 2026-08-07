@@ -20,3 +20,6 @@ npm-debug.log*
 .env
 .env.*
 !.env.example
+
+# Volcado de código (fuera del entregable y del escaneo de Tailwind)
+proyecto_completo.txt

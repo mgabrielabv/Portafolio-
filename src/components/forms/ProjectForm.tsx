@@ -129,7 +129,7 @@ export function ProjectForm({ project, onDone, onCancel }: ProjectFormProps) {
             type="button"
             onClick={() => imageInputRef.current?.click()}
             disabled={uploading}
-            className="grid size-24 place-items-center rounded-xl border border-dashed border-line text-muted transition-colors hover:border-primary/50 hover:text-primary disabled:opacity-50"
+            className="grid size-24 place-items-center rounded-lg border border-dashed border-line text-muted transition-colors duration-fast hover:border-accent/60 hover:text-accent disabled:opacity-50"
             aria-label="Añadir imágenes"
           >
             {uploading ? <Loader2 className="size-5 animate-spin" aria-hidden /> : <ImagePlus className="size-5" aria-hidden />}
@@ -192,7 +192,7 @@ export function ProjectForm({ project, onDone, onCancel }: ProjectFormProps) {
           type="button"
           onClick={() => thumbInputRef.current?.click()}
           disabled={uploading}
-          className="mt-6 inline-flex h-11 items-center justify-center gap-2 self-end rounded-xl border border-dashed border-line text-sm font-medium text-muted transition-colors hover:border-primary/50 hover:text-primary disabled:opacity-50"
+          className="mt-6 inline-flex h-11 items-center justify-center gap-2 self-end rounded-lg border border-dashed border-line font-mono text-xs tracking-[0.1em] text-muted uppercase transition-colors duration-fast hover:border-accent/60 hover:text-accent disabled:opacity-50"
         >
           <Upload className="size-4" aria-hidden />
           Subir portada
@@ -217,8 +217,8 @@ export function ProjectForm({ project, onDone, onCancel }: ProjectFormProps) {
         {...register("code")}
       />
 
-      <label className="flex cursor-pointer items-center gap-2.5 rounded-xl border border-line bg-surface-2/50 px-4 py-3">
-        <input type="checkbox" className="size-4 accent-[#6d5df6]" {...register("featured")} />
+      <label className="flex cursor-pointer items-center gap-2.5 rounded-lg border border-line bg-surface-2/50 px-4 py-3">
+        <input type="checkbox" className="size-4 accent-accent" {...register("featured")} />
         <span className="text-sm font-medium text-content">Destacar en la portada</span>
       </label>
 

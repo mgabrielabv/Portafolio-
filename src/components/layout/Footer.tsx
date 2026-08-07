@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Logo } from "@/components/Logo";
 
 const SOCIALS = [
-  { href: "https://github.com/", label: "GitHub", Icon: Github },
+  { href: "https://github.com/mgabrielabv", label: "GitHub", Icon: Github },
   { href: "https://linkedin.com/", label: "LinkedIn", Icon: Linkedin },
   { href: "https://x.com/", label: "Twitter / X", Icon: Twitter },
   { href: "mailto:maria.bermudez@uru.edu", label: "Correo", Icon: Mail },
@@ -61,7 +61,7 @@ export function Footer() {
                   target="_blank"
                   rel="noreferrer"
                   aria-label={label}
-                  className="grid size-10 place-items-center rounded-full border border-line bg-surface text-muted transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:text-primary"
+                  className="grid size-10 place-items-center rounded-lg border border-line bg-surface text-muted transition-[transform,color,border-color] duration-fast hover:-translate-y-0.5 hover:border-accent/50 hover:text-accent"
                 >
                   <Icon className="size-4.5" aria-hidden />
                 </a>
@@ -70,17 +70,23 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="font-display text-sm font-semibold text-content">Enlaces rápidos</h3>
+            <h3 className="font-mono text-xs tracking-[0.16em] text-content uppercase">Enlaces</h3>
             <ul className="mt-4 space-y-2.5">
               {QUICK_LINKS.map((l) => (
                 <li key={l.to}>
-                  <Link to={l.to} className="text-sm text-muted transition-colors hover:text-primary">
+                  <Link
+                    to={l.to}
+                    className="text-sm text-muted transition-colors duration-fast hover:text-accent"
+                  >
                     {l.label}
                   </Link>
                 </li>
               ))}
               <li>
-                <Link to="/login" className="text-sm text-muted transition-colors hover:text-primary">
+                <Link
+                  to="/login"
+                  className="text-sm text-muted transition-colors duration-fast hover:text-accent"
+                >
                   Acceso admin
                 </Link>
               </li>
@@ -88,10 +94,10 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="font-display text-sm font-semibold text-content">Escríbeme</h3>
+            <h3 className="font-mono text-xs tracking-[0.16em] text-content uppercase">Escríbeme</h3>
             {status === "sent" ? (
-              <div className="mt-4 flex items-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm font-medium text-emerald-600">
-                <CheckCircle2 className="size-4" aria-hidden />
+              <div className="mt-4 flex items-center gap-2 rounded-lg border border-accent/40 bg-accent/10 px-4 py-3 font-mono text-xs text-content">
+                <CheckCircle2 className="size-4 text-accent" aria-hidden />
                 ¡Mensaje enviado! Te respondo pronto.
               </div>
             ) : (
@@ -105,7 +111,7 @@ export function Footer() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="tu@email.com"
-                  className="h-10 rounded-xl border border-line bg-surface px-3.5 text-sm text-content placeholder:text-muted/60 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/25"
+                  className="h-10 rounded-lg border border-line bg-surface px-3.5 text-sm text-content placeholder:text-muted/60 focus:border-accent focus:ring-2 focus:ring-accent/25 focus:outline-none"
                 />
                 <label className="sr-only" htmlFor="footer-msg">
                   Mensaje
@@ -116,7 +122,7 @@ export function Footer() {
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="Cuéntame de tu proyecto…"
                   rows={3}
-                  className="rounded-xl border border-line bg-surface px-3.5 py-2.5 text-sm text-content placeholder:text-muted/60 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/25"
+                  className="rounded-lg border border-line bg-surface px-3.5 py-2.5 text-sm text-content placeholder:text-muted/60 focus:border-accent focus:ring-2 focus:ring-accent/25 focus:outline-none"
                 />
                 {error && (
                   <p role="alert" className="text-xs font-medium text-red-500">
@@ -126,7 +132,7 @@ export function Footer() {
                 <button
                   type="submit"
                   disabled={status === "sending"}
-                  className="inline-flex h-10 items-center justify-center gap-2 rounded-full bg-primary px-5 text-sm font-medium text-white transition-all hover:bg-primary/90 disabled:opacity-60"
+                  className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-inverse px-5 font-mono text-[11px] tracking-[0.12em] text-bg uppercase transition-[transform,opacity] duration-fast hover:opacity-85 active:scale-[0.98] disabled:opacity-60"
                 >
                   <Send className="size-3.5" aria-hidden />
                   {status === "sending" ? "Enviando…" : "Enviar"}
@@ -136,10 +142,13 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-line pt-6 sm:flex-row">
-          <p className="text-xs text-muted">© {new Date().getFullYear()} María Bermúdez. Todos los derechos reservados.</p>
-          <p className="text-xs text-muted">
-            Hecho con <span aria-hidden>♥</span> en React 19 · Vite · Tailwind
+        {/* Colofón */}
+        <div className="mt-12 flex flex-col items-start justify-between gap-2 border-t border-line pt-6 sm:flex-row sm:items-center">
+          <p className="font-mono text-[11px] text-muted">
+            © {new Date().getFullYear()} María Bermúdez. Todos los derechos reservados.
+          </p>
+          <p className="font-mono text-[11px] text-muted">
+            construido con react 19 · vite · tailwind v4 · fraunces + ibm plex mono
           </p>
         </div>
       </div>

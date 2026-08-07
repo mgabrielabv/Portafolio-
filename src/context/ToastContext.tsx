@@ -21,15 +21,15 @@ interface ToastContextValue {
 const ToastContext = createContext<ToastContextValue | null>(null);
 
 const ICONS = {
-  success: <CheckCircle2 className="size-5 text-emerald-500" aria-hidden />,
+  success: <CheckCircle2 className="size-5 text-accent" aria-hidden />,
   error: <XCircle className="size-5 text-red-500" aria-hidden />,
-  info: <Info className="size-5 text-primary" aria-hidden />,
+  info: <Info className="size-5 text-accent" aria-hidden />,
 };
 
 const BAR_COLORS: Record<ToastType, string> = {
-  success: "bg-emerald-500",
+  success: "bg-accent",
   error: "bg-red-500",
-  info: "bg-primary",
+  info: "bg-accent",
 };
 
 export function ToastProvider({ children }: { children: ReactNode }) {

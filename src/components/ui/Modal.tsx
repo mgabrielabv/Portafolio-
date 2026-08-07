@@ -40,12 +40,12 @@ export function Modal({ open, onClose, title, description, children, className }
             role="dialog"
             aria-modal="true"
             aria-label={title}
-            initial={{ opacity: 0, y: 40, scale: 0.98 }}
+            initial={{ opacity: 0, y: 24, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 40, scale: 0.98 }}
-            transition={{ type: "spring", stiffness: 320, damping: 30 }}
+            exit={{ opacity: 0, y: 24, scale: 0.98 }}
+            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
             className={cn(
-              "relative max-h-[90dvh] w-full overflow-y-auto rounded-t-2xl bg-surface shadow-card-lg sm:m-4 sm:max-w-2xl sm:rounded-2xl scrollbar-thin",
+              "relative max-h-[90dvh] w-full overflow-y-auto rounded-t-lg bg-surface shadow-card-lg sm:m-4 sm:max-w-2xl sm:rounded-lg scrollbar-thin",
               className,
             )}
           >

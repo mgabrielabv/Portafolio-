@@ -66,19 +66,19 @@ export function CodeBlock({ code, language, fileName, className }: CodeBlockProp
   return (
     <div
       className={cn(
-        "overflow-hidden rounded-2xl border border-line bg-[#282c34] text-sm",
+        "overflow-hidden rounded-lg border border-line bg-[#201D19] text-sm",
         className,
       )}
     >
       <div className="flex items-center justify-between border-b border-white/10 px-4 py-2.5">
-        <span className="font-mono text-xs text-zinc-400">{fileName ?? resolved}</span>
+        <span className="font-mono text-xs text-[#A89E94]">{fileName ?? resolved}</span>
         <button
           type="button"
           onClick={copy}
-          className="inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-xs font-medium text-zinc-300 transition-colors hover:bg-white/10"
+          className="inline-flex items-center gap-1.5 rounded-lg px-2 py-1 font-mono text-xs text-[#C4BDB2] transition-colors hover:bg-white/10"
           aria-label={copied ? "Código copiado" : "Copiar código"}
         >
-          {copied ? <Check className="size-3.5 text-emerald-400" aria-hidden /> : <Copy className="size-3.5" aria-hidden />}
+          {copied ? <Check className="size-3.5 text-accent" aria-hidden /> : <Copy className="size-3.5" aria-hidden />}
           {copied ? "¡Copiado!" : "Copiar"}
         </button>
       </div>

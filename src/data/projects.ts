@@ -1,157 +1,114 @@
 import type { Category, CategoryMeta, Project } from "@/types";
 
-export const CATEGORY_ORDER: Category[] = ["web", "mobile", "data", "backend", "design"];
+export const CATEGORY_ORDER: Category[] = ["web", "fundamentos"];
 
 export const CATEGORIES: Record<Category, CategoryMeta> = {
-  web: { label: "Web", description: "Aplicaciones y sitios web" },
-  mobile: { label: "Mobile", description: "Aplicaciones móviles" },
-  data: { label: "Data", description: "Visualización y análisis" },
-  backend: { label: "Backend", description: "APIs y servicios" },
-  design: { label: "Design", description: "Sistemas e interfaz" },
+  web: { label: "Web", description: "Aplicaciones y sistemas web" },
+  fundamentos: { label: "Fundamentos", description: "Cursada · C++ y estructuras de datos" },
 };
 
-const YT = "https://www.youtube.com/embed/dQw4w9WgXcQ";
-
-const REACT_SNIPPET = `import { useState } from "react";
-
-export function Counter({ initial = 0 }) {
-  const [count, setCount] = useState(initial);
-
-  return (
-    <div className="counter">
-      <p>Has pulsado {count} veces</p>
-      <button onClick={() => setCount((c) => c + 1)}>
-        Incrementar
-      </button>
-    </div>
-  );
-}`;
-
-const API_SNIPPET = `import { Hono } from "hono";
-import { PrismaClient } from "@prisma/client";
-
-const app = new Hono();
-const db = new PrismaClient();
-
-app.get("/api/projects", async (c) => {
-  const projects = await db.project.findMany({
-    orderBy: { createdAt: "desc" },
-  });
-  return c.json(projects);
-});
-
-export default app;`;
+const GH = "https://github.com/mgabrielabv";
 
 /**
- * Datos de ejemplo (mock) para previsualizar la app sin backend real.
+ * Proyectos reales (github.com/mgabrielabv).
  * Se siembran en localStorage la primera vez que se abre la app.
  */
 export const MOCK_PROJECTS: Project[] = [
   {
-    id: "p1",
-    title: "Nebula — E-commerce",
+    id: "proyectodb",
+    title: "proyectodb — Sistema de gestión",
     description:
-      "Tienda online con carrito persistente, checkout en dos pasos y panel de pedidos en tiempo real.",
+      "Sistema web con login, registro, panel de administración y consultas sobre una base de datos. Un CRUD completo de punta a punta.",
     longDescription:
-      "Nebula es una tienda de moda digital construida para ofrecer una experiencia de compra fluida.\n\nEl proyecto incluye catálogo filtrable por categoría y talla, carrito con persistencia en IndexedDB, checkout con validación estricta y un mini panel de administración para gestionar pedidos con actualizaciones en tiempo real mediante Server-Sent Events.\n\nLa arquitectura está basada en React Server Components con streaming, lo que mejora el TTI y el SEO en páginas de producto.",
+      "El proyecto más completo que tengo en GitHub: un sistema web en JavaScript/HTML que resuelve un problema real de gestión de registros con base de datos.\n\nIncluye autenticación (login y registro), un panel de administración con roles y consultas filtradas, y operaciones CRUD sobre la base de datos. Fue mi primera oportunidad de llevar un proyecto de principio a fin: desde el modelo de datos hasta la interfaz que lo usa.\n\nLo que aprendí: diseñar tablas y relaciones que no den dolor después, validar entradas antes de tocar la base, y que un panel 'simple' esconde decisiones de UX que se notan en el uso real.",
     thumbnail: "/images/img-01.svg",
-    images: ["/images/img-01.svg", "/images/img-02.svg", "/images/img-03.svg"],
-    video: YT,
-    code: REACT_SNIPPET,
-    repo: "https://github.com/",
-    demo: "https://example.com",
-    technologies: ["React 19", "TypeScript", "Tailwind CSS", "Vite", "Zustand"],
+    images: ["/images/img-01.svg", "/images/img-02.svg"],
+    repo: `${GH}/proyectodb`,
+    technologies: ["JavaScript", "HTML", "CSS", "SQL"],
     category: "web",
-    year: 2026,
+    year: 2025,
     featured: true,
-    createdAt: 1767196800000,
+    createdAt: 1743552000000,
   },
   {
-    id: "p2",
-    title: "Pulse — Finanzas personales",
+    id: "proyecto-final",
+    title: "proyecto-final- — Proyecto final (C++)",
     description:
-      "App móvil para registrar gastos, presupuestos y metas de ahorro con gráficos interactivos.",
+      "Proyecto final de la materia en C++: gestión de registros con estructuras de datos, archivos y operaciones sobre colecciones.",
     longDescription:
-      "Pulse ayuda a tomar control de las finanzas personales. Registro rápido de transacciones con categorización automática basada en ML, presupuestos mensuales por categoría y metas de ahorro.\n\nLos reportes usan gráficos interactivos y modo offline con sincronización diferida, lo que permite usarla sin conexión en el transporte público.",
+      "El proyecto final de la cursada: una aplicación de consola en C++ donde el foco está en la lógica, no en la interfaz.\n\nUsa estructuras de datos y manejo de archivos para almacenar y consultar registros, con menús de operaciones para crear, buscar, modificar y eliminar. Es el mejor ejemplo de mi lado técnico: resolver el problema con la herramienta adecuada y que el código sea legible para el que viene después.\n\nLo que aprendí: a pensar en memoria y en cómo se ordenan los datos antes de escribir la primera línea, algo que hoy aplico cuando diseño el estado de una app en React.",
     thumbnail: "/images/img-04.svg",
     images: ["/images/img-04.svg", "/images/img-05.svg"],
-    repo: "https://github.com/",
-    demo: "https://example.com",
-    technologies: ["React Native", "Recharts", "SQLite", "FastAPI"],
-    category: "mobile",
-    year: 2025,
+    repo: `${GH}/proyecto-final-`,
+    technologies: ["C++"],
+    category: "fundamentos",
+    year: 2024,
     featured: true,
-    createdAt: 1735689600000,
+    createdAt: 1727308800000,
   },
   {
-    id: "p3",
-    title: "Atlas — Dashboard analítico",
+    id: "practica3y4",
+    title: "práctica 3 y 4 — Listas y algoritmos",
     description:
-      "Dashboard de datos con 30+ métricas en tiempo real, filtros combinables y exportación a PDF.",
+      "Ejercicios de la cursada sobre listas, búsqueda y ordenamiento, con implementación y pruebas en C++.",
     longDescription:
-      "Atlas centraliza las métricas de producto y marketing de equipos de hasta 200 personas.\n\nIncluye 30+ widgets configurables, drill-down por segmento, alertas programadas y exportación de informes a PDF. Se integró con Google Analytics, Stripe y sistemas internos vía webhooks.",
+      "Prácticas 3 y 4 de la materia de programación: implementación de listas, algoritmos de búsqueda y ordenamiento, y análisis de la lógica detrás de cada uno.\n\nSon ejercicios de cursada, pero marcaron el momento en que dejé de 'copiar código' y empecé a entender por qué funcionan las estructuras.",
     thumbnail: "/images/img-03.svg",
-    images: ["/images/img-03.svg", "/images/img-06.svg", "/images/img-09.svg"],
-    video: YT,
-    repo: "https://github.com/",
-    demo: "https://example.com",
-    technologies: ["React", "Recharts", "D3", "Node.js", "Redis"],
-    category: "data",
-    year: 2025,
-    featured: true,
-    createdAt: 1719792000000,
+    images: ["/images/img-03.svg"],
+    repo: `${GH}/practica3y4`,
+    technologies: ["C++"],
+    category: "fundamentos",
+    year: 2024,
+    featured: false,
+    createdAt: 1723673600000,
   },
   {
-    id: "p4",
-    title: "Nido — Plataforma de API",
+    id: "practica2",
+    title: "práctica 2 — Control y funciones",
     description:
-      "API headless con autenticación JWT, rate limiting y panel de desarrollo con sandbox.",
+      "Ejercicios de estructuras de control, funciones y arreglos. La base del pensamiento algorítmico.",
     longDescription:
-      "Nido es una API headless para equipos que necesitan exponer su catálogo de productos.\n\nIncluye autenticación JWT con refresh tokens, rate limiting por plan, versionado semántico, documentación interactiva con OpenAPI y un sandbox para probar endpoints sin consumir cuota.",
+      "Segunda práctica de la cursada: estructuras de control, funciones y arreglos en C++. Ejercicios cortos y directos donde se consolidan los fundamentos del lenguaje y del pensamiento algorítmico.",
     thumbnail: "/images/img-05.svg",
-    images: ["/images/img-05.svg", "/images/img-08.svg"],
-    repo: "https://github.com/",
-    demo: "https://example.com",
-    code: API_SNIPPET,
-    technologies: ["Node.js", "Hono", "Prisma", "PostgreSQL", "Docker"],
-    category: "backend",
+    images: ["/images/img-05.svg"],
+    repo: `${GH}/practica2`,
+    technologies: ["C++"],
+    category: "fundamentos",
     year: 2024,
     featured: false,
-    createdAt: 1698796800000,
+    createdAt: 1720041600000,
   },
   {
-    id: "p5",
-    title: "Lumen — Sistema de diseño",
+    id: "practica1",
+    title: "práctica 1 — Primeros pasos",
     description:
-      "Design system con 60+ componentes accesibles, documentados y con soporte para tema oscuro.",
+      "Tipos de datos, entrada/salida y condicionales. El primer repo que subí a GitHub.",
     longDescription:
-      "Lumen es un sistema de diseño en código que unifica los productos de la empresa.\n\nCubre 60+ componentes con tokens semánticos, documentación viva con Storybook, pruebas de accesibilidad automatizadas (axe-core) y soporte nativo para tema oscuro.",
+      "La primera práctica de la materia y el primer código que subí a GitHub. Tipos de datos, entrada/salida por consola y condicionales en C++.\n\nLo dejo en el portafolio con cariño: es el punto de partida del recorrido que muestra el resto de la sección.",
     thumbnail: "/images/img-06.svg",
-    images: ["/images/img-06.svg", "/images/img-07.svg", "/images/img-10.svg"],
-    repo: "https://github.com/",
-    demo: "https://example.com",
-    technologies: ["React", "Storybook", "Radix UI", "Figma", "Tailwind"],
-    category: "design",
-    year: 2024,
-    featured: true,
-    createdAt: 1693526400000,
-  },
-  {
-    id: "p6",
-    title: "EcoTrack — Mapa ambiental",
-    description:
-      "Plataforma web que visualiza la calidad del aire por distrito con datos abiertos.",
-    longDescription:
-      "EcoTrack combina datos abiertos de sensores ambientales con una visualización geoespacial clara.\n\nMapa interactivo por distrito, histórico con comparación anual, y alertas cuando los niveles superan los umbrales de la OMS. Los datos se procesan con pipelines de ETL diarios.",
-    thumbnail: "/images/img-07.svg",
-    images: ["/images/img-07.svg", "/images/img-11.svg", "/images/img-12.svg"],
-    repo: "https://github.com/",
-    demo: "https://example.com",
-    technologies: ["Mapbox GL", "React", "Python", "Pandas", "FastAPI"],
-    category: "data",
+    images: ["/images/img-06.svg"],
+    repo: `${GH}/practica1`,
+    technologies: ["C++"],
+    category: "fundamentos",
     year: 2024,
     featured: false,
-    createdAt: 1682899200000,
+    createdAt: 1716409600000,
+  },
+  {
+    id: "examen3",
+    title: "examen3 — Punteros y memoria",
+    description:
+      "Examen práctico de la materia: resolución de problemas con punteros y memoria dinámica en C++.",
+    longDescription:
+      "Examen práctico de la cursada: problemas resueltos con punteros y memoria dinámica en C++. Un buen termómetro de dónde estaba mi dominio del lenguaje en ese momento.",
+    thumbnail: "/images/img-07.svg",
+    images: ["/images/img-07.svg"],
+    repo: `${GH}/examen3`,
+    technologies: ["C++"],
+    category: "fundamentos",
+    year: 2024,
+    featured: false,
+    createdAt: 1712774400000,
   },
 ];
 

@@ -45,7 +45,7 @@ export default function ProjectDetail() {
           action={
             <Link
               to="/proyectos"
-              className="inline-flex h-11 items-center gap-2 rounded-full bg-primary px-6 text-sm font-medium text-white transition-colors hover:bg-primary/90"
+              className="inline-flex h-11 items-center gap-2 rounded-lg bg-inverse px-6 font-mono text-xs tracking-[0.12em] text-bg uppercase transition-[transform,opacity] duration-fast hover:opacity-85 active:scale-[0.98]"
             >
               <ArrowLeft className="size-4" aria-hidden />
               Volver a proyectos
@@ -74,7 +74,7 @@ export default function ProjectDetail() {
       <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }}>
         <Link
           to="/proyectos"
-          className="inline-flex items-center gap-2 text-sm font-medium text-muted transition-colors hover:text-primary"
+          className="inline-flex items-center gap-2 font-mono text-xs tracking-[0.12em] text-muted uppercase transition-colors duration-fast hover:text-accent"
         >
           <ArrowLeft className="size-4" aria-hidden />
           Volver a proyectos
@@ -98,7 +98,7 @@ export default function ProjectDetail() {
                 href={project.demo}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-primary px-6 text-sm font-medium text-white transition-all hover:bg-primary/90"
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-inverse px-6 font-mono text-xs tracking-[0.12em] text-bg uppercase transition-[transform,opacity] duration-fast hover:opacity-85 active:scale-[0.98]"
               >
                 <ExternalLink className="size-4" aria-hidden />
                 Demo en vivo
@@ -109,7 +109,7 @@ export default function ProjectDetail() {
                 href={project.repo}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-line bg-surface px-6 text-sm font-medium text-content transition-all hover:border-primary/40 hover:text-primary"
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-lg border border-line bg-surface px-6 font-mono text-xs tracking-[0.12em] text-content uppercase transition-[transform,color,border-color] duration-fast hover:border-accent/60 hover:text-accent active:scale-[0.98]"
               >
                 <Github className="size-4" aria-hidden />
                 Repositorio
@@ -128,7 +128,7 @@ export default function ProjectDetail() {
         <div>
           <Carousel
             ariaLabel={`Galería de ${project.title}`}
-            className="rounded-2xl border border-line bg-surface shadow-card"
+            className="rounded-lg border border-line bg-surface shadow-card"
             slideClassName="aspect-[16/10]"
             slides={project.images.map((img) => (
               <img
@@ -146,7 +146,7 @@ export default function ProjectDetail() {
             <Tabs tabs={tabs} value={tab} onChange={setTab} ariaLabel="Secciones del proyecto" />
             <div
               role="tabpanel"
-              className="mt-6 rounded-2xl border border-line bg-surface p-6 sm:p-8"
+              className="mt-6 rounded-lg border border-line bg-surface p-6 sm:p-8"
             >
               {tab === "desc" && (
                 <div className="space-y-4">
@@ -200,8 +200,8 @@ export default function ProjectDetail() {
         </div>
 
         <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
-          <div className="rounded-2xl border border-line bg-surface p-6 shadow-card">
-            <h2 className="font-display text-sm font-semibold text-content">Ficha del proyecto</h2>
+          <div className="rounded-lg border border-line bg-surface p-6 shadow-card">
+            <h2 className="font-display text-sm font-medium text-content">Ficha del proyecto</h2>
             <dl className="mt-4 space-y-3 text-sm">
               <div className="flex justify-between gap-4">
                 <dt className="text-muted">Categoría</dt>
@@ -218,8 +218,8 @@ export default function ProjectDetail() {
             </dl>
           </div>
 
-          <div className="rounded-2xl border border-line bg-surface p-6 shadow-card">
-            <h2 className="font-display text-sm font-semibold text-content">Tecnologías</h2>
+          <div className="rounded-lg border border-line bg-surface p-6 shadow-card">
+            <h2 className="font-display text-sm font-medium text-content">Tecnologías</h2>
             <div className="mt-4 flex flex-wrap gap-2">
               {project.technologies.map((t) => (
                 <Badge key={t}>{t}</Badge>
@@ -228,15 +228,15 @@ export default function ProjectDetail() {
           </div>
 
           {(project.demo || project.repo) && (
-            <div className="rounded-2xl border border-line bg-surface p-6 shadow-card">
-              <h2 className="font-display text-sm font-semibold text-content">Enlaces</h2>
+            <div className="rounded-lg border border-line bg-surface p-6 shadow-card">
+              <h2 className="font-display text-sm font-medium text-content">Enlaces</h2>
               <div className="mt-4 flex flex-col gap-2.5">
                 {project.demo && (
                   <a
                     href={project.demo}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex h-10 items-center gap-2 rounded-full border border-line px-4 text-sm font-medium text-content transition-colors hover:border-primary/40 hover:text-primary"
+                    className="inline-flex h-10 items-center gap-2 rounded-lg border border-line px-4 font-mono text-xs tracking-[0.1em] text-content uppercase transition-colors duration-fast hover:border-accent/60 hover:text-accent"
                   >
                     <ExternalLink className="size-4" aria-hidden />
                     Demo en vivo
@@ -247,7 +247,7 @@ export default function ProjectDetail() {
                     href={project.repo}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex h-10 items-center gap-2 rounded-full border border-line px-4 text-sm font-medium text-content transition-colors hover:border-primary/40 hover:text-primary"
+                    className="inline-flex h-10 items-center gap-2 rounded-lg border border-line px-4 font-mono text-xs tracking-[0.1em] text-content uppercase transition-colors duration-fast hover:border-accent/60 hover:text-accent"
                   >
                     <Github className="size-4" aria-hidden />
                     Código fuente

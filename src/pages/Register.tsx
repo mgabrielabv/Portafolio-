@@ -127,13 +127,13 @@ export default function Register() {
         </Button>
 
         <p className="mt-2 flex items-center justify-center gap-1.5 text-center text-xs text-muted">
-          <ShieldCheck className="size-3.5 text-emerald-500" aria-hidden />
+          <ShieldCheck className="size-3.5 text-accent" aria-hidden />
           Tus datos se guardan localmente en este navegador (demo).
         </p>
 
         <p className="mt-2 text-center text-sm text-muted">
           ¿Ya tienes cuenta?{" "}
-          <Link to="/login" className="font-medium text-primary transition-colors hover:text-primary/80">
+          <Link to="/login" className="font-medium text-accent transition-colors duration-fast hover:text-accent/80">
             Inicia sesión
           </Link>
         </p>

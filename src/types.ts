@@ -1,6 +1,6 @@
 /* Tipos globales de la aplicación */
 
-export type Category = "web" | "mobile" | "data" | "backend" | "design";
+export type Category = "web" | "fundamentos";
 
 export interface Project {
   id: string;

@@ -89,7 +89,7 @@ export function Carousel({
           initial="enter"
           animate="center"
           exit="exit"
-          transition={{ duration: 0.45, ease: [0.32, 0.72, 0, 1] }}
+          transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
           className={cn("will-change-transform", slideClassName)}
           aria-roledescription="slide"
           aria-label={`Diapositiva ${index + 1} de ${count}`}

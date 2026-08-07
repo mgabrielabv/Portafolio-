@@ -1,20 +1,29 @@
-import type { Project } from "@/types";
-import { MOCK_PROJECTS } from "@/data/projects";
+import type { Category, Project } from "@/types";
+import { FALLBACK_PROJECTS, MOCK_PROJECTS } from "@/data/projects";
 import { delay, read, STORAGE_KEYS, uid, write } from "./db";
 
 type ProjectInput = Omit<Project, "id" | "createdAt">;
 
+const VALID_CATEGORIES: ReadonlySet<string> = new Set<Category>(["web", "fundamentos"]);
+
+/** true si los datos guardados vienen de una versión anterior con categorías eliminadas */
+function isStale(projects: Project[] | null): boolean {
+  if (!projects || !Array.isArray(projects)) return true;
+  return projects.some((p) => !p || !VALID_CATEGORIES.has(p.category));
+}
+
 /**
  * CRUD simulado de proyectos sobre localStorage.
- * La primera vez se siembran los proyectos de ejemplo.
+ * La primera vez se siembran los proyectos de ejemplo; si el storage guarda
+ * una versión vieja con categorías eliminadas, se resiembra el fallback.
  */
 function getDb(): Project[] {
   const existing = read<Project[] | null>(STORAGE_KEYS.projects, null);
-  if (!existing) {
-    write(STORAGE_KEYS.projects, MOCK_PROJECTS);
-    return MOCK_PROJECTS;
+  if (isStale(existing)) {
+    write(STORAGE_KEYS.projects, FALLBACK_PROJECTS);
+    return FALLBACK_PROJECTS;
   }
-  return existing;
+  return existing as Project[];
 }
 
 function saveDb(projects: Project[]): void {

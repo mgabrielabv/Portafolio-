@@ -4,6 +4,8 @@ import { cn } from "@/utils/cn";
 
 interface SectionHeadingProps {
   eyebrow?: string;
+  /** Número de índice editorial, ej. "01". */
+  index?: string;
   title: string;
   description?: string;
   align?: "left" | "center";
@@ -13,6 +15,7 @@ interface SectionHeadingProps {
 
 export function SectionHeading({
   eyebrow,
+  index,
   title,
   description,
   align = "left",
@@ -22,9 +25,19 @@ export function SectionHeading({
   return (
     <RevealHeader align={align} className={className}>
       {eyebrow && (
-        <p className="mb-3 text-xs font-semibold tracking-[0.2em] text-primary uppercase">{eyebrow}</p>
+        <p className="font-mono text-xs tracking-[0.18em] text-muted uppercase">
+          <span aria-hidden>// </span>
+          {eyebrow}
+        </p>
       )}
-      <Tag className="text-3xl text-content sm:text-4xl">{title}</Tag>
+      <div className={cn("mt-3 flex items-baseline gap-3", align === "center" && "justify-center")}>
+        {index && (
+          <span aria-hidden className="font-mono text-sm text-accent">
+            {index}
+          </span>
+        )}
+        <Tag className="text-3xl text-content sm:text-4xl">{title}</Tag>
+      </div>
       {description && (
         <p
           className={cn(
@@ -50,10 +63,10 @@ function RevealHeader({
 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 18 }}
+      initial={{ opacity: 0, y: 10 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
+      transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
       className={cn(align === "center" && "text-center", className)}
     >
       {children}

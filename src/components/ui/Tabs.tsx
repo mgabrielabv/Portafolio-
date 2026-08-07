@@ -24,7 +24,7 @@ export function Tabs({ tabs, value, onChange, className, ariaLabel }: TabsProps)
       role="tablist"
       aria-label={ariaLabel ?? "Pestañas"}
       className={cn(
-        "inline-flex max-w-full items-center gap-1 overflow-x-auto rounded-full border border-line bg-surface p-1 scrollbar-thin",
+        "inline-flex max-w-full items-center gap-1 overflow-x-auto rounded-lg border border-line bg-surface p-1 scrollbar-thin",
         className,
       )}
     >
@@ -46,8 +46,8 @@ export function Tabs({ tabs, value, onChange, className, ariaLabel }: TabsProps)
             {selected && (
               <motion.span
                 layoutId={`${baseId}-pill`}
-                className="absolute inset-0 rounded-full bg-surface-2 shadow-sm"
-                transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                className="absolute inset-0 rounded-lg bg-surface-2 shadow-sm"
+                transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
                 aria-hidden
               />
             )}

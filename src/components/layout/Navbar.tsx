@@ -14,6 +14,12 @@ const NAV_LINKS = [
   { to: "/contacto", label: "Contacto" },
 ];
 
+const navLinkClasses = ({ isActive }: { isActive: boolean }) =>
+  cn(
+    "relative px-3 py-2 font-mono text-[11px] tracking-[0.16em] uppercase transition-colors duration-fast",
+    isActive ? "text-content" : "text-muted hover:text-content",
+  );
+
 export function Navbar() {
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
@@ -32,23 +38,29 @@ export function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-40 border-b border-line/70 bg-bg/80 backdrop-blur-xl">
-      <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6" aria-label="Principal">
+    <header className="sticky top-0 z-40 border-b border-line bg-bg/85 backdrop-blur-xl">
+      <nav
+        className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6"
+        aria-label="Principal"
+      >
         <Logo />
 
         <div className="hidden items-center gap-1 md:flex">
           {NAV_LINKS.map((link) => (
-            <NavLink
-              key={link.to}
-              to={link.to}
-              className={({ isActive }) =>
-                cn(
-                  "rounded-full px-4 py-2 text-sm font-medium transition-colors",
-                  isActive ? "bg-surface-2 text-content" : "text-muted hover:text-content",
-                )
-              }
-            >
-              {link.label}
+            <NavLink key={link.to} to={link.to} className={navLinkClasses}>
+              {({ isActive }) => (
+                <>
+                  {link.label}
+                  {isActive && (
+                    <motion.span
+                      layoutId="nav-underline"
+                      aria-hidden
+                      className="absolute inset-x-3 -bottom-px h-px bg-accent"
+                      transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                    />
+                  )}
+                </>
+              )}
             </NavLink>
           ))}
         </div>
@@ -58,7 +70,7 @@ export function Navbar() {
             type="button"
             onClick={toggleTheme}
             aria-label={theme === "dark" ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
-            className="grid size-10 place-items-center rounded-full text-muted transition-colors hover:bg-surface-2 hover:text-content"
+            className="grid size-10 place-items-center rounded-lg text-muted transition-colors duration-fast hover:bg-surface-2 hover:text-content"
           >
             <AnimatePresence mode="wait" initial={false}>
               <motion.span
@@ -66,7 +78,7 @@ export function Navbar() {
                 initial={{ rotate: -90, opacity: 0 }}
                 animate={{ rotate: 0, opacity: 1 }}
                 exit={{ rotate: 90, opacity: 0 }}
-                transition={{ duration: 0.2 }}
+                transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
               >
                 {theme === "dark" ? <Sun className="size-5" aria-hidden /> : <Moon className="size-5" aria-hidden />}
               </motion.span>
@@ -78,7 +90,7 @@ export function Navbar() {
               <div className="flex items-center gap-2">
                 <Link
                   to="/admin"
-                  className="inline-flex h-10 items-center gap-2 rounded-full border border-line bg-surface px-4 text-sm font-medium text-content transition-colors hover:border-primary/40 hover:text-primary"
+                  className="inline-flex h-10 items-center gap-2 rounded-lg border border-line bg-surface px-4 font-mono text-[11px] tracking-[0.12em] text-content uppercase transition-[transform,color,border-color] duration-fast hover:border-accent/60 hover:text-accent active:scale-[0.98]"
                 >
                   <LayoutDashboard className="size-4" aria-hidden />
                   Panel
@@ -87,7 +99,7 @@ export function Navbar() {
                   type="button"
                   onClick={handleLogout}
                   disabled={loggingOut}
-                  className="inline-flex h-10 items-center gap-2 rounded-full text-sm font-medium text-muted transition-colors hover:bg-surface-2 hover:text-content"
+                  className="inline-flex h-10 items-center gap-2 rounded-lg px-3 font-mono text-[11px] tracking-[0.12em] text-muted uppercase transition-colors duration-fast hover:bg-surface-2 hover:text-content"
                 >
                   <LogOut className="size-4" aria-hidden />
                   Salir
@@ -96,7 +108,7 @@ export function Navbar() {
             ) : (
               <Link
                 to="/login"
-                className="inline-flex h-10 items-center gap-2 rounded-full bg-primary px-5 text-sm font-medium text-white shadow-sm transition-all hover:bg-primary/90"
+                className="inline-flex h-10 items-center gap-2 rounded-lg bg-inverse px-5 font-mono text-[11px] tracking-[0.12em] text-bg uppercase shadow-sm transition-[transform,opacity] duration-fast hover:opacity-85 active:scale-[0.98]"
               >
                 <LogIn className="size-4" aria-hidden />
                 Entrar
@@ -109,7 +121,7 @@ export function Navbar() {
             onClick={() => setOpen((o) => !o)}
             aria-label={open ? "Cerrar menú" : "Abrir menú"}
             aria-expanded={open}
-            className="grid size-10 place-items-center rounded-full text-muted transition-colors hover:bg-surface-2 hover:text-content md:hidden"
+            className="grid size-10 place-items-center rounded-lg text-muted transition-colors duration-fast hover:bg-surface-2 hover:text-content md:hidden"
           >
             <AnimatePresence mode="wait" initial={false}>
               <motion.span
@@ -117,7 +129,7 @@ export function Navbar() {
                 initial={{ rotate: -90, opacity: 0 }}
                 animate={{ rotate: 0, opacity: 1 }}
                 exit={{ rotate: 90, opacity: 0 }}
-                transition={{ duration: 0.15 }}
+                transition={{ duration: 0.15, ease: [0.22, 1, 0.36, 1] }}
               >
                 {open ? <X className="size-5" aria-hidden /> : <Menu className="size-5" aria-hidden />}
               </motion.span>
@@ -133,7 +145,7 @@ export function Navbar() {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.28, ease: [0.32, 0.72, 0, 1] }}
+            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
             className="overflow-hidden border-t border-line bg-surface md:hidden"
           >
             <div className="flex flex-col gap-1 px-4 py-4">
@@ -143,7 +155,7 @@ export function Navbar() {
                   to={link.to}
                   className={({ isActive }) =>
                     cn(
-                      "rounded-xl px-4 py-3 text-sm font-medium transition-colors",
+                      "rounded-lg px-4 py-3 font-mono text-[11px] tracking-[0.16em] uppercase transition-colors duration-fast",
                       isActive ? "bg-surface-2 text-content" : "text-muted hover:text-content",
                     )
                   }
@@ -156,7 +168,7 @@ export function Navbar() {
                   <>
                     <Link
                       to="/admin"
-                      className="inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-full border border-line bg-surface text-sm font-medium text-content"
+                      className="inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-lg border border-line bg-surface font-mono text-[11px] tracking-[0.12em] text-content uppercase"
                     >
                       <LayoutDashboard className="size-4" aria-hidden />
                       Panel
@@ -164,7 +176,7 @@ export function Navbar() {
                     <button
                       type="button"
                       onClick={handleLogout}
-                      className="inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-full bg-surface-2 text-sm font-medium text-content"
+                      className="inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-lg bg-surface-2 font-mono text-[11px] tracking-[0.12em] text-content uppercase"
                     >
                       <LogOut className="size-4" aria-hidden />
                       Salir
@@ -173,7 +185,7 @@ export function Navbar() {
                 ) : (
                   <Link
                     to="/login"
-                    className="inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-full bg-primary text-sm font-medium text-white"
+                    className="inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-lg bg-inverse font-mono text-[11px] tracking-[0.12em] text-bg uppercase"
                   >
                     <LogIn className="size-4" aria-hidden />
                     Iniciar sesión

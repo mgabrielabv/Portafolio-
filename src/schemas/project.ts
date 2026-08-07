@@ -7,7 +7,7 @@ export const projectSchema = z.object({
     .min(10, "La descripción breve debe tener al menos 10 caracteres")
     .max(280, "Máximo 280 caracteres"),
   longDescription: z.string().optional(),
-  category: z.enum(["web", "mobile", "data", "backend", "design"]),
+  category: z.enum(["web", "fundamentos"]),
   technologies: z.string().min(2, "Escribe al menos una tecnología"),
   year: z.coerce.number().int().min(2000, "Año inválido").max(2100, "Año inválido"),
   video: z.union([z.literal(""), z.string().url("URL de video inválida")]).optional(),

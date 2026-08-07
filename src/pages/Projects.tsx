@@ -2,6 +2,7 @@ import { FolderOpen, Search } from "lucide-react";
 import { useMemo, useState } from "react";
 import { ProjectCard } from "@/components/ProjectCard";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ProjectCardSkeleton } from "@/components/ui/Skeleton";
 import { Tabs } from "@/components/ui/Tabs";
@@ -72,25 +73,26 @@ export default function Projects() {
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Buscar por tecnología…"
             aria-label="Buscar proyectos"
-            className="h-11 w-full rounded-lg border border-line bg-surface pl-10 pr-4 text-sm text-content placeholder:text-muted/60 focus:border-accent focus:ring-2 focus:ring-accent/25 focus:outline-none"
+            className="glass h-11 w-full rounded-full pl-10 pr-4 text-sm text-content placeholder:text-muted/60 focus:border-accent/60 focus:ring-2 focus:ring-accent/25 focus:outline-none"
           />
         </div>
       </div>
 
       <div className="mt-10">
         {!projects ? (
-          <div className="border-t border-line">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {Array.from({ length: 6 }).map((_, i) => (
               <ProjectCardSkeleton key={i} />
             ))}
           </div>
         ) : filtered.length > 0 ? (
-          <div className="border-t border-line">
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {filtered.map((project, i) => (
-              <ProjectCard key={project.id} project={project} index={i} />
+              <Reveal key={project.id} delay={Math.min(i * 0.05, 0.3)}>
+                <ProjectCard project={project} index={i} />
+              </Reveal>
             ))}
-          </div>
-        ) : (
+          </div>        ) : (
           <EmptyState
             icon={FolderOpen}
             title={query ? "Sin resultados" : "No hay proyectos en esta categoría"}

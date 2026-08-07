@@ -45,10 +45,11 @@ export function Modal({ open, onClose, title, description, children, className }
             exit={{ opacity: 0, y: 24, scale: 0.98 }}
             transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
             className={cn(
-              "relative max-h-[90dvh] w-full overflow-y-auto rounded-t-lg bg-surface shadow-card-lg sm:m-4 sm:max-w-2xl sm:rounded-lg scrollbar-thin",
+              "relative max-h-[90dvh] w-full overflow-y-auto rounded-t-2xl border border-line/70 bg-surface/95 shadow-card-lg backdrop-blur-xl sm:m-4 sm:max-w-2xl sm:rounded-2xl scrollbar-thin",
               className,
             )}
           >
+            <div aria-hidden className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/60 to-transparent" />
             <div className="sticky top-0 z-10 flex items-start justify-between gap-4 border-b border-line bg-surface/95 px-6 py-4 backdrop-blur">
               <div>
                 <h3 className="font-display text-lg font-semibold text-content">{title}</h3>

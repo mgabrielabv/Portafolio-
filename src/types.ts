@@ -23,12 +23,14 @@ export interface Project {
 export interface User {
   id: string;
   name: string;
+  username: string;
   email: string;
   createdAt: number;
 }
 
 export interface RegisterPayload {
   name: string;
+  username: string;
   email: string;
   password: string;
 }

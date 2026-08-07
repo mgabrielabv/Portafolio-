@@ -28,7 +28,7 @@ export function Accordion({ items, multiple = false, defaultOpenIndex, className
   };
 
   return (
-    <div className={cn("divide-y divide-line rounded-lg border border-line bg-surface", className)}>
+    <div className={cn("divide-y divide-line/70 rounded-2xl border border-line/70 bg-surface/40 backdrop-blur-sm", className)}>
       {items.map((item, index) => {
         const isOpen = open.includes(index);
         const panelId = `${baseId}-panel-${index}`;

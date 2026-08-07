@@ -1,5 +1,4 @@
-import { CheckCircle2, Github, Linkedin, Mail, Send, Twitter } from "lucide-react";
-import { useState, type FormEvent } from "react";
+import { ArrowUpRight, Github, Linkedin, Mail, Twitter } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Logo } from "@/components/Logo";
 
@@ -13,47 +12,45 @@ const SOCIALS = [
 const QUICK_LINKS = [
   { to: "/", label: "Inicio" },
   { to: "/proyectos", label: "Proyectos" },
+  { to: "/estadisticas", label: "Stats" },
   { to: "/sobre-mi", label: "Sobre mí" },
-  { to: "/contacto", label: "Contacto" },
+  { to: "/login", label: "Acceso admin" },
 ];
 
+/** Cierre de experiencia: CTA gigante + redes + colofón. */
 export function Footer() {
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
-  const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
-  const [error, setError] = useState("");
-
-  const submit = (e: FormEvent) => {
-    e.preventDefault();
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setError("Introduce un email válido.");
-      return;
-    }
-    if (message.trim().length < 4) {
-      setError("El mensaje debe tener al menos 4 caracteres.");
-      return;
-    }
-    setError("");
-    setStatus("sending");
-    window.setTimeout(() => {
-      setStatus("sent");
-      setEmail("");
-      setMessage("");
-      window.setTimeout(() => setStatus("idle"), 4000);
-    }, 900);
-  };
-
   return (
-    <footer className="mt-24 border-t border-line bg-surface-2/60">
-      <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
-          <div className="lg:col-span-2">
-            <Logo />
-            <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted">
-              Estudiante de Ingeniería en Computación en la Universidad Rafael Urdaneta (Maracaibo).
-              Creo interfaces claras, rápidas y accesibles, y aprendo algo nuevo cada día.
+    <footer className="relative overflow-hidden border-t border-line/60 bg-surface/30 pt-20 pb-10 backdrop-blur-sm">
+      <div aria-hidden className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/60 to-transparent" />
+
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+        <div className="flex flex-col items-start gap-6 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h2 className="mt-4 font-display text-4xl leading-[1.02] font-bold tracking-tight text-content sm:text-6xl lg:text-7xl">
+              READY TO BUILD
+              <br />
+              <span className="text-gradient">SOMETHING?</span>
+            </h2>
+            <p className="mt-4 max-w-md text-[15px] text-muted">
+              Let's create something amazing. Contame tu idea y trabajemos en el siguiente
+              proyecto juntos.
             </p>
-            <div className="mt-5 flex gap-2">
+          </div>
+
+          <Link
+            to="/contacto"
+            className="group inline-flex h-14 items-center gap-3 rounded-full bg-gradient-to-r from-accent to-accent-2 px-9 font-mono text-xs tracking-[0.14em] text-[#07070c] uppercase shadow-[0_0_40px_-8px_rgb(139_92_246/0.7)] transition-[transform,filter] duration-fast hover:brightness-110 active:scale-[0.97]"
+          >
+            Contact me
+            <ArrowUpRight className="size-4 transition-transform duration-fast group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden />
+          </Link>
+        </div>
+
+        {/* Fila inferior */}
+        <div className="mt-16 flex flex-col items-start justify-between gap-6 border-t border-line/60 pt-8 sm:flex-row sm:items-center">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-8">
+            <Logo />
+            <div className="flex gap-2">
               {SOCIALS.map(({ href, label, Icon }) => (
                 <a
                   key={label}
@@ -61,7 +58,7 @@ export function Footer() {
                   target="_blank"
                   rel="noreferrer"
                   aria-label={label}
-                  className="grid size-10 place-items-center rounded-lg border border-line bg-surface text-muted transition-[transform,color,border-color] duration-fast hover:-translate-y-0.5 hover:border-accent/50 hover:text-accent"
+                  className="glass grid size-10 place-items-center rounded-full text-muted transition-[transform,color,border-color] duration-fast hover:-translate-y-0.5 hover:border-accent/50 hover:text-accent"
                 >
                   <Icon className="size-4.5" aria-hidden />
                 </a>
@@ -69,88 +66,24 @@ export function Footer() {
             </div>
           </div>
 
-          <div>
-            <h3 className="font-mono text-xs tracking-[0.16em] text-content uppercase">Enlaces</h3>
-            <ul className="mt-4 space-y-2.5">
-              {QUICK_LINKS.map((l) => (
-                <li key={l.to}>
-                  <Link
-                    to={l.to}
-                    className="text-sm text-muted transition-colors duration-fast hover:text-accent"
-                  >
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-              <li>
+          <ul className="flex flex-wrap gap-x-6 gap-y-2">
+            {QUICK_LINKS.map((l) => (
+              <li key={l.to}>
                 <Link
-                  to="/login"
-                  className="text-sm text-muted transition-colors duration-fast hover:text-accent"
+                  to={l.to}
+                  className="font-mono text-xs text-muted transition-colors duration-fast hover:text-accent"
                 >
-                  Acceso admin
+                  {l.label}
                 </Link>
               </li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="font-mono text-xs tracking-[0.16em] text-content uppercase">Escríbeme</h3>
-            {status === "sent" ? (
-              <div className="mt-4 flex items-center gap-2 rounded-lg border border-accent/40 bg-accent/10 px-4 py-3 font-mono text-xs text-content">
-                <CheckCircle2 className="size-4 text-accent" aria-hidden />
-                ¡Mensaje enviado! Te respondo pronto.
-              </div>
-            ) : (
-              <form onSubmit={submit} className="mt-4 flex flex-col gap-2.5" noValidate>
-                <label className="sr-only" htmlFor="footer-email">
-                  Tu email
-                </label>
-                <input
-                  id="footer-email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="tu@email.com"
-                  className="h-10 rounded-lg border border-line bg-surface px-3.5 text-sm text-content placeholder:text-muted/60 focus:border-accent focus:ring-2 focus:ring-accent/25 focus:outline-none"
-                />
-                <label className="sr-only" htmlFor="footer-msg">
-                  Mensaje
-                </label>
-                <textarea
-                  id="footer-msg"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Cuéntame de tu proyecto…"
-                  rows={3}
-                  className="rounded-lg border border-line bg-surface px-3.5 py-2.5 text-sm text-content placeholder:text-muted/60 focus:border-accent focus:ring-2 focus:ring-accent/25 focus:outline-none"
-                />
-                {error && (
-                  <p role="alert" className="text-xs font-medium text-red-500">
-                    {error}
-                  </p>
-                )}
-                <button
-                  type="submit"
-                  disabled={status === "sending"}
-                  className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-inverse px-5 font-mono text-[11px] tracking-[0.12em] text-bg uppercase transition-[transform,opacity] duration-fast hover:opacity-85 active:scale-[0.98] disabled:opacity-60"
-                >
-                  <Send className="size-3.5" aria-hidden />
-                  {status === "sending" ? "Enviando…" : "Enviar"}
-                </button>
-              </form>
-            )}
-          </div>
+            ))}
+          </ul>
         </div>
 
-        {/* Colofón */}
-        <div className="mt-12 flex flex-col items-start justify-between gap-2 border-t border-line pt-6 sm:flex-row sm:items-center">
-          <p className="font-mono text-[11px] text-muted">
-            © {new Date().getFullYear()} María Bermúdez. Todos los derechos reservados.
-          </p>
-          <p className="font-mono text-[11px] text-muted">
-            construido con react 19 · vite · tailwind v4 · fraunces + ibm plex mono
-          </p>
-        </div>
+        <p className="mt-8 font-mono text-[11px] text-muted">
+          María Bermúdez © {new Date().getFullYear()} · digital workspace · react 19 · three.js ·
+          framer-motion
+        </p>
       </div>
     </footer>
   );

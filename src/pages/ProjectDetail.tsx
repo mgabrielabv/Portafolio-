@@ -45,7 +45,7 @@ export default function ProjectDetail() {
           action={
             <Link
               to="/proyectos"
-              className="inline-flex h-11 items-center gap-2 rounded-lg bg-inverse px-6 font-mono text-xs tracking-[0.12em] text-bg uppercase transition-[transform,opacity] duration-fast hover:opacity-85 active:scale-[0.98]"
+              className="inline-flex h-11 items-center gap-2 rounded-full bg-gradient-to-r from-accent to-accent-2 px-6 font-mono text-xs tracking-[0.12em] text-[#07070c] uppercase shadow-[0_0_30px_-8px_rgb(139_92_246/0.6)] transition-[transform,filter] duration-fast hover:brightness-110 active:scale-[0.97]"
             >
               <ArrowLeft className="size-4" aria-hidden />
               Volver a proyectos
@@ -89,7 +89,9 @@ export default function ProjectDetail() {
                 {project.year}
               </Badge>
             </div>
-            <h1 className="mt-4 text-4xl text-content sm:text-5xl">{project.title}</h1>
+            <h1 className="mt-4 font-display text-4xl tracking-[-0.01em] text-content sm:text-5xl">
+              {project.title}
+            </h1>
             <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted">{project.description}</p>
           </div>
           <div className="flex flex-col gap-2.5">
@@ -98,7 +100,7 @@ export default function ProjectDetail() {
                 href={project.demo}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-inverse px-6 font-mono text-xs tracking-[0.12em] text-bg uppercase transition-[transform,opacity] duration-fast hover:opacity-85 active:scale-[0.98]"
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-accent to-accent-2 px-6 font-mono text-xs tracking-[0.12em] text-[#07070c] uppercase shadow-[0_0_30px_-8px_rgb(139_92_246/0.6)] transition-[transform,filter] duration-fast hover:brightness-110 active:scale-[0.97]"
               >
                 <ExternalLink className="size-4" aria-hidden />
                 Demo en vivo
@@ -109,7 +111,7 @@ export default function ProjectDetail() {
                 href={project.repo}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex h-11 items-center justify-center gap-2 rounded-lg border border-line bg-surface px-6 font-mono text-xs tracking-[0.12em] text-content uppercase transition-[transform,color,border-color] duration-fast hover:border-accent/60 hover:text-accent active:scale-[0.98]"
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-line bg-surface/60 px-6 font-mono text-xs tracking-[0.12em] text-content uppercase transition-[transform,color,border-color] duration-fast hover:border-accent/60 hover:text-accent active:scale-[0.97]"
               >
                 <Github className="size-4" aria-hidden />
                 Repositorio
@@ -128,8 +130,8 @@ export default function ProjectDetail() {
         <div>
           <Carousel
             ariaLabel={`Galería de ${project.title}`}
-            className="rounded-lg border border-line bg-surface shadow-card"
-            slideClassName="aspect-[16/10]"
+            className="glass rounded-2xl p-2"
+            slideClassName="aspect-[16/10] overflow-hidden rounded-xl"
             slides={project.images.map((img) => (
               <img
                 key={img}
@@ -146,7 +148,7 @@ export default function ProjectDetail() {
             <Tabs tabs={tabs} value={tab} onChange={setTab} ariaLabel="Secciones del proyecto" />
             <div
               role="tabpanel"
-              className="mt-6 rounded-lg border border-line bg-surface p-6 sm:p-8"
+              className="glass mt-6 rounded-2xl p-6 sm:p-8"
             >
               {tab === "desc" && (
                 <div className="space-y-4">
@@ -165,7 +167,7 @@ export default function ProjectDetail() {
               {tab === "galeria" && (
                 <Carousel
                   ariaLabel={`Imágenes de ${project.title}`}
-                  className="rounded-xl"
+                  className="rounded-xl p-2"
                   slideClassName="aspect-[16/10]"
                   showDots={false}
                   slides={project.images.map((img, i) => (
@@ -200,7 +202,7 @@ export default function ProjectDetail() {
         </div>
 
         <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
-          <div className="rounded-lg border border-line bg-surface p-6 shadow-card">
+          <div className="glass rounded-2xl p-6">
             <h2 className="font-display text-sm font-medium text-content">Ficha del proyecto</h2>
             <dl className="mt-4 space-y-3 text-sm">
               <div className="flex justify-between gap-4">
@@ -218,7 +220,7 @@ export default function ProjectDetail() {
             </dl>
           </div>
 
-          <div className="rounded-lg border border-line bg-surface p-6 shadow-card">
+          <div className="glass rounded-2xl p-6">
             <h2 className="font-display text-sm font-medium text-content">Tecnologías</h2>
             <div className="mt-4 flex flex-wrap gap-2">
               {project.technologies.map((t) => (
@@ -228,7 +230,7 @@ export default function ProjectDetail() {
           </div>
 
           {(project.demo || project.repo) && (
-            <div className="rounded-lg border border-line bg-surface p-6 shadow-card">
+            <div className="glass rounded-2xl p-6">
               <h2 className="font-display text-sm font-medium text-content">Enlaces</h2>
               <div className="mt-4 flex flex-col gap-2.5">
                 {project.demo && (

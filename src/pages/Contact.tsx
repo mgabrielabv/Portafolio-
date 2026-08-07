@@ -55,7 +55,7 @@ export default function Contact() {
         {/* Info */}
         <Reveal>
           <div className="space-y-6">
-            <ul className="border-t border-line">
+            <div className="border-t border-line">
               {INFO.map(({ label, value, href }, i) => (
                 <li
                   key={label}
@@ -81,9 +81,9 @@ export default function Contact() {
                   </span>
                 </li>
               ))}
-            </ul>
+            </div>
 
-            <div className="border border-line bg-surface p-5">
+            <div className="glass rounded-2xl p-5">
               <p className="font-mono text-[11px] tracking-[0.16em] text-muted uppercase">Redes</p>
               <div className="mt-3 flex gap-2">
                 {SOCIALS.map(({ href, label, Icon }) => (
@@ -93,29 +93,19 @@ export default function Contact() {
                     target="_blank"
                     rel="noreferrer"
                     aria-label={label}
-                    className="grid size-11 place-items-center rounded-lg border border-line text-muted transition-[transform,color,border-color] duration-fast hover:-translate-y-0.5 hover:border-accent/50 hover:text-accent"
+                    className="glass grid size-11 place-items-center rounded-full text-muted transition-[transform,color,border-color] duration-fast hover:-translate-y-0.5 hover:border-accent/50 hover:text-accent"
                   >
                     <Icon className="size-5" aria-hidden />
                   </a>
                 ))}
               </div>
             </div>
-
-            <div className="border border-line border-l-2 border-l-accent bg-surface-2 p-5">
-              <p className="font-mono text-[11px] tracking-[0.16em] text-muted uppercase">
-                {"// llamada"}
-              </p>
-              <p className="mt-2 text-sm leading-relaxed text-muted">
-                ¿Prefieres una llamada? Podemos agendar 30 minutos para conocer tu idea y proponerte
-                un enfoque.
-              </p>
-            </div>
           </div>
         </Reveal>
 
         {/* Formulario */}
         <Reveal delay={0.1}>
-          <form onSubmit={onSubmit} className="border border-line bg-surface p-6 sm:p-8" noValidate>
+          <form onSubmit={onSubmit} className="glass relative overflow-hidden rounded-[2rem] p-6 sm:p-8" noValidate>
             {isSubmitSuccessful && (
               <div className="mb-5 flex items-center gap-2.5 rounded-lg border border-accent/40 bg-accent/10 px-4 py-3 text-sm font-medium text-content">
                 <CheckCircle2 className="size-4 text-accent" aria-hidden />

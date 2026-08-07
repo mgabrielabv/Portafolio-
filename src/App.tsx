@@ -19,6 +19,7 @@ function lazyPage(Component: LazyExoticComponent<ComponentType>) {
 const Home = lazy(() => import("@/pages/Home"));
 const Projects = lazy(() => import("@/pages/Projects"));
 const ProjectDetail = lazy(() => import("@/pages/ProjectDetail"));
+const Stats = lazy(() => import("@/pages/Stats"));
 const About = lazy(() => import("@/pages/About"));
 const Contact = lazy(() => import("@/pages/Contact"));
 const Login = lazy(() => import("@/pages/Login"));
@@ -34,6 +35,7 @@ export function App() {
           <Route index element={lazyPage(Home)} />
           <Route path="proyectos" element={lazyPage(Projects)} />
           <Route path="proyectos/:id" element={lazyPage(ProjectDetail)} />
+          <Route path="estadisticas" element={lazyPage(Stats)} />
           <Route path="sobre-mi" element={lazyPage(About)} />
           <Route path="contacto" element={lazyPage(Contact)} />
           <Route path="login" element={lazyPage(Login)} />

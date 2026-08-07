@@ -16,13 +16,13 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const VARIANTS: Record<Variant, string> = {
   primary:
-    "bg-inverse text-bg shadow-sm hover:opacity-85 focus-visible:outline-accent",
+    "bg-gradient-to-r from-accent to-accent-2 text-[#07070c] shadow-[0_0_28px_-8px_rgb(139_92_246/0.6)] hover:brightness-110 focus-visible:outline-accent",
   accent:
-    "border border-accent text-accent hover:bg-accent/10 focus-visible:outline-accent",
+    "border border-accent/50 bg-accent/10 text-accent hover:bg-accent/20 focus-visible:outline-accent",
   secondary:
-    "bg-surface-2 text-content hover:bg-surface-2/70 focus-visible:outline-accent",
+    "glass text-content hover:border-accent/50 hover:text-accent focus-visible:outline-accent",
   outline:
-    "border border-line bg-transparent text-content hover:border-accent/60 hover:text-accent",
+    "glass text-content hover:border-accent/60 hover:text-accent",
   ghost: "text-muted hover:bg-surface-2 hover:text-content",
   danger: "bg-red-600 text-white hover:bg-red-700 focus-visible:outline-red-500",
 };
@@ -45,8 +45,8 @@ export function Button({
   ...props
 }: ButtonProps) {
   const classes = cn(
-    "inline-flex items-center justify-center rounded-lg font-mono font-medium uppercase tracking-[0.12em]",
-    "select-none transition-[transform,opacity,color,background-color,border-color] duration-fast active:scale-[0.98]",
+    "inline-flex items-center justify-center rounded-full font-mono font-medium uppercase tracking-[0.12em]",
+    "select-none transition-[transform,opacity,color,background-color,border-color,filter] duration-fast active:scale-[0.97]",
     "focus-visible:outline-2 focus-visible:outline-offset-2",
     VARIANTS[variant],
     SIZES[size],

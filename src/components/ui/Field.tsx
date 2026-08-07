@@ -2,7 +2,7 @@ import { forwardRef, useId, type InputHTMLAttributes, type ReactNode, type Texta
 import { cn } from "@/utils/cn";
 
 const baseClasses =
-  "w-full rounded-lg border border-line bg-surface-2 px-3.5 text-sm text-content placeholder:text-muted/60 transition-all duration-fast focus:border-accent focus:bg-surface focus:outline-none focus:ring-2 focus:ring-accent/25";
+  "w-full rounded-xl border border-line bg-surface px-3.5 text-sm text-content placeholder:text-muted/60 transition-all duration-fast focus:border-accent/60 focus:bg-surface-2 focus:outline-none focus:ring-2 focus:ring-accent/25";
 
 interface FieldProps {
   label?: string;

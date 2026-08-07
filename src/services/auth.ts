@@ -24,7 +24,7 @@ function saveUsers(users: StoredUser[]): void {
 }
 
 function toPublicUser(u: StoredUser): User {
-  return { id: u.id, name: u.name, email: u.email, createdAt: u.createdAt };
+  return { id: u.id, name: u.name, username: u.username, email: u.email, createdAt: u.createdAt };
 }
 
 /** Devuelve la sesión activa (usuario + token simulado) o null. */
@@ -34,7 +34,7 @@ export function getSession(): { user: User; token: string } | null {
   return token && user ? { user, token } : null;
 }
 
-export async function register({ name, email, password }: RegisterPayload): Promise<User> {
+export async function register({ name, username, email, password }: RegisterPayload): Promise<User> {
   await delay(600);
   const normalized = email.trim().toLowerCase();
   const users = getUsers();
@@ -44,6 +44,7 @@ export async function register({ name, email, password }: RegisterPayload): Prom
   const user: StoredUser = {
     id: uid("u"),
     name: name.trim(),
+    username: username.trim(),
     email: normalized,
     password: hashPassword(password),
     createdAt: Date.now(),

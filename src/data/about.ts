@@ -3,6 +3,12 @@ export interface SkillLevel {
   level: number;
 }
 
+export interface SkillGroup {
+  id: string;
+  label: string;
+  skills: SkillLevel[];
+}
+
 export interface SoftSkill {
   skill: string;
   value: number;
@@ -22,6 +28,68 @@ export const SKILL_LEVELS: SkillLevel[] = [
   { tech: "UI / Diseño", level: 88 },
   { tech: "Datos / SQL", level: 72 },
   { tech: "Testing", level: 76 },
+];
+
+export const SKILL_GROUPS: SkillGroup[] = [
+  {
+    id: "frontend",
+    label: "Frontend",
+    skills: [
+      { tech: "React / Next", level: 95 },
+      { tech: "TypeScript", level: 90 },
+      { tech: "Tailwind / CSS", level: 92 },
+      { tech: "HTML accesible", level: 90 },
+    ],
+  },
+  {
+    id: "backend",
+    label: "Backend",
+    skills: [
+      { tech: "Node.js", level: 82 },
+      { tech: "APIs REST", level: 78 },
+      { tech: "Autenticación", level: 74 },
+      { tech: "Diseño de APIs", level: 70 },
+    ],
+  },
+  {
+    id: "datos",
+    label: "Base de datos",
+    skills: [
+      { tech: "SQL", level: 72 },
+      { tech: "MySQL", level: 70 },
+      { tech: "Modelado de datos", level: 75 },
+      { tech: "CRUD / consultas", level: 80 },
+    ],
+  },
+  {
+    id: "tools",
+    label: "Tools",
+    skills: [
+      { tech: "Git / GitHub", level: 86 },
+      { tech: "Vite", level: 88 },
+      { tech: "Figma", level: 88 },
+      { tech: "npm / CLI", level: 82 },
+    ],
+  },
+  {
+    id: "diseno",
+    label: "Diseño",
+    skills: [
+      { tech: "Figma", level: 88 },
+      { tech: "UI / UX", level: 86 },
+      { tech: "Sistemas de diseño", level: 80 },
+      { tech: "Prototipado", level: 84 },
+    ],
+  },
+];
+
+export const STACK_MAP = [
+  { label: "React", x: 12, y: 16 },
+  { label: "TypeScript", x: 62, y: 8 },
+  { label: "Node", x: 86, y: 34 },
+  { label: "SQL", x: 72, y: 68 },
+  { label: "Figma", x: 28, y: 74 },
+  { label: "Git", x: 4, y: 52 },
 ];
 
 export const SOFT_SKILLS: SoftSkill[] = [

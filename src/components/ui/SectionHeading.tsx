@@ -25,18 +25,13 @@ export function SectionHeading({
   return (
     <RevealHeader align={align} className={className}>
       {eyebrow && (
-        <p className="font-mono text-xs tracking-[0.18em] text-muted uppercase">
-          <span aria-hidden>// </span>
-          {eyebrow}
-        </p>
+        <p className="font-mono text-xs tracking-[0.18em] text-muted uppercase">{eyebrow}</p>
       )}
       <div className={cn("mt-3 flex items-baseline gap-3", align === "center" && "justify-center")}>
-        {index && (
-          <span aria-hidden className="font-mono text-sm text-accent">
-            {index}
-          </span>
-        )}
-        <Tag className="text-3xl text-content sm:text-4xl">{title}</Tag>
+        {index && <OdometerIndex value={index} />}
+        <Tag className="font-display text-3xl font-bold tracking-tight text-content sm:text-4xl lg:text-5xl">
+          {title}
+        </Tag>
       </div>
       {description && (
         <p
@@ -49,6 +44,27 @@ export function SectionHeading({
         </p>
       )}
     </RevealHeader>
+  );
+}
+
+/** Índice editorial tipo "01" que hace roll de dígitos al entrar en viewport. */
+function OdometerIndex({ value }: { value: string }) {
+  return (
+    <span aria-hidden className="inline-flex font-mono text-sm text-accent">
+      {value.split("").map((ch, i) => (
+        <span key={i} className="inline-block overflow-hidden">
+          <motion.span
+            className="inline-block"
+            initial={{ y: "100%" }}
+            whileInView={{ y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.5, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {ch}
+          </motion.span>
+        </span>
+      ))}
+    </span>
   );
 }
 

@@ -39,6 +39,7 @@ export default function Register() {
     try {
       const newUser = await registerUser({
         name: values.name,
+        username: values.username,
         email: values.email,
         password: values.password,
       });
@@ -72,6 +73,15 @@ export default function Register() {
           placeholder="Ana García"
           error={errors.name?.message}
           {...register("name")}
+        />
+
+        <Input
+          label="Usuario"
+          type="text"
+          autoComplete="username"
+          placeholder="@anagarcia"
+          error={errors.username?.message}
+          {...register("username")}
         />
 
         <Input

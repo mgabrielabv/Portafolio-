@@ -104,7 +104,7 @@ export function Carousel({
             type="button"
             onClick={prev}
             aria-label="Diapositiva anterior"
-            className="absolute top-1/2 left-3 grid size-10 -translate-y-1/2 place-items-center rounded-full bg-surface/90 text-content shadow-card backdrop-blur transition-all hover:scale-105 hover:bg-surface focus-visible:outline-primary opacity-0 group-hover/carousel:opacity-100 focus:opacity-100 max-lg:opacity-100"
+            className="glass absolute top-1/2 left-3 grid size-10 -translate-y-1/2 place-items-center rounded-full text-content transition-all duration-fast hover:scale-110 hover:border-accent/60 hover:text-accent focus-visible:outline-2 focus-visible:outline-accent opacity-0 group-hover/carousel:opacity-100 focus:opacity-100 max-lg:opacity-100"
           >
             <ChevronLeft className="size-5" aria-hidden />
           </button>
@@ -112,7 +112,7 @@ export function Carousel({
             type="button"
             onClick={next}
             aria-label="Diapositiva siguiente"
-            className="absolute top-1/2 right-3 grid size-10 -translate-y-1/2 place-items-center rounded-full bg-surface/90 text-content shadow-card backdrop-blur transition-all hover:scale-105 hover:bg-surface focus-visible:outline-primary opacity-0 group-hover/carousel:opacity-100 focus:opacity-100 max-lg:opacity-100"
+            className="glass absolute top-1/2 right-3 grid size-10 -translate-y-1/2 place-items-center rounded-full text-content transition-all duration-fast hover:scale-110 hover:border-accent/60 hover:text-accent focus-visible:outline-2 focus-visible:outline-accent opacity-0 group-hover/carousel:opacity-100 focus:opacity-100 max-lg:opacity-100"
           >
             <ChevronRight className="size-5" aria-hidden />
           </button>
@@ -120,7 +120,7 @@ export function Carousel({
       )}
 
       {showDots && count > 1 && (
-        <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-1.5" aria-hidden>
+        <div className="absolute bottom-2 left-1/2 flex -translate-x-1/2 gap-1.5" aria-hidden>
           {slides.map((_, i) => (
             <button
               key={i}
@@ -129,7 +129,7 @@ export function Carousel({
               onClick={() => go(i)}
               className={cn(
                 "h-1.5 rounded-full transition-all duration-300",
-                i === index ? "w-6 bg-content" : "w-1.5 bg-content/30 hover:bg-content/60",
+                i === index ? "w-6 bg-gradient-to-r from-accent to-accent-2" : "w-1.5 bg-muted/40 hover:bg-muted/70",
               )}
             />
           ))}

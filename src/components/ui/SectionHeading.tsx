@@ -25,11 +25,11 @@ export function SectionHeading({
   return (
     <RevealHeader align={align} className={className}>
       {eyebrow && (
-        <p className="font-mono text-xs tracking-[0.18em] text-muted uppercase">{eyebrow}</p>
+        <p className="font-mono text-xs tracking-[0.18em] text-accent uppercase">{eyebrow}</p>
       )}
       <div className={cn("mt-3 flex items-baseline gap-3", align === "center" && "justify-center")}>
         {index && <OdometerIndex value={index} />}
-        <Tag className="font-display text-3xl font-bold tracking-tight text-content sm:text-4xl lg:text-5xl">
+        <Tag className="font-display text-3xl text-content sm:text-4xl lg:text-5xl">
           {title}
         </Tag>
       </div>

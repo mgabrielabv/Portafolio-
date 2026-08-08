@@ -1,152 +1,206 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff, ShieldCheck } from "lucide-react";
-import { useState } from "react";
+import { motion, type Variants } from "framer-motion";
+import { ArrowRight, UserPlus } from "lucide-react";
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { AuthLayout } from "@/components/auth/AuthLayout";
+import { LoadingOverlay } from "@/components/auth/LoadingOverlay";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Field";
+import { PasswordInput } from "@/components/ui/PasswordInput";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/context/ToastContext";
+import { useI18n } from "@/i18n";
 import { registerSchema, type RegisterValues } from "@/schemas/auth";
 
-const AUTH_ERRORS: Record<string, string> = {
-  EMAIL_IN_USE: "Ya existe una cuenta con ese email. Prueba a iniciar sesión.",
-  default: "No pudimos crear tu cuenta. Inténtalo de nuevo.",
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+const fields: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.06, delayChildren: 0.25 } },
 };
+
+const field: Variants = {
+  hidden: { opacity: 0, y: 14 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: EASE } },
+};
+
+const AUTH_ERRORS: Record<string, string> = {
+  EMAIL_IN_USE: "register.error.inuse",
+  default: "register.error.default",
+};
+
+const STRENGTH_COLORS = ["bg-red-500", "bg-red-500", "bg-amber-500", "bg-emerald-400", "bg-accent"];
+
+/** Medidor de fortaleza de contraseña basado en longitud, mayúsculas y números. */
+function StrengthMeter({ password }: { password: string }) {
+  const { t } = useI18n();
+  const score = useMemo(() => {
+    let s = 0;
+    if (password.length >= 8) s++;
+    if (/[A-ZÁÉÍÓÚÑ]/.test(password)) s++;
+    if (/\d/.test(password)) s++;
+    if (password.length >= 12) s++;
+    return s;
+  }, [password]);
+
+  if (!password) return null;
+
+  return (
+    <div aria-live="polite">
+      <div className="flex gap-1.5">
+        {[0, 1, 2, 3].map((i) => (
+          <span
+            key={i}
+            className={`h-1 flex-1 rounded-full transition-colors duration-base ${
+              i < score ? STRENGTH_COLORS[score] : "bg-line/60"
+            }`}
+          />
+        ))}
+      </div>
+      <p className={`mt-1.5 text-xs font-medium ${score >= 3 ? "text-accent" : "text-muted"}`}>
+        {t(`register.strength.${score}`)}
+      </p>
+    </div>
+  );
+}
 
 export default function Register() {
   const { user, register: registerUser } = useAuth();
   const toast = useToast();
+  const { t } = useI18n();
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
   const [serverError, setServerError] = useState("");
+  const [leaving, setLeaving] = useState(false);
 
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<RegisterValues>({
     resolver: zodResolver(registerSchema),
     mode: "onTouched",
   });
 
-  if (user) return <Navigate to="/admin" replace />;
+  const password = watch("password") ?? "";
+
+  if (user && leaving) {
+    return <LoadingOverlay message={t("register.loading")} />;
+  }
+
+  if (user) return <Navigate to="/home" replace />;
 
   const onSubmit = handleSubmit(async (values) => {
     setServerError("");
+    setLeaving(true);
     try {
-      const newUser = await registerUser({
+      await registerUser({
         name: values.name,
         username: values.username,
         email: values.email,
         password: values.password,
       });
-      toast.success(`¡Cuenta creada! Bienvenido, ${newUser.name.split(" ")[0]}.`);
-      navigate("/admin");
+      toast.success(t("register.toast"));
+      await new Promise((r) => setTimeout(r, 1500));
+      navigate("/home", { replace: true });
     } catch (err) {
+      setLeaving(false);
       const code = err instanceof Error ? err.message : "";
-      setServerError(AUTH_ERRORS[code] ?? AUTH_ERRORS.default);
+      setServerError(t(AUTH_ERRORS[code] ?? AUTH_ERRORS.default));
     }
   });
 
-  const passwordProps = register("password");
-  const confirmProps = register("confirmPassword");
-
   return (
-    <AuthLayout
-      title="Crea tu cuenta"
-      subtitle="Regístrate para gestionar los proyectos de tu portafolio."
-    >
+    <AuthLayout title={t("register.title")} subtitle={t("register.subtitle")}>
       <form onSubmit={onSubmit} className="flex flex-col gap-4" noValidate>
         {serverError && (
-          <p role="alert" className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm font-medium text-red-500">
+          <motion.p
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0 }}
+            role="alert"
+            className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm font-medium text-red-500"
+          >
             {serverError}
-          </p>
+          </motion.p>
         )}
 
-        <Input
-          label="Nombre"
-          type="text"
-          autoComplete="name"
-          placeholder="Ana García"
-          error={errors.name?.message}
-          {...register("name")}
-        />
+        <motion.div variants={fields} initial="hidden" animate="show" className="flex flex-col gap-4">
+          <motion.div variants={field}>
+            <Input
+              label={t("register.name")}
+              type="text"
+              autoComplete="name"
+              autoFocus
+              placeholder={t("register.name.ph")}
+              error={errors.name?.message}
+              {...register("name")}
+            />
+          </motion.div>
 
-        <Input
-          label="Usuario"
-          type="text"
-          autoComplete="username"
-          placeholder="@anagarcia"
-          error={errors.username?.message}
-          {...register("username")}
-        />
+          <motion.div variants={field}>
+            <Input
+              label={t("register.username")}
+              type="text"
+              autoComplete="username"
+              placeholder={t("register.username.ph")}
+              error={errors.username?.message}
+              {...register("username")}
+            />
+          </motion.div>
 
-        <Input
-          label="Email"
-          type="email"
-          autoComplete="email"
-          placeholder="tu@email.com"
-          error={errors.email?.message}
-          {...register("email")}
-        />
+          <motion.div variants={field}>
+            <Input
+              label={t("register.email")}
+              type="email"
+              autoComplete="email"
+              placeholder={t("register.email.ph")}
+              error={errors.email?.message}
+              {...register("email")}
+            />
+          </motion.div>
 
-        <Input
-          label="Contraseña"
-          type={showPassword ? "text" : "password"}
-          autoComplete="new-password"
-          placeholder="Mínimo 8 caracteres, 1 mayúscula y 1 número"
-          error={errors.password?.message}
-          hint="Usa al menos 8 caracteres, una mayúscula y un número."
-          rightSlot={
-            <button
-              type="button"
-              onClick={() => setShowPassword((v) => !v)}
-              aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
-              className="rounded-md p-1 text-muted transition-colors hover:text-content"
+          <motion.div variants={field} className="flex flex-col gap-1.5">
+            <PasswordInput
+              label={t("register.password")}
+              autoComplete="new-password"
+              placeholder={t("register.password.ph")}
+              error={errors.password?.message}
+              hint={t("register.password.hint")}
+              {...register("password")}
+            />
+            <StrengthMeter password={password} />
+          </motion.div>
+
+          <motion.div variants={field}>
+            <PasswordInput
+              label={t("register.confirm")}
+              autoComplete="new-password"
+              placeholder={t("register.confirm.ph")}
+              error={errors.confirmPassword?.message}
+              {...register("confirmPassword")}
+            />
+          </motion.div>
+
+          <motion.div variants={field} className="mt-2">
+            <Button type="submit" size="lg" loading={isSubmitting} className="w-full">
+              <UserPlus className="size-4" aria-hidden />
+              {t("register.submit")}
+            </Button>
+          </motion.div>
+
+          <motion.p variants={field} className="mt-2 text-center text-sm text-muted">
+            {t("register.haveAccount")}{" "}
+            <Link
+              to="/login"
+              className="group inline-flex items-center gap-1 font-semibold text-accent transition-colors duration-fast hover:text-accent-faint"
             >
-              {showPassword ? <EyeOff className="size-4.5" aria-hidden /> : <Eye className="size-4.5" aria-hidden />}
-            </button>
-          }
-          {...passwordProps}
-        />
-
-        <Input
-          label="Confirmar contraseña"
-          type={showConfirm ? "text" : "password"}
-          autoComplete="new-password"
-          placeholder="Repite tu contraseña"
-          error={errors.confirmPassword?.message}
-          rightSlot={
-            <button
-              type="button"
-              onClick={() => setShowConfirm((v) => !v)}
-              aria-label={showConfirm ? "Ocultar contraseña" : "Mostrar contraseña"}
-              className="rounded-md p-1 text-muted transition-colors hover:text-content"
-            >
-              {showConfirm ? <EyeOff className="size-4.5" aria-hidden /> : <Eye className="size-4.5" aria-hidden />}
-            </button>
-          }
-          {...confirmProps}
-        />
-
-        <Button type="submit" size="lg" loading={isSubmitting} className="mt-2 w-full">
-          Crear cuenta
-        </Button>
-
-        <p className="mt-2 flex items-center justify-center gap-1.5 text-center text-xs text-muted">
-          <ShieldCheck className="size-3.5 text-accent" aria-hidden />
-          Tus datos se guardan localmente en este navegador (demo).
-        </p>
-
-        <p className="mt-2 text-center text-sm text-muted">
-          ¿Ya tienes cuenta?{" "}
-          <Link to="/login" className="font-medium text-accent transition-colors duration-fast hover:text-accent/80">
-            Inicia sesión
-          </Link>
-        </p>
+              {t("register.login")}
+              <ArrowRight className="size-3.5 transition-transform duration-fast group-hover:translate-x-0.5" aria-hidden />
+            </Link>
+          </motion.p>
+        </motion.div>
       </form>
     </AuthLayout>
   );

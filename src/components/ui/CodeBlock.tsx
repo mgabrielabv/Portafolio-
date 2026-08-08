@@ -8,6 +8,7 @@ import json from "react-syntax-highlighter/dist/esm/languages/prism/json";
 import python from "react-syntax-highlighter/dist/esm/languages/prism/python";
 import tsx from "react-syntax-highlighter/dist/esm/languages/prism/tsx";
 import typescript from "react-syntax-highlighter/dist/esm/languages/prism/typescript";
+import { useI18n } from "@/i18n";
 import { cn } from "@/utils/cn";
 
 SyntaxHighlighter.registerLanguage("bash", bash);
@@ -50,6 +51,7 @@ interface CodeBlockProps {
 
 /** Bloque de código con syntax highlighting y botón "copiar código". */
 export function CodeBlock({ code, language, fileName, className }: CodeBlockProps) {
+  const { t } = useI18n();
   const [copied, setCopied] = useState(false);
   const resolved = resolveLanguage(language, fileName);
 
@@ -76,10 +78,10 @@ export function CodeBlock({ code, language, fileName, className }: CodeBlockProp
           type="button"
           onClick={copy}
           className="inline-flex items-center gap-1.5 rounded-lg px-2 py-1 font-mono text-xs text-[#C4BDB2] transition-colors hover:bg-white/10"
-          aria-label={copied ? "Código copiado" : "Copiar código"}
+          aria-label={copied ? t("codeblock.copiedAria") : t("codeblock.copyAria")}
         >
           {copied ? <Check className="size-3.5 text-accent" aria-hidden /> : <Copy className="size-3.5" aria-hidden />}
-          {copied ? "¡Copiado!" : "Copiar"}
+          {copied ? t("codeblock.copied") : t("codeblock.copy")}
         </button>
       </div>
       <SyntaxHighlighter

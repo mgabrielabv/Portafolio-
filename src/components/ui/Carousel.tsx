@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { cn } from "@/utils/cn";
+import { useI18n } from "@/i18n";
 
 interface CarouselProps {
   slides: ReactNode[];
@@ -22,7 +23,7 @@ const variants = {
 
 /**
  * Carrusel con flechas, dots y swipe táctil.
- * Usado en el hero del Home y en la galería del detalle de proyecto.
+ * Usado en la galería del detalle de proyecto.
  */
 export function Carousel({
   slides,
@@ -33,6 +34,7 @@ export function Carousel({
   showDots = true,
   ariaLabel = "Carrusel",
 }: CarouselProps) {
+  const { t } = useI18n();
   const count = slides.length;
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(0);
@@ -92,7 +94,7 @@ export function Carousel({
           transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
           className={cn("will-change-transform", slideClassName)}
           aria-roledescription="slide"
-          aria-label={`Diapositiva ${index + 1} de ${count}`}
+          aria-label={t("carousel.slide", { n: index + 1, count })}
         >
           {slides[index]}
         </motion.div>
@@ -103,7 +105,7 @@ export function Carousel({
           <button
             type="button"
             onClick={prev}
-            aria-label="Diapositiva anterior"
+            aria-label={t("carousel.prev")}
             className="glass absolute top-1/2 left-3 grid size-10 -translate-y-1/2 place-items-center rounded-full text-content transition-all duration-fast hover:scale-110 hover:border-accent/60 hover:text-accent focus-visible:outline-2 focus-visible:outline-accent opacity-0 group-hover/carousel:opacity-100 focus:opacity-100 max-lg:opacity-100"
           >
             <ChevronLeft className="size-5" aria-hidden />
@@ -111,7 +113,7 @@ export function Carousel({
           <button
             type="button"
             onClick={next}
-            aria-label="Diapositiva siguiente"
+            aria-label={t("carousel.next")}
             className="glass absolute top-1/2 right-3 grid size-10 -translate-y-1/2 place-items-center rounded-full text-content transition-all duration-fast hover:scale-110 hover:border-accent/60 hover:text-accent focus-visible:outline-2 focus-visible:outline-accent opacity-0 group-hover/carousel:opacity-100 focus:opacity-100 max-lg:opacity-100"
           >
             <ChevronRight className="size-5" aria-hidden />
@@ -125,11 +127,11 @@ export function Carousel({
             <button
               key={i}
               type="button"
-              aria-label={`Ir a la diapositiva ${i + 1}`}
+              aria-label={t("carousel.go", { n: i + 1 })}
               onClick={() => go(i)}
               className={cn(
                 "h-1.5 rounded-full transition-all duration-300",
-                i === index ? "w-6 bg-gradient-to-r from-accent to-accent-2" : "w-1.5 bg-muted/40 hover:bg-muted/70",
+                i === index ? "w-6 bg-gradient-to-r from-accent to-accent-soft" : "w-1.5 bg-muted/40 hover:bg-muted/70",
               )}
             />
           ))}

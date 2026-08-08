@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { CheckCircle2, Info, XCircle } from "lucide-react";
 import { createContext, useCallback, useContext, useRef, useState, type ReactNode } from "react";
 import { cn } from "@/utils/cn";
+import { useI18n } from "@/i18n";
 
 type ToastType = "success" | "error" | "info";
 
@@ -33,6 +34,7 @@ const BAR_COLORS: Record<ToastType, string> = {
 };
 
 export function ToastProvider({ children }: { children: ReactNode }) {
+  const { t } = useI18n();
   const [toasts, setToasts] = useState<Toast[]>([]);
   const idRef = useRef(0);
 
@@ -64,9 +66,9 @@ export function ToastProvider({ children }: { children: ReactNode }) {
         className="pointer-events-none fixed top-4 right-4 z-[100] flex w-[calc(100%-2rem)] max-w-sm flex-col gap-2"
       >
         <AnimatePresence initial={false}>
-          {toasts.map((t) => (
+          {toasts.map((toast) => (
             <motion.li
-              key={t.id}
+              key={toast.id}
               layout
               initial={{ opacity: 0, y: -16, scale: 0.96 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -75,19 +77,19 @@ export function ToastProvider({ children }: { children: ReactNode }) {
               className="pointer-events-auto relative overflow-hidden rounded-xl border border-line bg-surface shadow-card-lg"
             >
               <div className="flex items-start gap-3 p-3.5 pr-4">
-                <span className="mt-0.5 shrink-0">{ICONS[t.type]}</span>
-                <p className="text-sm font-medium text-content">{t.message}</p>
+                <span className="mt-0.5 shrink-0">{ICONS[toast.type]}</span>
+                <p className="text-sm font-medium text-content">{toast.message}</p>
                 <button
                   type="button"
-                  onClick={() => remove(t.id)}
-                  aria-label="Cerrar notificación"
+                  onClick={() => remove(toast.id)}
+                  aria-label={t("toast.close")}
                   className="ml-auto rounded-md p-0.5 text-muted transition-colors hover:text-content"
                 >
                   <XCircle className="size-4" aria-hidden />
                 </button>
               </div>
               <motion.span
-                className={cn("absolute bottom-0 left-0 h-0.5", BAR_COLORS[t.type])}
+                className={cn("absolute bottom-0 left-0 h-0.5", BAR_COLORS[toast.type])}
                 initial={{ width: "100%" }}
                 animate={{ width: 0 }}
                 transition={{ duration: 4.2, ease: "linear" }}

@@ -1,4 +1,5 @@
 import { TriangleAlert } from "lucide-react";
+import { useI18n } from "@/i18n";
 import { Button } from "./Button";
 import { Modal } from "./Modal";
 
@@ -18,9 +19,10 @@ export function ConfirmDialog({
   onConfirm,
   title,
   message,
-  confirmLabel = "Eliminar",
+  confirmLabel,
   loading = false,
 }: ConfirmDialogProps) {
+  const { t } = useI18n();
   return (
     <Modal open={open} onClose={onClose} title={title} className="sm:max-w-md">
       <div className="flex items-start gap-4">
@@ -31,10 +33,10 @@ export function ConfirmDialog({
       </div>
       <div className="mt-6 flex justify-end gap-3">
         <Button variant="secondary" onClick={onClose} disabled={loading}>
-          Cancelar
+          {t("common.cancel")}
         </Button>
         <Button variant="danger" onClick={onConfirm} loading={loading}>
-          {confirmLabel}
+          {confirmLabel ?? t("common.delete")}
         </Button>
       </div>
     </Modal>

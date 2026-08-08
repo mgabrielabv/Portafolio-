@@ -4,7 +4,8 @@ import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/Button";
 import { Input, Select, Textarea } from "@/components/ui/Field";
-import { CATEGORIES, CATEGORY_ORDER } from "@/data/projects";
+import { CATEGORY_ORDER } from "@/data/projects";
+import { useI18n } from "@/i18n";
 import { projectSchema, type ProjectValues } from "@/schemas/project";
 import { createProject, updateProject } from "@/services/projects";
 import type { Project } from "@/types";
@@ -17,6 +18,7 @@ interface ProjectFormProps {
 }
 
 export function ProjectForm({ project, onDone, onCancel }: ProjectFormProps) {
+  const { t } = useI18n();
   const [images, setImages] = useState<string[]>(project?.images ?? []);
   const [thumbnail, setThumbnail] = useState<string | null>(project?.thumbnail ?? null);
   const [uploading, setUploading] = useState(false);
@@ -96,10 +98,8 @@ export function ProjectForm({ project, onDone, onCancel }: ProjectFormProps) {
     <form onSubmit={onSubmit} className="flex flex-col gap-5" noValidate>
       {/* Imágenes */}
       <div className="rounded-2xl border border-dashed border-line bg-surface-2/50 p-4">
-        <p className="text-sm font-medium text-content">Imágenes del proyecto</p>
-        <p className="mt-0.5 text-xs text-muted">
-          Sube capturas (se optimizan automáticamente) o usa la primera como portada.
-        </p>
+        <p className="text-sm font-medium text-content">{t("form.images")}</p>
+        <p className="mt-0.5 text-xs text-muted">{t("form.images.hint")}</p>
 
         <div className="mt-3 flex flex-wrap gap-3">
           {images.map((img) => (
@@ -108,7 +108,7 @@ export function ProjectForm({ project, onDone, onCancel }: ProjectFormProps) {
               <button
                 type="button"
                 onClick={() => setImages((prev) => prev.filter((i) => i !== img))}
-                aria-label="Eliminar imagen"
+                aria-label={t("form.removeImg")}
                 className="absolute inset-0 grid place-items-center bg-black/50 text-white opacity-0 transition-opacity group-hover:opacity-100"
               >
                 <Trash2 className="size-4" aria-hidden />
@@ -120,7 +120,7 @@ export function ProjectForm({ project, onDone, onCancel }: ProjectFormProps) {
             <div className="relative size-24 overflow-hidden rounded-xl border-2 border-accent">
               <img src={thumbnail} alt="" className="size-full object-cover" />
               <span className="absolute bottom-0 w-full bg-black/60 py-0.5 text-center text-[10px] font-medium text-white">
-                Portada
+                {t("form.cover")}
               </span>
             </div>
           )}
@@ -130,7 +130,7 @@ export function ProjectForm({ project, onDone, onCancel }: ProjectFormProps) {
             onClick={() => imageInputRef.current?.click()}
             disabled={uploading}
             className="grid size-24 place-items-center rounded-lg border border-dashed border-line text-muted transition-colors duration-fast hover:border-accent/60 hover:text-accent disabled:opacity-50"
-            aria-label="Añadir imágenes"
+            aria-label={t("form.addImages")}
           >
             {uploading ? <Loader2 className="size-5 animate-spin" aria-hidden /> : <ImagePlus className="size-5" aria-hidden />}
           </button>
@@ -149,45 +149,45 @@ export function ProjectForm({ project, onDone, onCancel }: ProjectFormProps) {
       </div>
 
       <div className="grid gap-5 sm:grid-cols-2">
-        <Input label="Título" placeholder="Nebula — E-commerce" error={errors.title?.message} {...register("title")} />
+        <Input label={t("form.title")} placeholder={t("form.title.ph")} error={errors.title?.message} {...register("title")} />
         <Select
-          label="Categoría"
-          options={CATEGORY_ORDER.map((c) => ({ value: c, label: CATEGORIES[c].label }))}
+          label={t("form.category")}
+          options={CATEGORY_ORDER.map((c) => ({ value: c, label: t(`cat.${c}`) }))}
           {...register("category")}
         />
       </div>
 
       <Textarea
-        label="Descripción breve"
-        placeholder="Una frase que resuma el proyecto (aparece en la tarjeta)."
+        label={t("form.shortDesc")}
+        placeholder={t("form.shortDesc.ph")}
         error={errors.description?.message}
         {...register("description")}
       />
 
       <Textarea
-        label="Descripción larga"
-        placeholder="Historia, retos y soluciones del proyecto…"
+        label={t("form.longDesc")}
+        placeholder={t("form.longDesc.ph")}
         className="min-h-32"
         {...register("longDescription")}
       />
 
       <div className="grid gap-5 sm:grid-cols-2">
         <Input
-          label="Tecnologías (separadas por comas)"
-          placeholder="React 19, TypeScript, Tailwind CSS"
+          label={t("form.techs")}
+          placeholder={t("form.techs.ph")}
           error={errors.technologies?.message}
           {...register("technologies")}
         />
-        <Input label="Año" type="number" error={errors.year?.message} {...register("year")} />
+        <Input label={t("form.year")} type="number" error={errors.year?.message} {...register("year")} />
       </div>
 
       <div className="grid gap-5 sm:grid-cols-2">
-        <Input label="URL del video (YouTube/Vimeo)" placeholder="https://youtube.com/watch?v=…" error={errors.video?.message} {...register("video")} />
-        <Input label="URL de la demo en vivo" placeholder="https://…" error={errors.demo?.message} {...register("demo")} />
+        <Input label={t("form.video")} placeholder={t("form.video.ph")} error={errors.video?.message} {...register("video")} />
+        <Input label={t("form.demo")} placeholder={t("form.demo.ph")} error={errors.demo?.message} {...register("demo")} />
       </div>
 
       <div className="grid gap-5 sm:grid-cols-2">
-        <Input label="URL del repositorio" placeholder="https://github.com/…" error={errors.repo?.message} {...register("repo")} />
+        <Input label={t("form.repo")} placeholder={t("form.repo.ph")} error={errors.repo?.message} {...register("repo")} />
         <button
           type="button"
           onClick={() => thumbInputRef.current?.click()}
@@ -195,7 +195,7 @@ export function ProjectForm({ project, onDone, onCancel }: ProjectFormProps) {
           className="mt-6 inline-flex h-11 items-center justify-center gap-2 self-end rounded-lg border border-dashed border-line font-mono text-xs tracking-[0.1em] text-muted uppercase transition-colors duration-fast hover:border-accent/60 hover:text-accent disabled:opacity-50"
         >
           <Upload className="size-4" aria-hidden />
-          Subir portada
+          {t("form.uploadCover")}
         </button>
         <input
           ref={thumbInputRef}
@@ -210,24 +210,24 @@ export function ProjectForm({ project, onDone, onCancel }: ProjectFormProps) {
       </div>
 
       <Textarea
-        label="Código de ejemplo"
-        placeholder="Pega aquí el fragmento de código destacado del proyecto…"
+        label={t("form.code")}
+        placeholder={t("form.code.ph")}
         className="min-h-36 font-mono text-xs"
-        hint="Se mostrará en la pestaña Código con syntax highlighting."
+        hint={t("form.code.hint")}
         {...register("code")}
       />
 
       <label className="flex cursor-pointer items-center gap-2.5 rounded-lg border border-line bg-surface-2/50 px-4 py-3">
         <input type="checkbox" className="size-4 accent-accent" {...register("featured")} />
-        <span className="text-sm font-medium text-content">Destacar en la portada</span>
+        <span className="text-sm font-medium text-content">{t("form.featured")}</span>
       </label>
 
       <div className="flex justify-end gap-3 border-t border-line pt-5">
         <Button type="button" variant="secondary" onClick={onCancel} disabled={isSubmitting}>
-          Cancelar
+          {t("form.cancel")}
         </Button>
         <Button type="submit" loading={isSubmitting}>
-          {project ? "Guardar cambios" : "Crear proyecto"}
+          {project ? t("form.save") : t("form.create")}
         </Button>
       </div>
     </form>

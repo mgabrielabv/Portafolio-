@@ -1,4 +1,18 @@
-import { forwardRef, useId, type InputHTMLAttributes, type ReactNode, type TextareaHTMLAttributes } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Check, ChevronDown } from "lucide-react";
+import {
+  forwardRef,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type ChangeEvent,
+  type FocusEvent,
+  type InputHTMLAttributes,
+  type KeyboardEvent,
+  type ReactNode,
+  type TextareaHTMLAttributes,
+} from "react";
 import { cn } from "@/utils/cn";
 
 const baseClasses =
@@ -80,30 +94,143 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(function 
   );
 });
 
-export interface SelectProps extends InputHTMLAttributes<HTMLSelectElement>, FieldProps {
+export interface SelectProps extends InputHTMLAttributes<HTMLButtonElement>, FieldProps {
   options: { value: string; label: string }[];
+  defaultValue?: string;
+  value?: string;
 }
 
-export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select(
-  { label, error, hint, options, id: idProp, className, ...props },
+export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select(
+  { label, error, hint, options, id: idProp, className, defaultValue, value, onChange, onBlur, name, ...props },
   ref,
 ) {
   const autoId = useId();
   const id = idProp ?? autoId;
+  const rootRef = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState(false);
+  const [highlight, setHighlight] = useState(-1);
+  const [local, setLocal] = useState<string>(() =>
+    String(defaultValue ?? value ?? options[0]?.value ?? ""),
+  );
+
+  const active = value !== undefined ? String(value) : local;
+  const activeOption = options.find((o) => o.value === active) ?? options[0];
+
+  useEffect(() => {
+    if (!open) return;
+    const onDocMouseDown = (e: MouseEvent) => {
+      if (rootRef.current && !rootRef.current.contains(e.target as Node)) setOpen(false);
+    };
+    const onDocKey = (e: globalThis.KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("mousedown", onDocMouseDown);
+    document.addEventListener("keydown", onDocKey);
+    return () => {
+      document.removeEventListener("mousedown", onDocMouseDown);
+      document.removeEventListener("keydown", onDocKey);
+    };
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+    setHighlight(Math.max(options.findIndex((o) => o.value === active), 0));
+  }, [open, active, options]);
+
+  const choose = (v: string) => {
+    setLocal(v);
+    setOpen(false);
+    onChange?.({ target: { name, value: v } } as unknown as ChangeEvent<HTMLButtonElement>);
+    onBlur?.({} as unknown as FocusEvent<HTMLButtonElement>);
+  };
+
+  const onKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
+    if (!open) {
+      if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        setOpen(true);
+      }
+      return;
+    }
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setHighlight((h) => Math.min(h + 1, options.length - 1));
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setHighlight((h) => Math.max(h - 1, 0));
+    } else if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      const opt = options[highlight];
+      if (opt) choose(opt.value);
+    } else if (e.key === "Tab") {
+      setOpen(false);
+    }
+  };
+
   return (
     <FieldShell label={label} error={error} hint={hint} htmlFor={id}>
-      <select
-        ref={ref}
-        id={id}
-        className={cn(baseClasses, "h-11 appearance-none bg-[url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22none%22%20stroke%3D%22%23888%22%20stroke-width%3D%222%22%3E%3Cpath%20d%3D%22m4%206%204%204%204-4%22%2F%3E%3C%2Fsvg%3E')] bg-[position:right_0.75rem_center] bg-no-repeat pr-10", className)}
-        {...props}
-      >
-        {options.map((o) => (
-          <option key={o.value} value={o.value}>
-            {o.label}
-          </option>
-        ))}
-      </select>
+      <div ref={rootRef} className="relative">
+        <button
+          ref={ref}
+          id={id}
+          type="button"
+          aria-haspopup="listbox"
+          aria-expanded={open}
+          aria-invalid={!!error}
+          onClick={() => setOpen((o) => !o)}
+          onKeyDown={onKeyDown}
+          className={cn(
+            baseClasses,
+            "flex h-11 items-center justify-between gap-2 text-left",
+            error && "border-red-500/70 focus:border-red-500 focus:ring-red-500/20",
+            className,
+          )}
+          {...(props as object)}
+        >
+          <span className="truncate">{activeOption?.label ?? "Seleccionar"}</span>
+          <ChevronDown
+            className={cn("size-4 shrink-0 text-muted transition-transform duration-fast", open && "rotate-180")}
+            aria-hidden
+          />
+        </button>
+
+        <AnimatePresence>
+          {open && (
+            <motion.ul
+              role="listbox"
+              aria-labelledby={id}
+              initial={{ opacity: 0, y: -4, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -4, scale: 0.98 }}
+              transition={{ duration: 0.14, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute z-20 mt-1.5 max-h-60 w-full overflow-y-auto rounded-xl border border-line bg-surface-2/95 p-1 shadow-card-lg backdrop-blur-md scrollbar-thin"
+            >
+              {options.map((o, i) => (
+                <li key={o.value}>
+                  <button
+                    type="button"
+                    role="option"
+                    aria-selected={o.value === active}
+                    onMouseEnter={() => setHighlight(i)}
+                    onClick={() => choose(o.value)}
+                    className={cn(
+                      "flex w-full items-center justify-between gap-2 rounded-lg px-3 py-2 text-left text-sm transition-colors duration-fast",
+                      o.value === active
+                        ? "bg-accent/20 text-accent"
+                        : i === highlight
+                          ? "bg-surface text-content"
+                          : "text-muted hover:bg-surface hover:text-content",
+                    )}
+                  >
+                    <span className="truncate">{o.label}</span>
+                    {o.value === active && <Check className="size-3.5 shrink-0 text-accent" aria-hidden />}
+                  </button>
+                </li>
+              ))}
+            </motion.ul>
+          )}
+        </AnimatePresence>
+      </div>
     </FieldShell>
   );
 });

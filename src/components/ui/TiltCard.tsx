@@ -32,7 +32,7 @@ export function TiltCard({ children, className, intensity = 7, glare = true }: T
   const glareBg = useTransform(
     [px, py],
     ([gx, gy]) =>
-      `radial-gradient(420px circle at ${(gx as number) * 100}% ${(gy as number) * 100}%, rgb(139 92 246 / 0.16), transparent 55%)`,
+      `radial-gradient(420px circle at ${(gx as number) * 100}% ${(gy as number) * 100}%, rgb(201 139 155 / 0.14), transparent 55%)`,
   );
 
   const onMove = (e: React.MouseEvent<HTMLDivElement>) => {

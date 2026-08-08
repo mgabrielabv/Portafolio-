@@ -1,77 +1,51 @@
 @import "tailwindcss";
 
-/* Modo oscuro mediante clase `.dark` en <html> (la app es dark-first). */
-@custom-variant dark (&:where(.dark, .dark *));
-
 /* ---------------------------------------------------------------------------
-   Design tokens — "Digital Workspace" (developer universe).
-   Base: negro profundo con tinte violáceo #05050A.
-   Acentos: violeta #8B5CF6 (primario) + cian #22D3EE (secundario).
-   Arquitectura: @theme inline + variables CSS.
-   La paleta es única (dark) en :root y se replica en .dark por compatibilidad.
+   Design tokens — "Sofisticado oscuro con rosa elegante".
+   Base: negro cálido #0D0C0C · tarjetas #171414 · bordes #33272B.
+   Texto: #F5F0EB (principal) / #A99D98 (secundario).
+   Acentos: rosa elegante #C98B9B (primario) + rosa oscuro #8F626C (soft).
+   Tipografía: Manrope (títulos e interfaz, sin cursivas) + JetBrains Mono.
 --------------------------------------------------------------------------- */
 :root {
-  --bg: 5 5 10;            /* 05050A — negro profundo */
-  --surface: 13 13 20;     /* 0D0D14 */
-  --surface-2: 24 24 36;   /* 181824 */
-  --content: 240 240 248;  /* F0F0F8 */
-  --muted: 140 140 165;
-  --line: 44 44 66;        /* borde técnico violáceo */
-  --inverse: 240 240 248;
-  --primary: 139 92 246;   /* violeta 500 */
-  --primary-soft: 139 92 246;
-  --accent: #8B5CF6;       /* violeta */
-  --accent-soft: 139 92 246;
-  --accent-2: #22D3EE;     /* cian neón */
-  --accent-2-soft: 34 211 238;
+  --bg: #0D0C0C;
+  --surface: #171414;
+  --surface-2: #221B1E;
+  --content: #F5F0EB;
+  --muted: #A99D98;
+  --line: #33272B;
+  --inverse: #171414;
 
-  --glass-bg: rgb(255 255 255 / 0.04);
-  --glass-border: rgb(255 255 255 / 0.09);
-  --grid-line: rgb(139 92 246 / 0.07);
-  --glow: 0 0 0 1px rgb(139 92 246 / 0.12), 0 18px 60px -18px rgb(139 92 246 / 0.35);
-}
+  --accent: #C98B9B;
+  --accent-soft: #8F626C;
+  --accent-faint: #E7C3CC;
 
-.dark {
-  --bg: 5 5 10;
-  --surface: 13 13 20;
-  --surface-2: 24 24 36;
-  --content: 240 240 248;
-  --muted: 140 140 165;
-  --line: 44 44 66;
-  --inverse: 240 240 248;
-  --primary: 139 92 246;
-  --primary-soft: 139 92 246;
-  --accent: #8B5CF6;
-  --accent-soft: 139 92 246;
-  --accent-2: #22D3EE;
-  --accent-2-soft: 34 211 238;
+  --glass-bg: rgb(245 240 235 / 0.035);
+  --glass-border: rgb(245 240 235 / 0.09);
+  --grid-line: rgb(201 139 155 / 0.07);
 
-  --glass-bg: rgb(255 255 255 / 0.04);
-  --glass-border: rgb(255 255 255 / 0.09);
-  --grid-line: rgb(139 92 246 / 0.07);
-  --glow: 0 0 0 1px rgb(139 92 246 / 0.12), 0 18px 60px -18px rgb(139 92 246 / 0.35);
+  --glow-rose: 0 0 0 1px rgb(201 139 155 / 0.14), 0 18px 60px -18px rgb(143 98 108 / 0.45);
+
+  color-scheme: dark;
 }
 
 @theme inline {
-  --color-bg: rgb(var(--bg));
-  --color-surface: rgb(var(--surface));
-  --color-surface-2: rgb(var(--surface-2));
-  --color-content: rgb(var(--content));
-  --color-muted: rgb(var(--muted));
-  --color-line: rgb(var(--line));
-  --color-inverse: rgb(var(--inverse));
-  --color-primary: rgb(var(--primary));
-  --color-primary-soft: rgb(var(--primary-soft));
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-content: var(--content);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-inverse: var(--inverse);
   --color-accent: var(--accent);
-  --color-accent-soft: rgb(var(--accent-soft));
-  --color-accent-2: var(--accent-2);
-  --color-accent-2-soft: rgb(var(--accent-2-soft));
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-faint: var(--accent-faint);
 
-  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 
-  /* Transiciones: una sola curva de easing y dos duraciones para todo el sitio */
+  /* Una sola curva de easing y dos duraciones para todo el sitio */
   --ease-clean: cubic-bezier(0.22, 1, 0.36, 1);
   --transition-duration-fast: 180ms;
   --transition-duration-base: 280ms;
@@ -92,21 +66,36 @@
   body {
     @apply bg-bg text-content font-sans antialiased;
     text-rendering: optimizeLegibility;
-    font-feature-settings: "ss01", "cv05";
+    font-feature-settings: "ss01";
   }
 
   ::selection {
-    background-color: color-mix(in oklab, var(--accent) 45%, transparent);
+    background-color: color-mix(in srgb, var(--accent) 42%, transparent);
     color: #fff;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display font-medium tracking-tight;
+    @apply font-sans font-semibold tracking-tight;
     text-wrap: balance;
   }
 
   :focus-visible {
     @apply outline-2 outline-offset-2 outline-accent;
+  }
+
+  /* Controles nativos en tema oscuro (select, número, fecha, checkbox…) */
+  select option {
+    background-color: var(--surface-2);
+    color: var(--content);
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    opacity: 0.55;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -128,19 +117,13 @@
 }
 
 @keyframes pulse-dot {
-  0%, 100% { box-shadow: 0 0 0 0 rgb(139 92 246 / 0.6); }
-  50% { box-shadow: 0 0 0 7px rgb(139 92 246 / 0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgb(201 139 155 / 0.6); }
+  50% { box-shadow: 0 0 0 7px rgb(201 139 155 / 0); }
 }
 
 @keyframes float-y {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
-}
-
-@keyframes aurora-drift {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(4%, -3%) scale(1.06); }
-  66% { transform: translate(-3%, 2%) scale(0.98); }
+  50% { transform: translateY(-10px); }
 }
 
 @keyframes marquee-x {
@@ -148,17 +131,78 @@
   to { transform: translateX(-50%); }
 }
 
-@keyframes dash-flow {
-  to { stroke-dashoffset: -24; }
+@keyframes ping-ring {
+  0% { transform: scale(1); opacity: 0.5; }
+  100% { transform: scale(1.6); opacity: 0; }
 }
 
-@keyframes spin-slow {
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes sphere-spin {
+  from { transform: rotateY(0deg); }
+  to { transform: rotateY(360deg); }
+}
+
+@keyframes pulse-opacity {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+/* Aurora / mesh gradient: deriva lenta de los resplandores de fondo */
+@keyframes aurora-drift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  33% { transform: translate3d(5%, -4%, 0) scale(1.12); }
+  66% { transform: translate3d(-4%, 4%, 0) scale(0.94); }
+}
+
+/* ---------------------------------------------------------------------------
+   HUD / Holograma (estilo JARVIS) — efectos continuos en CSS puro.
+   Paleta rosa/burgundy; solo transform/opacity/filter.
+--------------------------------------------------------------------------- */
+
+/* Interferencia sutil: parpadeo de opacidad casi imperceptible */
+@keyframes holo-flicker {
+  0%, 100% { opacity: 1; }
+  4% { opacity: 0.93; }
+  8% { opacity: 1; }
+  46% { opacity: 0.97; }
+  52% { opacity: 1; }
+  68% { opacity: 0.95; }
+  72% { opacity: 1; }
+}
+
+/* Levitación continua (±3px) */
+@keyframes holo-levitate {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -3px, 0); }
+}
+
+/* Onda expansiva al "tocar" un botón */
+@keyframes holo-ripple {
+  from { transform: translate(-50%, -50%) scale(0); opacity: 0.7; }
+  to { transform: translate(-50%, -50%) scale(3.6); opacity: 0; }
+}
+
+/* Destello en la punta de las barras al proyectarse */
+@keyframes holo-spark {
+  0% { transform: translate(-50%, -50%) scale(0.2); opacity: 0; }
+  25% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(0.05); opacity: 0; }
+}
+
+/* Cabeza del láser orbitando la dona (punto brillante) */
+@keyframes holo-orbit {
+  from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
 
-@keyframes ping-ring {
-  0% { transform: scale(1); opacity: 0.6; }
-  100% { transform: scale(1.6); opacity: 0; }
+/* Grano con parpadeo muy tenue (opcional, para no distraer) */
+@keyframes grain-flicker {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 0.9; }
 }
 
 @layer utilities {
@@ -170,11 +214,11 @@
     height: 1em;
     margin-left: 2px;
     vertical-align: text-bottom;
-    background-color: var(--accent-2);
+    background-color: var(--accent);
     animation: caret-blink 1.1s steps(1) infinite;
   }
 
-  /* Glassmorphism */
+  /* Glassmorphism cálido */
   .glass {
     background-color: var(--glass-bg);
     border: 1px solid var(--glass-border);
@@ -182,26 +226,26 @@
     -webkit-backdrop-filter: blur(14px);
   }
 
-  /* Resplandor violeta */
-  .glow-accent {
-    box-shadow: var(--glow);
+  /* Resplandor rosa sutil */
+  .glow-rose {
+    box-shadow: var(--glow-rose);
   }
 
-  /* Texto con degradado violeta → cian */
+  /* Texto con degradado rosa (detalle premium) */
   .text-gradient {
-    background: linear-gradient(110deg, var(--accent) 0%, var(--accent-2) 100%);
+    background: linear-gradient(105deg, var(--accent-faint) 0%, var(--accent) 45%, var(--accent-soft) 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
 
-  /* Texto con contorno (relleno transparente) */
+  /* Texto con contorno rosa (relleno transparente) */
   .text-stroke {
-    -webkit-text-stroke: 1.5px rgb(139 92 246 / 0.55);
+    -webkit-text-stroke: 1.5px rgb(201 139 155 / 0.5);
     color: transparent;
   }
 
-  /* Rejilla técnica de fondo */
+  /* Rejilla sutil de fondo */
   .bg-grid {
     background-image:
       linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
@@ -214,6 +258,11 @@
     -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, black, transparent 75%);
   }
 
+  /* Grano sutil para evitar banding */
+  .bg-grain {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  }
+
   /* Punto de disponibilidad con pulso */
   .pulse-dot {
     animation: pulse-dot 2.4s ease-in-out infinite;
@@ -223,25 +272,135 @@
     animation: float-y 6s ease-in-out infinite;
   }
 
-  .animate-aurora {
-    animation: aurora-drift 14s ease-in-out infinite;
-  }
-
-  .animate-spin-slow {
-    animation: spin-slow 22s linear infinite;
-  }
-
   .animate-marquee {
-    animation: marquee-x 30s linear infinite;
+    animation: marquee-x 32s linear infinite;
   }
 
-  .animate-dash {
-    stroke-dasharray: 4 6;
-    animation: dash-flow 1.4s linear infinite;
+  /* Resplandor aurora: deriva lenta, solo transform (sin reflow) */
+  .animate-aurora {
+    animation: aurora-drift 24s ease-in-out infinite;
+    will-change: transform;
+  }
+
+  /* Grano con movimiento sutil */
+  .animate-grain {
+    animation: grain-flicker 9s ease-in-out infinite;
+  }
+
+  /* --- HUD holográfico --- */
+
+  /* Levitación continua de tarjetas */
+  .holo-levitate {
+    animation: holo-levitate 5s ease-in-out infinite;
+  }
+
+  /* Interferencia holográfica continua (muy tenue) */
+  .holo-flicker {
+    animation: holo-flicker 6.5s ease-in-out infinite;
+  }
+
+  /* Líneas CRT permanentes (muy tenues, no deben estorbar la lectura) */
+  .holo-crt {
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 2px,
+      rgb(201 139 155 / 0.025) 2px,
+      rgb(201 139 155 / 0.025) 3px
+    );
+  }
+
+  /* Borde neón holográfico (flash al final de la materialización) */
+  .holo-neon {
+    border: 1px solid rgb(201 139 155 / 0.5);
+    box-shadow: 0 0 20px rgb(201 139 155 / 0.28), inset 0 0 26px rgb(201 139 155 / 0.07);
+    transition: border-color 0.3s var(--ease-clean), box-shadow 0.3s var(--ease-clean);
+  }
+  .group:hover .holo-neon {
+    border-color: rgb(201 139 155 / 0.8);
+    box-shadow: 0 0 26px rgb(201 139 155 / 0.45), inset 0 0 30px rgb(201 139 155 / 0.1);
+  }
+
+  /* Barrido de luz que recorre la tarjeta durante la entrada */
+  .holo-sweep {
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(231 195 204 / 0.16) 45%,
+      rgb(201 139 155 / 0.35) 50%,
+      rgb(231 195 204 / 0.16) 55%,
+      transparent
+    );
+  }
+
+  /* Onda expansiva rosa al hacer clic */
+  .holo-ripple {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-radius: 9999px;
+    background: radial-gradient(circle, rgb(201 139 155 / 0.6), rgb(143 98 108 / 0.15) 55%, transparent 72%);
+    pointer-events: none;
+    animation: holo-ripple 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  /* Destello en la punta de una barra */
+  .holo-spark {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 9999px;
+    background: radial-gradient(circle, rgb(231 195 204 / 0.95), rgb(201 139 155 / 0.4) 45%, transparent 70%);
+    filter: drop-shadow(0 0 6px rgb(201 139 155 / 0.9));
+    pointer-events: none;
+    animation: holo-spark 0.7s ease-out forwards;
+  }
+
+  /* Orbita de la cabeza del láser de la dona */
+  .holo-orbit {
+    animation: holo-orbit 1.15s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  /* Punto brillante en la cabeza del láser */
+  .holo-head-dot {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    transform: translate(-50%, -50%);
+    border-radius: 9999px;
+    background: rgb(231 195 204 / 0.95);
+    box-shadow: 0 0 10px rgb(201 139 155 / 0.9), 0 0 22px rgb(201 139 155 / 0.5);
+  }
+
+  /* Chispa que sigue el trazo del gráfico de área */
+  .holo-spark-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 9999px;
+    background: rgb(231 195 204);
+    box-shadow: 0 0 8px rgb(201 139 155 / 0.9), 0 0 20px rgb(201 139 155 / 0.45);
+  }
+
+  /* Esfera 3D wireframe: rotación suave e infinita sobre el eje Y */
+  .animate-sphere {
+    animation: sphere-spin 30s linear infinite;
+  }
+
+  /* Punto de estado con pulso de opacidad */
+  .pulse-opacity {
+    animation: pulse-opacity 2.2s ease-in-out infinite;
   }
 
   .ping-ring {
     animation: ping-ring 2.6s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  }
+
+  .animate-shimmer {
+    background: linear-gradient(90deg, var(--surface-2) 20%, rgb(201 139 155 / 0.12) 50%, var(--surface-2) 80%);
+    background-size: 200% 100%;
+    animation: shimmer 2.2s linear infinite;
   }
 
   .scrollbar-thin::-webkit-scrollbar {
@@ -250,7 +409,7 @@
   }
   .scrollbar-thin::-webkit-scrollbar-thumb {
     border-radius: 8px;
-    background: color-mix(in oklab, var(--accent) 45%, transparent);
+    background: color-mix(in srgb, var(--accent) 40%, transparent);
   }
   .scrollbar-thin::-webkit-scrollbar-track {
     background: transparent;
@@ -269,16 +428,19 @@
     -webkit-appearance: none;
   }
 
-  /* Ocultar el cursor nativo donde hay cursor personalizado */
-  @media (hover: hover) and (pointer: fine) {
-    .cursor-custom,
-    .cursor-custom a,
-    .cursor-custom button,
-    .cursor-custom [role="tab"],
-    .cursor-custom input,
-    .cursor-custom textarea,
-    .cursor-custom select {
-      cursor: none;
-    }
+  /* Bullets de Swiper (carousel de destacados) */
+  .swiper-rose-bullet {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin: 0 4px;
+    border-radius: 9999px;
+    background: rgb(169 157 152 / 0.4);
+    transition: width 0.3s var(--ease-clean), background-color 0.3s var(--ease-clean);
+    cursor: pointer;
+  }
+  .swiper-rose-bullet-active {
+    width: 22px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-soft));
   }
 }

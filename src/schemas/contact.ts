@@ -1,10 +1,36 @@
 import { z } from "zod";
+import { translate } from "@/i18n";
 
-export const contactSchema = z.object({
-  name: z.string().min(2, "El nombre debe tener al menos 2 caracteres").max(60, "Nombre demasiado largo"),
-  email: z.string().min(1, "El email es obligatorio").email("Introduce un email válido"),
-  subject: z.string().min(3, "El asunto debe tener al menos 3 caracteres").max(120, "Asunto demasiado largo"),
-  message: z.string().min(10, "El mensaje debe tener al menos 10 caracteres").max(2000, "Mensaje demasiado largo"),
-});
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+export const contactSchema = z
+  .object({
+    name: z.string(),
+    email: z.string(),
+    subject: z.string(),
+    message: z.string(),
+  })
+  .superRefine((data, ctx) => {
+    if (data.name.length < 2) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["name"], message: translate("validate.name.min") });
+    } else if (data.name.length > 60) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["name"], message: translate("validate.name.max") });
+    }
+    if (!data.email) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["email"], message: translate("validate.email.required") });
+    } else if (!EMAIL_RE.test(data.email)) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["email"], message: translate("validate.email.invalid") });
+    }
+    if (data.subject.length < 3) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["subject"], message: translate("validate.subject.min") });
+    } else if (data.subject.length > 120) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["subject"], message: translate("validate.subject.max") });
+    }
+    if (data.message.length < 10) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["message"], message: translate("validate.message.min") });
+    } else if (data.message.length > 2000) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["message"], message: translate("validate.message.max") });
+    }
+  });
 
 export type ContactValues = z.infer<typeof contactSchema>;

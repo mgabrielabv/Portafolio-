@@ -1,8 +1,22 @@
 import { Loader2 } from "lucide-react";
-import { cloneElement, isValidElement, type ButtonHTMLAttributes, type ReactElement, type ReactNode } from "react";
+import {
+  cloneElement,
+  isValidElement,
+  useState,
+  type ButtonHTMLAttributes,
+  type MouseEvent,
+  type ReactElement,
+  type ReactNode,
+} from "react";
 import { cn } from "@/utils/cn";
 
-type Variant = "primary" | "secondary" | "outline" | "ghost" | "danger" | "accent";
+interface Ripple {
+  id: number;
+  x: number;
+  y: number;
+}
+
+type Variant = "primary" | "secondary" | "outline" | "ghost" | "danger";
 type Size = "sm" | "md" | "lg";
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -16,13 +30,10 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const VARIANTS: Record<Variant, string> = {
   primary:
-    "bg-gradient-to-r from-accent to-accent-2 text-[#07070c] shadow-[0_0_28px_-8px_rgb(139_92_246/0.6)] hover:brightness-110 focus-visible:outline-accent",
-  accent:
-    "border border-accent/50 bg-accent/10 text-accent hover:bg-accent/20 focus-visible:outline-accent",
+    "bg-gradient-to-r from-accent to-accent-soft text-inverse shadow-[0_0_28px_-8px_rgb(201_139_155/0.6)] hover:brightness-110 focus-visible:outline-accent",
   secondary:
-    "glass text-content hover:border-accent/50 hover:text-accent focus-visible:outline-accent",
-  outline:
-    "glass text-content hover:border-accent/60 hover:text-accent",
+    "glass text-content hover:scale-[1.03] hover:border-accent/50 hover:text-accent hover:shadow-[0_0_32px_-12px_rgb(201_139_155/0.55)] focus-visible:outline-accent",
+  outline: "glass text-content hover:border-accent/60 hover:text-accent",
   ghost: "text-muted hover:bg-surface-2 hover:text-content",
   danger: "bg-red-600 text-white hover:bg-red-700 focus-visible:outline-red-500",
 };
@@ -45,8 +56,8 @@ export function Button({
   ...props
 }: ButtonProps) {
   const classes = cn(
-    "inline-flex items-center justify-center rounded-full font-mono font-medium uppercase tracking-[0.12em]",
-    "select-none transition-[transform,opacity,color,background-color,border-color,filter] duration-fast active:scale-[0.97]",
+    "inline-flex items-center justify-center rounded-full font-sans font-semibold uppercase tracking-[0.1em]",
+    "relative overflow-hidden select-none transition-[transform,opacity,color,background-color,border-color,filter,box-shadow] duration-fast hover:scale-[1.03] active:scale-[0.97]",
     "focus-visible:outline-2 focus-visible:outline-offset-2",
     VARIANTS[variant],
     SIZES[size],
@@ -54,13 +65,26 @@ export function Button({
     className,
   );
 
+  const [ripples, setRipples] = useState<Ripple[]>([]);
+
+  const handleClick = (e: MouseEvent<HTMLButtonElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const id = Date.now() + Math.random();
+    setRipples((prev) => [...prev, { id, x: e.clientX - rect.left, y: e.clientY - rect.top }]);
+    window.setTimeout(() => setRipples((prev) => prev.filter((r) => r.id !== id)), 700);
+    props.onClick?.(e);
+  };
+
   if (asChild && isValidElement(children)) {
     const child = children as ReactElement<{ className?: string }>;
     return cloneElement(child, { className: classes });
   }
 
   return (
-    <button className={classes} disabled={disabled || loading} {...props}>
+    <button className={classes} disabled={disabled || loading} {...props} onClick={handleClick}>
+      {ripples.map((r) => (
+        <span key={r.id} className="holo-ripple" style={{ left: r.x, top: r.y }} />
+      ))}
       {loading ? <Loader2 className="size-4 animate-spin" aria-hidden /> : icon}
       {children}
     </button>

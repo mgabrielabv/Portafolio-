@@ -1,29 +1,28 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { LayoutDashboard, LogIn, LogOut, Menu, X } from "lucide-react";
+import { LogOut, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { Logo } from "@/components/Logo";
 import { useAuth } from "@/context/AuthContext";
+import { useI18n, type Lang } from "@/i18n";
 import { cn } from "@/utils/cn";
 
 const NAV_LINKS = [
-  { to: "/", label: "Inicio" },
-  { to: "/proyectos", label: "Proyectos" },
-  { to: "/estadisticas", label: "Stats" },
-  { to: "/sobre-mi", label: "Sobre mí" },
-  { to: "/contacto", label: "Contacto" },
+  { to: "/home", labelKey: "nav.home" },
+  { to: "/proyectos", labelKey: "nav.projects" },
+  { to: "/sobre-mi", labelKey: "nav.about" },
+  { to: "/dashboard", labelKey: "nav.dashboard" },
+  { to: "/contacto", labelKey: "nav.contact" },
 ];
 
-const navLinkClasses = ({ isActive }: { isActive: boolean }) =>
-  cn(
-    "relative rounded-full px-3.5 py-2 font-mono text-[11px] tracking-[0.14em] uppercase transition-colors duration-fast",
-    isActive ? "text-content" : "text-muted hover:text-content",
-  );
+const LANGS: Lang[] = ["es", "en"];
 
-/** Navbar flotante estilo menú de aplicación: pill glass fija arriba al centro. */
+/** Navbar flotante con glass, blur y cambio de estado al hacer scroll. */
 export function Navbar() {
   const { user, logout } = useAuth();
+  const { lang, setLang, t } = useI18n();
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
@@ -37,11 +36,18 @@ export function Navbar() {
     };
   }, [open]);
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   const handleLogout = async () => {
     setLoggingOut(true);
     await logout();
     setLoggingOut(false);
-    navigate("/");
+    navigate("/login");
   };
 
   return (
@@ -52,23 +58,37 @@ export function Navbar() {
       className="fixed inset-x-0 top-4 z-50 flex justify-center px-4 sm:top-5"
     >
       <nav
-        aria-label="Principal"
-        className="glass relative flex h-14 w-full max-w-4xl items-center justify-between gap-3 rounded-full px-3 pl-4 shadow-[0_10px_40px_-10px_rgb(0_0_0/0.6),0_0_0_1px_rgb(139_92_246/0.12)] sm:px-4"
+        aria-label={t("nav.main")}
+        className={cn(
+          "relative flex h-14 w-full max-w-4xl items-center justify-between gap-3 rounded-full border px-3 pl-4 transition-all duration-base sm:px-4",
+          scrolled
+            ? "border-line/70 bg-surface/80 shadow-card backdrop-blur-xl"
+            : "border-transparent bg-surface/30 backdrop-blur-md",
+        )}
       >
         <Logo />
 
         {/* Links desktop */}
         <div className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-0.5 md:flex">
           {NAV_LINKS.map((link) => (
-            <NavLink key={link.to} to={link.to} className={navLinkClasses}>
+            <NavLink
+              key={link.to}
+              to={link.to}
+              className={({ isActive }) =>
+                cn(
+                  "relative rounded-full px-3.5 py-2 font-sans text-[12px] font-medium tracking-wide transition-colors duration-fast",
+                  isActive ? "text-content" : "text-muted hover:text-content",
+                )
+              }
+            >
               {({ isActive }) => (
                 <>
-                  {link.label}
+                  {t(link.labelKey)}
                   {isActive && (
                     <motion.span
                       layoutId="nav-active"
                       aria-hidden
-                      className="absolute inset-0 rounded-full bg-accent/12 ring-1 ring-accent/30"
+                      className="absolute inset-0 rounded-full border border-accent/30 bg-accent/12"
                       transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
                     />
                   )}
@@ -80,44 +100,45 @@ export function Navbar() {
 
         {/* Acciones */}
         <div className="flex items-center gap-2">
-          {user ? (
-            <>
-              <span className="hidden font-mono text-[11px] text-muted lg:inline">
-                {user.name.split(" ")[0]}
-              </span>
-              <Link
-                to="/admin"
-                className="hidden h-9 items-center gap-2 rounded-full bg-gradient-to-r from-accent to-accent-2 px-4 font-mono text-[11px] tracking-[0.12em] text-[#07070c] uppercase shadow-[0_0_20px_-6px_rgb(139_92_246/0.7)] transition-transform duration-fast hover:scale-[1.03] active:scale-[0.98] md:inline-flex"
-              >
-                <LayoutDashboard className="size-3.5" aria-hidden />
-                Panel
-              </Link>
+          <div
+            role="group"
+            aria-label={t("nav.lang")}
+            className="hidden items-center gap-0.5 rounded-full border border-line/70 p-0.5 md:flex"
+          >
+            {LANGS.map((l) => (
               <button
+                key={l}
                 type="button"
-                onClick={handleLogout}
-                disabled={loggingOut}
-                className="glass hidden h-9 items-center gap-2 rounded-full px-4 font-mono text-[11px] tracking-[0.12em] text-muted uppercase transition-colors duration-fast hover:text-content md:inline-flex"
+                onClick={() => setLang(l)}
+                aria-pressed={lang === l}
+                className={cn(
+                  "h-7 w-8 rounded-full font-mono text-[11px] font-medium uppercase transition-colors duration-fast",
+                  lang === l ? "bg-accent/20 text-accent" : "text-muted hover:text-content",
+                )}
               >
-                <LogOut className="size-3.5" aria-hidden />
-                Salir
+                {l}
               </button>
-            </>
-          ) : (
-            <Link
-              to="/login"
-              className="hidden h-9 items-center gap-2 rounded-full bg-gradient-to-r from-accent to-accent-2 px-4 font-mono text-[11px] tracking-[0.12em] text-[#07070c] uppercase shadow-[0_0_20px_-6px_rgb(139_92_246/0.7)] transition-transform duration-fast hover:scale-[1.03] active:scale-[0.98] md:inline-flex"
+            ))}
+          </div>
+
+          {user && (
+            <button
+              type="button"
+              onClick={handleLogout}
+              disabled={loggingOut}
+              className="hidden h-9 items-center gap-2 rounded-full border border-line/70 px-4 font-sans text-[12px] font-medium text-muted uppercase transition-colors duration-fast hover:border-accent/50 hover:text-accent md:inline-flex"
             >
-              <LogIn className="size-3.5" aria-hidden />
-              Entrar
-            </Link>
+              <LogOut className="size-3.5" aria-hidden />
+              {t("nav.logout")}
+            </button>
           )}
 
           <button
             type="button"
             onClick={() => setOpen((o) => !o)}
-            aria-label={open ? "Cerrar menú" : "Abrir menú"}
+            aria-label={open ? t("nav.close") : t("nav.open")}
             aria-expanded={open}
-            className="glass grid size-10 place-items-center rounded-full text-content transition-colors duration-fast hover:text-accent md:hidden"
+            className="grid size-10 place-items-center rounded-full border border-line/70 text-content transition-colors duration-fast hover:border-accent/50 hover:text-accent md:hidden"
           >
             <AnimatePresence mode="wait" initial={false}>
               <motion.span
@@ -134,7 +155,7 @@ export function Navbar() {
         </div>
       </nav>
 
-      {/* Menú móvil tipo aplicación */}
+      {/* Menú móvil */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -156,12 +177,12 @@ export function Navbar() {
                     to={link.to}
                     className={({ isActive }) =>
                       cn(
-                        "block border-b border-line/60 py-5 font-display text-4xl font-medium tracking-tight transition-colors",
+                        "block border-b border-line/60 py-5 font-display text-4xl transition-colors",
                         isActive ? "text-gradient" : "text-content/80 hover:text-content",
                       )
                     }
                   >
-                    {link.label}
+                    {t(link.labelKey)}
                   </NavLink>
                 </motion.div>
               ))}
@@ -173,35 +194,38 @@ export function Navbar() {
               transition={{ delay: 0.35, duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
               className="px-6 pb-10"
             >
-              {user ? (
-                <div className="flex gap-3">
-                  <Link
-                    to="/admin"
-                    className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-accent to-accent-2 font-mono text-xs tracking-[0.12em] text-[#07070c] uppercase"
-                  >
-                    <LayoutDashboard className="size-4" aria-hidden />
-                    Panel
-                  </Link>
+              <div
+                role="group"
+                aria-label={t("nav.lang")}
+                className="mb-4 flex w-fit items-center gap-0.5 rounded-full border border-line/70 p-0.5"
+              >
+                {LANGS.map((l) => (
                   <button
+                    key={l}
                     type="button"
-                    onClick={handleLogout}
-                    className="glass inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-full font-mono text-xs tracking-[0.12em] text-content uppercase"
+                    onClick={() => setLang(l)}
+                    aria-pressed={lang === l}
+                    className={cn(
+                      "h-8 w-10 rounded-full font-mono text-xs font-medium uppercase transition-colors duration-fast",
+                      lang === l ? "bg-accent/20 text-accent" : "text-muted hover:text-content",
+                    )}
                   >
-                    <LogOut className="size-4" aria-hidden />
-                    Salir
+                    {l}
                   </button>
-                </div>
-              ) : (
-                <Link
-                  to="/login"
-                  className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-accent to-accent-2 font-mono text-xs tracking-[0.12em] text-[#07070c] uppercase"
-                >
-                  <LogIn className="size-4" aria-hidden />
-                  Iniciar sesión
-                </Link>
-              )}
+                ))}
+              </div>
+
+              <button
+                type="button"
+                onClick={handleLogout}
+                disabled={loggingOut}
+                className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full border border-line/70 font-sans text-xs font-medium text-content uppercase"
+              >
+                <LogOut className="size-4" aria-hidden />
+                {t("nav.logout")}
+              </button>
               <p className="mt-6 text-center font-mono text-[11px] text-muted">
-                maría bermúdez · digital workspace
+                maría bermúdez · portfolio
               </p>
             </motion.div>
           </motion.div>

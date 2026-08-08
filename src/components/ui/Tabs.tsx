@@ -16,7 +16,7 @@ interface TabsProps {
   ariaLabel?: string;
 }
 
-/** Tabs accesibles con indicador animado en gradiente violeta→cian. */
+/** Tabs accesibles con indicador animado en gradiente rosa. */
 export function Tabs({ tabs, value, onChange, className, ariaLabel }: TabsProps) {
   const baseId = useId();
   return (
@@ -40,13 +40,13 @@ export function Tabs({ tabs, value, onChange, className, ariaLabel }: TabsProps)
             onClick={() => onChange(tab.value)}
             className={cn(
               "relative flex shrink-0 items-center gap-1.5 rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors",
-              selected ? "text-[#07070c]" : "text-muted hover:text-content",
+              selected ? "text-inverse" : "text-muted hover:text-content",
             )}
           >
             {selected && (
               <motion.span
                 layoutId={`${baseId}-pill`}
-                className="absolute inset-0 rounded-full bg-gradient-to-r from-accent to-accent-2 shadow-[0_0_16px_-4px_rgb(139_92_246/0.7)]"
+                className="absolute inset-0 rounded-full bg-gradient-to-r from-accent to-accent-soft shadow-[0_0_16px_-4px_rgb(201_139_155/0.6)]"
                 transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
                 aria-hidden
               />

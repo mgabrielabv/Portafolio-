@@ -1,12 +1,17 @@
-import { FolderOpen, Search } from "lucide-react";
+import { FolderOpen, Plus, Search } from "lucide-react";
 import { useMemo, useState } from "react";
+import { ProjectForm } from "@/components/forms/ProjectForm";
 import { ProjectCard } from "@/components/ProjectCard";
+import { Button } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { Modal } from "@/components/ui/Modal";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ProjectCardSkeleton } from "@/components/ui/Skeleton";
 import { Tabs } from "@/components/ui/Tabs";
-import { CATEGORIES, CATEGORY_ORDER } from "@/data/projects";
+import { useToast } from "@/context/ToastContext";
+import { CATEGORY_ORDER } from "@/data/projects";
+import { useI18n, interpolate } from "@/i18n";
 import { listProjects } from "@/services/projects";
 import { useEffect } from "react";
 import type { Category, Project } from "@/types";
@@ -14,9 +19,12 @@ import type { Category, Project } from "@/types";
 const ALL = "all";
 
 export default function Projects() {
+  const toast = useToast();
+  const { t } = useI18n();
   const [projects, setProjects] = useState<Project[] | null>(null);
   const [category, setCategory] = useState<string>(ALL);
   const [query, setQuery] = useState("");
+  const [formOpen, setFormOpen] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -25,6 +33,12 @@ export default function Projects() {
       active = false;
     };
   }, []);
+
+  const handleSaved = () => {
+    setFormOpen(false);
+    listProjects().then(setProjects);
+    toast.success(t("projects.toast.created"));
+  };
 
   const filtered = useMemo(() => {
     if (!projects) return [];
@@ -41,40 +55,40 @@ export default function Projects() {
   }, [projects, category, query]);
 
   const tabs = [
-    { value: ALL, label: "Todos" },
-    ...CATEGORY_ORDER.map((c: Category) => ({ value: c, label: CATEGORIES[c].label })),
+    { value: ALL, label: t("projects.tab.all") },
+    ...CATEGORY_ORDER.map((c: Category) => ({ value: c, label: t(`cat.${c}`) })),
   ];
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-      <SectionHeading
-        as="h1"
-        index="01"
-        eyebrow="Portafolio"
-        title="Proyectos"
-        description="Una selección honesta de lo que construyo: sistemas con login y base de datos, más el recorrido de fundamentos de la cursada."
-      />
+      <SectionHeading as="h1" title={t("projects.title")} />
 
       <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <Tabs
           tabs={tabs}
           value={category}
           onChange={setCategory}
-          ariaLabel="Filtrar proyectos por categoría"
+          ariaLabel={t("projects.aria.filter")}
         />
-        <div className="relative w-full sm:max-w-64">
-          <Search
-            className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted"
-            aria-hidden
-          />
-          <input
-            type="search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Buscar por tecnología…"
-            aria-label="Buscar proyectos"
-            className="glass h-11 w-full rounded-full pl-10 pr-4 text-sm text-content placeholder:text-muted/60 focus:border-accent/60 focus:ring-2 focus:ring-accent/25 focus:outline-none"
-          />
+        <div className="flex items-center gap-3">
+          <div className="relative w-full sm:max-w-64">
+            <Search
+              className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted"
+              aria-hidden
+            />
+            <input
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder={t("projects.search")}
+              aria-label={t("projects.aria.search")}
+              className="glass h-11 w-full rounded-full pl-10 pr-4 text-sm text-content placeholder:text-muted/60 focus:border-accent/60 focus:ring-2 focus:ring-accent/25 focus:outline-none"
+            />
+          </div>
+          <Button onClick={() => setFormOpen(true)}>
+            <Plus className="size-4" aria-hidden />
+            {t("projects.new")}
+          </Button>
         </div>
       </div>
 
@@ -95,15 +109,25 @@ export default function Projects() {
           </div>        ) : (
           <EmptyState
             icon={FolderOpen}
-            title={query ? "Sin resultados" : "No hay proyectos en esta categoría"}
+            title={query ? t("projects.empty.search.title") : t("projects.empty.cat.title")}
             description={
               query
-                ? `No encontramos proyectos que coincidan con “${query}”. Prueba con otra tecnología.`
-                : "Aún no hay proyectos publicados en esta categoría."
+                ? interpolate(t("projects.empty.search.desc"), { query })
+                : t("projects.empty.cat.desc")
             }
           />
         )}
       </div>
+
+      <Modal
+        open={formOpen}
+        onClose={() => setFormOpen(false)}
+        title={t("projects.modal.title")}
+        description={t("projects.modal.desc")}
+        className="sm:max-w-2xl"
+      >
+        <ProjectForm project={null} onDone={handleSaved} onCancel={() => setFormOpen(false)} />
+      </Modal>
     </div>
   );
 }

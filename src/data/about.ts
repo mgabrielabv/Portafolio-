@@ -7,11 +7,7 @@ export interface SkillGroup {
   id: string;
   label: string;
   skills: SkillLevel[];
-}
-
-export interface SoftSkill {
-  skill: string;
-  value: number;
+  related: string[];
 }
 
 export interface TimelineEntry {
@@ -21,25 +17,23 @@ export interface TimelineEntry {
   description: string;
 }
 
-export const SKILL_LEVELS: SkillLevel[] = [
-  { tech: "React / Next", level: 95 },
-  { tech: "TypeScript", level: 90 },
-  { tech: "Node.js", level: 82 },
-  { tech: "UI / Diseño", level: 88 },
-  { tech: "Datos / SQL", level: 72 },
-  { tech: "Testing", level: 76 },
-];
+export interface MoreInfoItem {
+  title: string;
+  content: string[];
+}
 
+/** Stack tecnológico por áreas. Cada tab muestra nivel y proyectos relacionados. */
 export const SKILL_GROUPS: SkillGroup[] = [
   {
     id: "frontend",
     label: "Frontend",
     skills: [
-      { tech: "React / Next", level: 95 },
+      { tech: "React", level: 95 },
       { tech: "TypeScript", level: 90 },
       { tech: "Tailwind / CSS", level: 92 },
       { tech: "HTML accesible", level: 90 },
     ],
+    related: ["React", "TypeScript", "JavaScript", "UI Design"],
   },
   {
     id: "backend",
@@ -50,16 +44,29 @@ export const SKILL_GROUPS: SkillGroup[] = [
       { tech: "Autenticación", level: 74 },
       { tech: "Diseño de APIs", level: 70 },
     ],
+    related: ["Node", "APIs REST", "SQL"],
   },
   {
-    id: "datos",
-    label: "Base de datos",
+    id: "database",
+    label: "Database",
     skills: [
       { tech: "SQL", level: 72 },
       { tech: "MySQL", level: 70 },
       { tech: "Modelado de datos", level: 75 },
       { tech: "CRUD / consultas", level: 80 },
     ],
+    related: ["proyectodb", "SQL", "MySQL"],
+  },
+  {
+    id: "design",
+    label: "Design",
+    skills: [
+      { tech: "Figma", level: 88 },
+      { tech: "UI / UX", level: 86 },
+      { tech: "Sistemas de diseño", level: 80 },
+      { tech: "Prototipado", level: 84 },
+    ],
+    related: ["UI Design", "Figma"],
   },
   {
     id: "tools",
@@ -67,85 +74,59 @@ export const SKILL_GROUPS: SkillGroup[] = [
     skills: [
       { tech: "Git / GitHub", level: 86 },
       { tech: "Vite", level: 88 },
-      { tech: "Figma", level: 88 },
       { tech: "npm / CLI", level: 82 },
+      { tech: "Testing", level: 76 },
     ],
-  },
-  {
-    id: "diseno",
-    label: "Diseño",
-    skills: [
-      { tech: "Figma", level: 88 },
-      { tech: "UI / UX", level: 86 },
-      { tech: "Sistemas de diseño", level: 80 },
-      { tech: "Prototipado", level: 84 },
-    ],
+    related: ["Git", "Vite"],
   },
 ];
 
-export const STACK_MAP = [
-  { label: "React", x: 12, y: 16 },
-  { label: "TypeScript", x: 62, y: 8 },
-  { label: "Node", x: 86, y: 34 },
-  { label: "SQL", x: 72, y: 68 },
-  { label: "Figma", x: 28, y: 74 },
-  { label: "Git", x: 4, y: 52 },
-];
-
-export const SOFT_SKILLS: SoftSkill[] = [
-  { skill: "Comunicación", value: 92 },
-  { skill: "Liderazgo", value: 78 },
-  { skill: "Colaboración", value: 95 },
-  { skill: "Creatividad", value: 88 },
-  { skill: "Adaptabilidad", value: 90 },
-  { skill: "Resolución", value: 85 },
-];
-
+/** Timeline del recorrido (animada con scroll). */
 export const TIMELINE: TimelineEntry[] = [
   {
-    period: "2024 — Presente",
-    role: "Estudiante de Ingeniería en Computación",
+    period: "2024",
+    role: "Ingeniería en Computación",
     company: "Universidad Rafael Urdaneta (URU) · Maracaibo",
     description:
-      "Formación en programación orientada a objetos, estructuras de datos, bases de datos y desarrollo web, con proyectos prácticos cada semestre.",
+      "POO, estructuras de datos, bases de datos y desarrollo web, con proyectos prácticos cada semestre.",
   },
   {
-    period: "2025 — Presente",
-    role: "Desarrolladora Frontend Freelance",
+    period: "2025",
+    role: "Desarrollo Web",
     company: "Proyectos propios y para clientes",
     description:
-      "Construyo landing pages, dashboards y pequeños sistemas web con React y TypeScript, de la mano del diseño en Figma.",
+      "Landing pages, dashboards y sistemas web con React y TypeScript, de la mano del diseño en Figma.",
   },
   {
-    period: "2024 — 2025",
-    role: "Proyectos universitarios",
-    company: "URU · Equipos multidisciplinarios",
+    period: "2026",
+    role: "Full Stack Projects",
+    company: "De la base de datos a la interfaz",
     description:
-      "Desarrollé aplicaciones web para materias de base de datos y diseño de software, coordinándome con equipos de hasta 4 personas.",
-  },
-  {
-    period: "2023 — 2024",
-    role: "Primeros pasos en la programación",
-    company: "Autodidacta",
-    description:
-      "Empecé con HTML, CSS y JavaScript, y descubrí que me encanta la mezcla entre lógica y diseño visual.",
+      "Sistemas completos de punta a punta: modelado de datos, APIs y frontend con detalle fino.",
   },
 ];
 
-export const FAQS = [
+/** Acordeón "Más información": experiencia, educación y proceso. */
+export const MORE_INFO: MoreInfoItem[] = [
   {
-    title: "¿Cómo gestionas un proyecto de principio a fin?",
-    content:
-      "Empiezo por entender el problema y definir el alcance, luego prototipo en Figma, y finalmente implemento en iteraciones cortas con revisión continua. Prefiero entregas pequeñas y frecuentes antes que un lanzamiento gigante.",
+    title: "Experiencia",
+    content: [
+      "Desarrolladora frontend freelance — landing pages, dashboards y sistemas web con React y TypeScript (2025 — presente).",
+      "Proyectos universitarios en equipos multidisciplinarios — aplicaciones web para materias de base de datos y diseño de software (2024 — 2025).",
+    ],
   },
   {
-    title: "¿Trabajas con equipos remotos y husos distintos?",
-    content:
-      "Sí. Trabajo asíncrono por defecto: documentación clara, reuniones cortas y actualizaciones semanales. Me adapto a la zona horaria del equipo principal.",
+    title: "Educación",
+    content: [
+      "Ingeniería en Computación — Universidad Rafael Urdaneta (URU), Maracaibo (2024 — presente).",
+      "Formación autodidacta: HTML, CSS y JavaScript como punto de partida del recorrido.",
+    ],
   },
   {
-    title: "¿Ofreces mantenimiento después del lanzamiento?",
-    content:
-      "Por supuesto. Puedo encargarme de hotfixes, evolutivos y monitorización durante los meses posteriores al lanzamiento, con un SLA acordado.",
+    title: "Proceso de desarrollo",
+    content: [
+      "Entiendo el problema y defino el alcance, prototipo en Figma y luego implemento en iteraciones cortas con revisión continua.",
+      "Prefiero entregas pequeñas y frecuentes antes que un lanzamiento gigante.",
+    ],
   },
 ];

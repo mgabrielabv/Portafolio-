@@ -1,6 +1,6 @@
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import type { ReactNode } from "react";
-import { Logo } from "@/components/Logo";
+import { ParticleField } from "@/components/hero/ParticleField";
 
 interface AuthLayoutProps {
   title: string;
@@ -8,55 +8,85 @@ interface AuthLayoutProps {
   children: ReactNode;
 }
 
-/**
- * Layout de auth: card glass flotante sobre el fondo digital global.
- * En desktop muestra un panel de marca lateral con una frase.
- */
+const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+const card: Variants = {
+  hidden: { opacity: 0, y: 24, scale: 0.97 },
+  show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.6, ease: EASE, staggerChildren: 0.08, delayChildren: 0.15 } },
+  exit: { opacity: 0, y: -20, scale: 0.98, transition: { duration: 0.32, ease: EASE } },
+};
+
+const item: Variants = {
+  hidden: { opacity: 0, y: 14 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } },
+  exit: { opacity: 0, y: 8, transition: { duration: 0.22, ease: EASE } },
+};
+
+const screen: Variants = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { duration: 0.35, ease: EASE } },
+  exit: { opacity: 0, transition: { duration: 0.3, ease: EASE } },
+};
+
+/** Pantalla de autenticación: tarjeta centrada con fondo animado (partículas + orbes). */
 export function AuthLayout({ title, subtitle, children }: AuthLayoutProps) {
   return (
-    <div className="relative grid min-h-dvh items-center px-4 pt-28 pb-12 sm:px-8 lg:grid-cols-[1fr_auto]">
-      {/* Panel de marca */}
-      <div className="mx-auto hidden w-full max-w-2xl lg:block">
-        <motion.blockquote
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="max-w-lg"
-        >
-          <span aria-hidden className="mb-5 block h-px w-14 bg-gradient-to-r from-accent to-accent-2" />
-          <p className="font-display text-5xl leading-[1.08] font-bold tracking-tight text-content">
-            El buen código se ve.
-            <br />
-            <span className="text-gradient">El gran código se siente.</span>
-          </p>
-          <p className="mt-6 font-mono text-xs text-muted">
-            $ maria@portfolio: ~ panel de control
-          </p>
-        </motion.blockquote>
-      </div>
+    <motion.div
+      variants={screen}
+      initial="hidden"
+      animate="show"
+      exit="exit"
+      className="relative flex min-h-dvh items-center justify-center overflow-hidden px-4 py-12"
+    >
+      {/* Fondo animado */}
+      <ParticleField className="pointer-events-none absolute inset-0 h-full w-full" />
+      <div
+        aria-hidden
+        className="animate-float absolute -top-24 left-[12%] size-72 rounded-full bg-accent/10 blur-3xl"
+        style={{ animationDuration: "9s" }}
+      />
+      <div
+        aria-hidden
+        className="animate-float absolute -bottom-28 right-[8%] size-80 rounded-full bg-accent-soft/15 blur-3xl"
+        style={{ animationDelay: "1.4s", animationDuration: "11s" }}
+      />
+      <div
+        aria-hidden
+        className="animate-float absolute top-[55%] left-[4%] size-40 rounded-full bg-accent-faint/10 blur-2xl"
+        style={{ animationDelay: "2.6s", animationDuration: "8s" }}
+      />
+      <div aria-hidden className="bg-grid bg-grid-fade absolute inset-0" />
+      <div aria-hidden className="bg-grain absolute inset-0" />
 
-      {/* Card flotante */}
-      <motion.div
-        initial={{ opacity: 0, y: 20, scale: 0.98 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.5, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-        className="mx-auto w-full max-w-md"
-      >
-        <div className="glass glow-accent relative overflow-hidden rounded-[2rem] p-7 sm:p-9">
+      <motion.div variants={card} initial="hidden" animate="show" exit="exit" className="relative w-full max-w-md">
+        <div className="glass glow-rose relative overflow-hidden rounded-[2rem] p-7 sm:p-9">
           <div
             aria-hidden
-            className="absolute -top-16 -right-16 size-44 rounded-full bg-accent/15 blur-3xl"
+            className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent"
           />
-          <div className="relative">
-            <div className="flex items-center justify-between">
-              <Logo />
-            </div>
-            <h1 className="mt-7 font-display text-3xl font-bold text-content">{title}</h1>
-            <p className="mt-2 text-sm text-muted">{subtitle}</p>
-            <div className="mt-7">{children}</div>
-          </div>
+          <div
+            aria-hidden
+            className="animate-float absolute -top-16 -right-16 size-44 rounded-full bg-accent/8 blur-3xl"
+            style={{ animationDelay: "0.8s", animationDuration: "10s" }}
+          />
+
+          {/* Encabezado */}
+          <motion.div variants={item} className="text-center">
+            <h1 className="font-sans text-3xl font-bold tracking-tight text-content sm:text-4xl">
+              {title}
+            </h1>
+            <div
+              aria-hidden
+              className="mx-auto mt-3 h-px w-14 bg-gradient-to-r from-transparent via-accent/70 to-transparent"
+            />
+            <p className="mt-3 text-sm leading-relaxed text-muted">{subtitle}</p>
+          </motion.div>
+
+          <motion.div variants={item} className="mt-7">
+            {children}
+          </motion.div>
         </div>
       </motion.div>
-    </div>
+    </motion.div>
   );
 }

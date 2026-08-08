@@ -1,34 +1,64 @@
 import { z } from "zod";
+import { translate } from "@/i18n";
 
-export const loginSchema = z.object({
-  email: z.string().min(1, "El email es obligatorio").email("Introduce un email válido"),
-  password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres"),
-});
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+export const loginSchema = z
+  .object({
+    email: z.string(),
+    password: z.string(),
+  })
+  .superRefine((data, ctx) => {
+    if (!data.email) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["email"], message: translate("validate.email.required") });
+    } else if (!EMAIL_RE.test(data.email)) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["email"], message: translate("validate.email.invalid") });
+    }
+    if (data.password.length < 6) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["password"], message: translate("validate.password.min6") });
+    }
+  });
 
 export type LoginValues = z.infer<typeof loginSchema>;
 
 export const registerSchema = z
   .object({
-    name: z
-      .string()
-      .min(2, "El nombre debe tener al menos 2 caracteres")
-      .max(60, "El nombre es demasiado largo"),
-    username: z
-      .string()
-      .min(3, "El usuario debe tener al menos 3 caracteres")
-      .max(24, "El usuario es demasiado largo")
-      .regex(/^[a-zA-Z0-9._-]+$/, "Solo letras, números, puntos, guiones y guiones bajos"),
-    email: z.string().min(1, "El email es obligatorio").email("Introduce un email válido"),
-    password: z
-      .string()
-      .min(8, "La contraseña debe tener al menos 8 caracteres")
-      .regex(/[A-ZÁÉÍÓÚÑ]/, "Incluye al menos una letra mayúscula")
-      .regex(/\d/, "Incluye al menos un número"),
-    confirmPassword: z.string().min(1, "Confirma tu contraseña"),
+    name: z.string(),
+    username: z.string(),
+    email: z.string(),
+    password: z.string(),
+    confirmPassword: z.string(),
   })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Las contraseñas no coinciden",
-    path: ["confirmPassword"],
+  .superRefine((data, ctx) => {
+    if (data.name.length < 2) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["name"], message: translate("validate.name.min") });
+    } else if (data.name.length > 60) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["name"], message: translate("validate.name.max") });
+    }
+    if (data.username.length < 3) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["username"], message: translate("validate.username.min") });
+    } else if (data.username.length > 24) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["username"], message: translate("validate.username.max") });
+    } else if (!/^[a-zA-Z0-9._-]+$/.test(data.username)) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["username"], message: translate("validate.username.regex") });
+    }
+    if (!data.email) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["email"], message: translate("validate.email.required") });
+    } else if (!EMAIL_RE.test(data.email)) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["email"], message: translate("validate.email.invalid") });
+    }
+    if (data.password.length < 8) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["password"], message: translate("validate.password.min8") });
+    } else if (!/[A-ZÁÉÍÓÚÑ]/.test(data.password)) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["password"], message: translate("validate.password.upper") });
+    } else if (!/\d/.test(data.password)) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["password"], message: translate("validate.password.number") });
+    }
+    if (!data.confirmPassword) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["confirmPassword"], message: translate("validate.confirm.required") });
+    } else if (data.password !== data.confirmPassword) {
+      ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["confirmPassword"], message: translate("validate.confirm.match") });
+    }
   });
 
 export type RegisterValues = z.infer<typeof registerSchema>;

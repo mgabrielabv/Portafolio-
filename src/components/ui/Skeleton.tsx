@@ -5,7 +5,7 @@ interface SkeletonProps {
 }
 
 export function Skeleton({ className }: SkeletonProps) {
-  return <div className={cn("animate-pulse rounded-md bg-surface-2", className)} aria-hidden />;
+  return <div className={cn("animate-shimmer rounded-md bg-surface-2", className)} aria-hidden />;
 }
 
 /** Skeleton de card premium para la grilla de proyectos. */

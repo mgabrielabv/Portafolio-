@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
 import { useEffect, type ReactNode } from "react";
 import { cn } from "@/utils/cn";
+import { useI18n } from "@/i18n";
 
 interface ModalProps {
   open: boolean;
@@ -13,6 +14,7 @@ interface ModalProps {
 }
 
 export function Modal({ open, onClose, title, description, children, className }: ModalProps) {
+  const { t } = useI18n();
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
@@ -27,7 +29,7 @@ export function Modal({ open, onClose, title, description, children, className }
   return (
     <AnimatePresence>
       {open && (
-        <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -45,7 +47,7 @@ export function Modal({ open, onClose, title, description, children, className }
             exit={{ opacity: 0, y: 24, scale: 0.98 }}
             transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
             className={cn(
-              "relative max-h-[90dvh] w-full overflow-y-auto rounded-t-2xl border border-line/70 bg-surface/95 shadow-card-lg backdrop-blur-xl sm:m-4 sm:max-w-2xl sm:rounded-2xl scrollbar-thin",
+              "relative max-h-[calc(100dvh-2rem)] w-full overflow-y-auto rounded-2xl border border-line/70 bg-surface/95 shadow-card-lg backdrop-blur-xl sm:max-w-2xl scrollbar-thin",
               className,
             )}
           >
@@ -58,7 +60,7 @@ export function Modal({ open, onClose, title, description, children, className }
               <button
                 type="button"
                 onClick={onClose}
-                aria-label="Cerrar"
+                aria-label={t("common.close")}
                 className="rounded-lg p-1.5 text-muted transition-colors hover:bg-surface-2 hover:text-content"
               >
                 <X className="size-5" aria-hidden />

@@ -6,17 +6,11 @@ type ProjectInput = Omit<Project, "id" | "createdAt">;
 
 const VALID_CATEGORIES: ReadonlySet<string> = new Set<Category>(["web", "fundamentos"]);
 
-/** true si los datos guardados vienen de una versión anterior con categorías eliminadas */
 function isStale(projects: Project[] | null): boolean {
   if (!projects || !Array.isArray(projects)) return true;
   return projects.some((p) => !p || !VALID_CATEGORIES.has(p.category));
 }
 
-/**
- * CRUD simulado de proyectos sobre localStorage.
- * La primera vez se siembran los proyectos de ejemplo; si el storage guarda
- * una versión vieja con categorías eliminadas, se resiembra el fallback.
- */
 function getDb(): Project[] {
   const existing = read<Project[] | null>(STORAGE_KEYS.projects, null);
   if (isStale(existing)) {

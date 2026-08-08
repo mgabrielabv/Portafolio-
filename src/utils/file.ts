@@ -1,7 +1,3 @@
-/**
- * Convierte un archivo de imagen en un data URL reducido (JPEG),
- * para poder persistirlo en localStorage sin superar su límite.
- */
 export function fileToDataUrl(file: File, maxWidth = 1280): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -28,7 +24,6 @@ export function fileToDataUrl(file: File, maxWidth = 1280): Promise<string> {
   });
 }
 
-/** Convierte una URL de YouTube/Vimeo en una URL embebible. */
 export function toEmbedUrl(url: string): string {
   const trimmed = url.trim();
   const ytMatch = trimmed.match(
@@ -40,7 +35,6 @@ export function toEmbedUrl(url: string): string {
   return trimmed;
 }
 
-/** Convierte una lista separada por comas en un array limpio. */
 export function tagsToList(value: string): string[] {
   return value
     .split(",")

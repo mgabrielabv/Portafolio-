@@ -1,6 +1,5 @@
 import { cn } from "@/utils/cn";
 
-/** Abreviación neutral en dos letras para cada tecnología. */
 function abbr(name: string): string {
   return name.replace(/[^A-Za-z0-9]/g, "").slice(0, 2).toUpperCase();
 }

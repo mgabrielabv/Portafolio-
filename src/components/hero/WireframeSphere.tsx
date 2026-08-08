@@ -6,7 +6,6 @@ interface SphereRing {
   rotateY?: number;
 }
 
-/** Aros de la esfera: ecuador + meridianos con inclinaciones distintas. */
 const RINGS: SphereRing[] = [
   { rotateX: 90 },
   { rotateX: 35 },
@@ -23,7 +22,6 @@ interface TechNode {
   duration: number;
 }
 
-/** Nodos flotantes alrededor de la esfera con distinto delay de flotación. */
 const TECH_NODES: TechNode[] = [
   { label: "React", left: "68%", top: "4%", delay: 0, duration: 6 },
   { label: "Node", left: "94%", top: "44%", delay: 1.2, duration: 6.8 },
@@ -31,7 +29,6 @@ const TECH_NODES: TechNode[] = [
   { label: "Figma", left: "4%", top: "36%", delay: 1.8, duration: 6.4 },
 ];
 
-/** Esfera 3D wireframe (estilo globo de red neuronal) rotando de forma infinita. */
 export function WireframeSphere({ className }: { className?: string }) {
   const { t } = useI18n();
   return (
@@ -40,13 +37,11 @@ export function WireframeSphere({ className }: { className?: string }) {
       role="img"
       aria-label={t("home.hero.sphereAria")}
     >
-      {/* Resplandor de fondo */}
       <div
         aria-hidden
         className="absolute inset-[8%] rounded-full bg-[radial-gradient(circle,rgb(201_139_155/0.14),transparent_68%)] blur-2xl"
       />
 
-      {/* Globo wireframe */}
       <div
         className="absolute inset-[6%] animate-sphere"
         style={{ perspective: "900px", transformStyle: "preserve-3d" }}
@@ -62,11 +57,9 @@ export function WireframeSphere({ className }: { className?: string }) {
             }}
           />
         ))}
-        {/* Núcleo */}
         <div className="absolute top-1/2 left-1/2 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/80 shadow-[0_0_28px_rgb(201_139_155/0.9)]" />
       </div>
 
-      {/* Nodos de tecnologías orbitando */}
       {TECH_NODES.map((node) => (
         <div
           key={node.label}

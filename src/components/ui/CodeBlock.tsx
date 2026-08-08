@@ -49,7 +49,6 @@ interface CodeBlockProps {
   className?: string;
 }
 
-/** Bloque de código con syntax highlighting y botón "copiar código". */
 export function CodeBlock({ code, language, fileName, className }: CodeBlockProps) {
   const { t } = useI18n();
   const [copied, setCopied] = useState(false);
@@ -61,7 +60,7 @@ export function CodeBlock({ code, language, fileName, className }: CodeBlockProp
       setCopied(true);
       window.setTimeout(() => setCopied(false), 2000);
     } catch {
-      /* clipboard no disponible */
+      return;
     }
   };
 

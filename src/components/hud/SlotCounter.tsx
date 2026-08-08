@@ -4,15 +4,10 @@ import { cn } from "@/utils/cn";
 
 interface SlotCounterProps {
   to: number;
-  /** Duración del "tirado" de números aleatorios antes de estabilizar. */
   duration?: number;
   className?: string;
 }
 
-/**
- * Contador HUD con efecto slot-machine: ~0.8s de números aleatorios
- * que se van acercando al valor final antes de estabilizarse.
- */
 export function SlotCounter({ to, duration = 0.8, className }: SlotCounterProps) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });

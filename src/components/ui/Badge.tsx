@@ -4,7 +4,6 @@ import { cn } from "@/utils/cn";
 interface BadgeProps {
   children: ReactNode;
   className?: string;
-  /** Si es true usa la variante de color primario. */
   primary?: boolean;
   dot?: boolean;
 }

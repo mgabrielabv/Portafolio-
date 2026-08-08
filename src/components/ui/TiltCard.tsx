@@ -5,16 +5,10 @@ import { cn } from "@/utils/cn";
 interface TiltCardProps {
   children: ReactNode;
   className?: string;
-  /** Intensidad de la inclinación 3D (grados máximos). */
   intensity?: number;
-  /** Mostrar reflejo luminoso que sigue al cursor. */
   glare?: boolean;
 }
 
-/**
- * Card con inclinación 3D que sigue al cursor + reflejo luminoso
- * (glare) opcional. Se desactiva en touch y con reduced-motion.
- */
 export function TiltCard({ children, className, intensity = 7, glare = true }: TiltCardProps) {
   const ref = useRef<HTMLDivElement>(null);
   const px = useMotionValue(0.5);

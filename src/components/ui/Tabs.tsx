@@ -16,7 +16,6 @@ interface TabsProps {
   ariaLabel?: string;
 }
 
-/** Tabs accesibles con indicador animado en gradiente rosa. */
 export function Tabs({ tabs, value, onChange, className, ariaLabel }: TabsProps) {
   const baseId = useId();
   return (

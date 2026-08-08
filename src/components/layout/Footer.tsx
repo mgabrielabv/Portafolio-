@@ -18,7 +18,6 @@ const QUICK_LINKS = [
   { to: "/contacto", labelKey: "nav.contact" },
 ];
 
-/** Footer minimalista: CTA corto, redes, enlaces y copyright. */
 export function Footer() {
   const { t } = useI18n();
   return (
@@ -43,7 +42,6 @@ export function Footer() {
           </Link>
         </div>
 
-        {/* Fila inferior */}
         <div className="mt-14 flex flex-col items-start justify-between gap-6 border-t border-line/60 pt-8 lg:flex-row lg:items-center">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-8">
             <Logo />

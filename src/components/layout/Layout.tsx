@@ -4,7 +4,6 @@ import { Outlet, useLocation } from "react-router-dom";
 import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
 
-/** Layout global: fondo cálido + navbar flotante + transiciones de página. */
 export function Layout() {
   const { pathname, hash } = useLocation();
 
@@ -21,7 +20,6 @@ export function Layout() {
 
   return (
     <div className="relative flex min-h-dvh flex-col overflow-x-clip">
-      {/* Fondo global */}
       <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
         <div className="bg-grid bg-grid-fade absolute inset-0" />
         <div

@@ -17,7 +17,6 @@ const NAV_LINKS = [
 
 const LANGS: Lang[] = ["es", "en"];
 
-/** Navbar flotante con glass, blur y cambio de estado al hacer scroll. */
 export function Navbar() {
   const { user, logout } = useAuth();
   const { lang, setLang, t } = useI18n();
@@ -68,7 +67,6 @@ export function Navbar() {
       >
         <Logo />
 
-        {/* Links desktop */}
         <div className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-0.5 md:flex">
           {NAV_LINKS.map((link) => (
             <NavLink
@@ -98,7 +96,6 @@ export function Navbar() {
           ))}
         </div>
 
-        {/* Acciones */}
         <div className="flex items-center gap-2">
           <div
             role="group"
@@ -155,7 +152,6 @@ export function Navbar() {
         </div>
       </nav>
 
-      {/* Menú móvil */}
       <AnimatePresence>
         {open && (
           <motion.div

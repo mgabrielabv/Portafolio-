@@ -33,7 +33,6 @@ const AUTH_ERRORS: Record<string, string> = {
 
 const STRENGTH_COLORS = ["bg-red-500", "bg-red-500", "bg-amber-500", "bg-emerald-400", "bg-accent"];
 
-/** Medidor de fortaleza de contraseña basado en longitud, mayúsculas y números. */
 function StrengthMeter({ password }: { password: string }) {
   const { t } = useI18n();
   const score = useMemo(() => {

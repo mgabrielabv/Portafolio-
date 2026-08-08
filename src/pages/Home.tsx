@@ -85,16 +85,13 @@ export default function Home() {
 
   return (
     <div>
-      {/* ================= HERO ================= */}
       <section className="relative overflow-hidden pt-36 pb-20 sm:pt-40 lg:pt-44 lg:pb-28">
-        {/* Fondo: partículas conectadas + resplandores */}
         <ParticleField className="pointer-events-none absolute inset-0 h-full w-full" />
         <div aria-hidden className="absolute -top-24 left-1/4 h-72 w-72 rounded-full bg-accent/10 blur-3xl" />
         <div aria-hidden className="absolute right-1/5 bottom-0 h-80 w-80 rounded-full bg-accent-soft/10 blur-3xl" />
 
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6">
           <div className="grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr]">
-            {/* ------- Izquierda: identidad ------- */}
             <motion.div variants={heroContainer} initial="hidden" animate="show">
               <motion.h1
                 variants={heroContainer}
@@ -141,7 +138,6 @@ export default function Home() {
                 </Link>
               </motion.div>
 
-              {/* Barra de progreso "learning 98%" */}
               <motion.div variants={fadeUp} className="mt-9 max-w-xs">
                 <div className="mb-2 flex items-center justify-between font-mono text-[11px] tracking-[0.16em] uppercase">
                   <span className="text-muted">learning</span>
@@ -158,7 +154,6 @@ export default function Home() {
                 </div>
               </motion.div>
 
-              {/* Estadísticas con count-up */}
               <motion.dl variants={fadeUp} className="mt-10 flex flex-wrap gap-x-10 gap-y-6">
                 {STATS.map((s) => (
                   <div key={s.labelKey}>
@@ -174,7 +169,6 @@ export default function Home() {
               </motion.dl>
             </motion.div>
 
-            {/* ------- Derecha: esfera wireframe ------- */}
             <Reveal delay={0.15} className="max-lg:mx-auto max-lg:max-w-md">
               <WireframeSphere />
             </Reveal>
@@ -182,7 +176,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ================= MARQUEE ================= */}
       <section aria-hidden className="border-y border-line/60 bg-surface/40 py-4">
         <div className="relative flex overflow-hidden">
           <div className="animate-marquee flex shrink-0 items-center gap-8 pr-8">
@@ -199,7 +192,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ================= QUÉ HAGO ================= */}
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
         <SectionHeading
           eyebrow={t("home.focus.eyebrow")}
@@ -225,7 +217,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ================= DESTACADOS (Swiper coverflow) ================= */}
       <section className="border-y border-line/60 bg-surface/30 py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <div className="flex flex-wrap items-end justify-between gap-4">
@@ -258,7 +249,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ================= CTA ================= */}
       <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
         <Reveal>
           <div className="glass glow-rose relative overflow-hidden rounded-[2rem] p-10 sm:p-16">

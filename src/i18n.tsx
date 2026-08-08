@@ -12,7 +12,6 @@ export type Lang = "es" | "en";
 
 export const DICT: Record<Lang, Record<string, string>> = {
   es: {
-    // Navegación / footer
     "nav.home": "Inicio",
     "nav.projects": "Proyectos",
     "nav.about": "Sobre mí",
@@ -28,7 +27,6 @@ export const DICT: Record<Lang, Record<string, string>> = {
     "footer.sub": "Proyectos, colaboraciones o una consulta técnica. Escríbeme y te responderé pronto.",
     "footer.contact": "Contacto",
     "footer.email": "Correo",
-    // Home
     "home.hero.text":
       "Construyo productos web reales con React, datos y diseño — desde la base de datos hasta el último píxel de la interfaz.",
     "home.hero.sphereAria": "Esfera wireframe en rotación con tecnologías alrededor",
@@ -57,7 +55,6 @@ export const DICT: Record<Lang, Record<string, string>> = {
     "home.cta.talk": "Hablemos.",
     "home.cta.contact": "Contactar",
     "home.cta.explore": "Explorar proyectos",
-    // Proyectos
     "projects.title": "Proyectos",
     "projects.search": "Buscar por tecnología…",
     "projects.new": "Nuevo proyecto",
@@ -73,13 +70,11 @@ export const DICT: Record<Lang, Record<string, string>> = {
     "projects.modal.desc": "Completa los datos del proyecto.",
     "cat.web": "Web",
     "cat.fundamentos": "Fundamentos",
-    // Tarjeta de proyecto
     "card.code": "Código",
     "card.demo": "Demo",
     "card.seeMore": "Ver más",
     "card.detailAria": "Ver detalle de {title}",
     "card.previewAria": "Vista previa de {title}",
-    // Detalle de proyecto
     "detail.back": "Volver a proyectos",
     "detail.notfound.title": "Proyecto no encontrado",
     "detail.notfound.desc": "El proyecto que buscas no existe o fue eliminado.",
@@ -103,7 +98,6 @@ export const DICT: Record<Lang, Record<string, string>> = {
     "detail.alt.ampliada": "Vista ampliada {n} de {title}",
     "detail.alt.video": "Video de {title}",
     "detail.tabsAria": "Secciones del proyecto",
-    // Sobre mí
     "about.eyebrow": "sobre mí",
     "about.p1":
       "Soy estudiante de Ingeniería en Computación en la Universidad Rafael Urdaneta (URU) en Maracaibo, Zulia, Venezuela. Me especializo en el desarrollo frontend y diseño de producto, integrando una sólida base técnica con una estructurada atención al detalle visual y funcional.",
@@ -124,7 +118,6 @@ export const DICT: Record<Lang, Record<string, string>> = {
     "about.cv.title": "¿Quieres mi CV?",
     "about.cv.desc": "Una página con el resumen del recorrido.",
     "about.cv.btn": "Descargar CV",
-    // Timeline
     "timeline.2024.role": "Ingeniería en Computación",
     "timeline.2024.company": "Universidad Rafael Urdaneta (URU) · Maracaibo",
     "timeline.2024.desc":
@@ -137,7 +130,6 @@ export const DICT: Record<Lang, Record<string, string>> = {
     "timeline.2026.company": "De la base de datos a la interfaz",
     "timeline.2026.desc":
       "Sistemas completos de punta a punta: modelado de datos, APIs y frontend con detalle fino.",
-    // Skills / acordeón
     "skills.frontend": "Frontend",
     "skills.backend": "Backend",
     "skills.database": "Database",
@@ -156,7 +148,6 @@ export const DICT: Record<Lang, Record<string, string>> = {
     "more.process.1":
       "Entiendo el problema y defino el alcance, prototipo en Figma y luego implemento en iteraciones cortas con revisión continua.",
     "more.process.2": "Prefiero entregas pequeñas y frecuentes antes que un lanzamiento gigante.",
-    // Contacto
     "contact.eyebrow": "Contacto",
     "contact.title": "Hablemos de tu próximo proyecto",
     "contact.desc": "Completa el formulario y te responderé en menos de 24 horas. Sin compromiso.",
@@ -176,7 +167,6 @@ export const DICT: Record<Lang, Record<string, string>> = {
     "contact.submit": "Enviar mensaje",
     "contact.success": "Mensaje enviado. Formulario listo para otro mensaje.",
     "contact.toast": "¡Gracias, {name}! Tu mensaje está en camino.",
-    // Login / Registro
     "login.title": "Iniciar sesión",
     "login.subtitle": "Accede a tu portafolio para continuar.",
     "login.email": "Email",
@@ -215,13 +205,11 @@ export const DICT: Record<Lang, Record<string, string>> = {
     "register.strength.2": "Media",
     "register.strength.3": "Buena",
     "register.strength.4": "Excelente",
-    // 404
     "notfound.tag": "error 404",
     "notfound.title": "Esta página se ha perdido en el espacio",
     "notfound.desc": "La ruta que buscas no existe o fue movida. Volvamos a tierra firme.",
     "notfound.home": "Ir al inicio",
     "notfound.projects": "Ver proyectos",
-    // Dashboard
     "dashboard.eyebrow": "dashboard",
     "dashboard.greeting.morning": "Buenos días",
     "dashboard.greeting.afternoon": "Buenas tardes",
@@ -256,7 +244,6 @@ export const DICT: Record<Lang, Record<string, string>> = {
     "chart.category": "Proyectos por categoría",
     "chart.year": "Evolución de proyectos por año",
     "chart.techsLabel": "tecnologías",
-    // Formulario de proyecto
     "form.images": "Imágenes del proyecto",
     "form.images.hint": "Sube capturas (se optimizan automáticamente) o usa la primera como portada.",
     "form.title": "Título",
@@ -287,7 +274,6 @@ export const DICT: Record<Lang, Record<string, string>> = {
     "form.removeImg": "Eliminar imagen",
     "form.cover": "Portada",
     "form.uploading": "Subiendo…",
-    // Genéricos
     "common.cancel": "Cancelar",
     "common.close": "Cerrar",
     "common.delete": "Eliminar",
@@ -308,7 +294,6 @@ export const DICT: Record<Lang, Record<string, string>> = {
     "carousel.next": "Diapositiva siguiente",
     "carousel.slide": "Diapositiva {n} de {count}",
     "carousel.go": "Ir a la diapositiva {n}",
-    // Validación
     "validate.email.required": "El email es obligatorio",
     "validate.email.invalid": "Introduce un email válido",
     "validate.email.max": "El email no puede superar 30 caracteres",
@@ -339,7 +324,6 @@ export const DICT: Record<Lang, Record<string, string>> = {
     "validate.demo.url": "URL de demo inválida",
   },
   en: {
-    // Navegación / footer
     "nav.home": "Home",
     "nav.projects": "Projects",
     "nav.about": "About",
@@ -355,7 +339,6 @@ export const DICT: Record<Lang, Record<string, string>> = {
     "footer.sub": "Projects, collaborations, or a technical question. Write to me and I'll get back to you soon.",
     "footer.contact": "Contact",
     "footer.email": "Email",
-    // Home
     "home.hero.text":
       "I build real web products with React, data and design — from the database down to the last pixel of the interface.",
     "home.hero.sphereAria": "Rotating wireframe sphere with technologies around it",
@@ -384,7 +367,6 @@ export const DICT: Record<Lang, Record<string, string>> = {
     "home.cta.talk": "Let's talk.",
     "home.cta.contact": "Contact",
     "home.cta.explore": "Explore projects",
-    // Proyectos
     "projects.title": "Projects",
     "projects.search": "Search by technology…",
     "projects.new": "New project",
@@ -400,13 +382,11 @@ export const DICT: Record<Lang, Record<string, string>> = {
     "projects.modal.desc": "Fill in the project details.",
     "cat.web": "Web",
     "cat.fundamentos": "Foundations",
-    // Tarjeta de proyecto
     "card.code": "Code",
     "card.demo": "Demo",
     "card.seeMore": "View more",
     "card.detailAria": "View details of {title}",
     "card.previewAria": "Preview of {title}",
-    // Detalle de proyecto
     "detail.back": "Back to projects",
     "detail.notfound.title": "Project not found",
     "detail.notfound.desc": "The project you're looking for doesn't exist or was removed.",
@@ -430,7 +410,6 @@ export const DICT: Record<Lang, Record<string, string>> = {
     "detail.alt.ampliada": "Enlarged view {n} of {title}",
     "detail.alt.video": "Video of {title}",
     "detail.tabsAria": "Project sections",
-    // Sobre mí
     "about.eyebrow": "about me",
     "about.p1":
       "I'm a Computer Engineering student at Universidad Rafael Urdaneta (URU) in Maracaibo, Zulia, Venezuela. I specialize in frontend development and product design, combining a solid technical base with a structured attention to visual and functional detail.",
@@ -451,7 +430,6 @@ export const DICT: Record<Lang, Record<string, string>> = {
     "about.cv.title": "Want my CV?",
     "about.cv.desc": "A page with the summary of my journey.",
     "about.cv.btn": "Download CV",
-    // Timeline
     "timeline.2024.role": "Computer Engineering",
     "timeline.2024.company": "Universidad Rafael Urdaneta (URU) · Maracaibo",
     "timeline.2024.desc":
@@ -464,7 +442,6 @@ export const DICT: Record<Lang, Record<string, string>> = {
     "timeline.2026.company": "From the database to the interface",
     "timeline.2026.desc":
       "Complete end-to-end systems: data modeling, APIs, and frontend with fine detail.",
-    // Skills / acordeón
     "skills.frontend": "Frontend",
     "skills.backend": "Backend",
     "skills.database": "Database",
@@ -483,7 +460,6 @@ export const DICT: Record<Lang, Record<string, string>> = {
     "more.process.1":
       "I understand the problem and define the scope, prototype in Figma, and then implement in short iterations with continuous review.",
     "more.process.2": "I prefer small, frequent deliveries over a giant launch.",
-    // Contacto
     "contact.eyebrow": "Contact",
     "contact.title": "Let's talk about your next project",
     "contact.desc": "Fill out the form and I'll get back to you within 24 hours. No strings attached.",
@@ -503,7 +479,6 @@ export const DICT: Record<Lang, Record<string, string>> = {
     "contact.submit": "Send message",
     "contact.success": "Message sent. The form is ready for another message.",
     "contact.toast": "Thanks, {name}! Your message is on its way.",
-    // Login / Registro
     "login.title": "Sign in",
     "login.subtitle": "Access your portfolio to continue.",
     "login.email": "Email",
@@ -542,13 +517,11 @@ export const DICT: Record<Lang, Record<string, string>> = {
     "register.strength.2": "Fair",
     "register.strength.3": "Good",
     "register.strength.4": "Excellent",
-    // 404
     "notfound.tag": "error 404",
     "notfound.title": "This page got lost in space",
     "notfound.desc": "The route you're looking for doesn't exist or was moved. Let's get back to solid ground.",
     "notfound.home": "Go home",
     "notfound.projects": "View projects",
-    // Dashboard
     "dashboard.eyebrow": "dashboard",
     "dashboard.greeting.morning": "Good morning",
     "dashboard.greeting.afternoon": "Good afternoon",
@@ -583,7 +556,6 @@ export const DICT: Record<Lang, Record<string, string>> = {
     "chart.category": "Projects by category",
     "chart.year": "Projects over the years",
     "chart.techsLabel": "technologies",
-    // Formulario de proyecto
     "form.images": "Project images",
     "form.images.hint": "Upload screenshots (auto-optimized) or use the first one as the cover.",
     "form.title": "Title",
@@ -614,7 +586,6 @@ export const DICT: Record<Lang, Record<string, string>> = {
     "form.removeImg": "Remove image",
     "form.cover": "Cover",
     "form.uploading": "Uploading…",
-    // Genéricos
     "common.cancel": "Cancel",
     "common.close": "Close",
     "common.delete": "Delete",
@@ -635,7 +606,6 @@ export const DICT: Record<Lang, Record<string, string>> = {
     "carousel.next": "Next slide",
     "carousel.slide": "Slide {n} of {count}",
     "carousel.go": "Go to slide {n}",
-    // Validación
     "validate.email.required": "Email is required",
     "validate.email.invalid": "Enter a valid email",
     "validate.email.max": "Email cannot exceed 30 characters",
@@ -669,7 +639,6 @@ export const DICT: Record<Lang, Record<string, string>> = {
 
 const STORAGE_KEY = "portfolio-lang";
 
-/** Idioma actual (a nivel de módulo) para código que no es componente. */
 let currentLang: Lang = "es";
 export function setCurrentLang(lang: Lang) {
   currentLang = lang;
@@ -678,12 +647,10 @@ export function getCurrentLang(): Lang {
   return currentLang;
 }
 
-/** Traducción sin hook: útil en schemas y utilidades. */
 export function translate(key: string): string {
   return DICT[currentLang]?.[key] ?? key;
 }
 
-/** Rellena los marcadores {foo} con los valores dados. */
 export function interpolate(template: string, values: Record<string, string | number>): string {
   return template.replace(/\{(\w+)\}/g, (_, k) => String(values[k] ?? `{${k}}`));
 }
@@ -712,7 +679,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     try {
       window.localStorage.setItem(STORAGE_KEY, lang);
     } catch {
-      /* almacenamiento no disponible */
+      void 0;
     }
     document.documentElement.lang = lang === "en" ? "en" : "es";
   }, [lang]);

@@ -7,7 +7,6 @@ interface LoadingOverlayProps {
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-/** Pantalla de espera a pantalla completa, usada al iniciar sesión / crear cuenta. */
 export function LoadingOverlay({ message }: LoadingOverlayProps) {
   return (
     <motion.div

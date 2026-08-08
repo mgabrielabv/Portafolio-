@@ -8,7 +8,6 @@ interface CarouselProps {
   slides: ReactNode[];
   className?: string;
   slideClassName?: string;
-  /** Si se pasa, avanza solo cada `ms`. */
   autoplay?: number;
   showArrows?: boolean;
   showDots?: boolean;
@@ -21,10 +20,6 @@ const variants = {
   exit: (dir: number) => ({ x: dir > 0 ? "-100%" : "100%", opacity: 0 }),
 };
 
-/**
- * Carrusel con flechas, dots y swipe táctil.
- * Usado en la galería del detalle de proyecto.
- */
 export function Carousel({
   slides,
   className,

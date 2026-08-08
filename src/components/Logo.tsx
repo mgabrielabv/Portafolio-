@@ -7,7 +7,6 @@ interface LogoProps {
   onClick?: () => void;
 }
 
-/** Marca: monograma rosa con resplandor + wordmark. */
 export function Logo({ className, onClick }: LogoProps) {
   const { t } = useI18n();
   return (

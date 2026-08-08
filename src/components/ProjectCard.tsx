@@ -13,7 +13,6 @@ interface ProjectCardProps {
   index?: number;
 }
 
-/** Card de galería: preview multimedia al hover, etiquetas y acciones Código / Demo. */
 export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
   const { t } = useI18n();
   const [hovered, setHovered] = useState(false);
@@ -42,7 +41,6 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
             )}
           />
 
-          {/* Preview multimedia (video embebido) al hacer hover */}
           {videoUrl && (
             <iframe
               src={`${videoUrl}?autoplay=1&mute=1&controls=0&playsinline=1`}
@@ -58,7 +56,6 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
 
           <div className="absolute inset-0 bg-gradient-to-t from-bg/95 via-bg/20 to-transparent" />
 
-          {/* Barrido de brillo al hacer hover */}
           <span
             aria-hidden
             className="pointer-events-none absolute inset-0 -translate-x-[120%] bg-gradient-to-r from-transparent via-accent-faint/25 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-[120%]"

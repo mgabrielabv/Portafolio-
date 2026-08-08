@@ -3,15 +3,12 @@ import { useEffect, useRef, useState } from "react";
 
 interface CountUpProps {
   to: number;
-  /** Texto que va después del número, ej. "+". */
   suffix?: string;
-  /** Rellenar con ceros a la izquierda, ej. pad=2 → "06". */
   pad?: number;
   duration?: number;
   className?: string;
 }
 
-/** Contador ascendente que se activa al entrar en viewport. */
 export function CountUp({ to, suffix = "", pad = 0, duration = 1.5, className }: CountUpProps) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });

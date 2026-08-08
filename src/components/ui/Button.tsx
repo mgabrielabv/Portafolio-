@@ -24,7 +24,6 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: Size;
   loading?: boolean;
   icon?: ReactNode;
-  /** Reemplaza el botón por su hijo (polimorfismo, útil para links). */
   asChild?: boolean;
 }
 

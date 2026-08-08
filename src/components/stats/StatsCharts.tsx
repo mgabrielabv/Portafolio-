@@ -26,7 +26,6 @@ const AXIS = { fill: "#A99D98", fontSize: 11, fontFamily: "JetBrains Mono, monos
 const GRID = "rgba(245,240,235,0.06)";
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-/** Aclara (amt>0) u oscurece (amt<0) un color hex. */
 function shade(hex: string, amt: number): string {
   const n = parseInt(hex.replace("#", ""), 16);
   const clamp = (v: number) => Math.max(0, Math.min(255, v));
@@ -45,7 +44,6 @@ function shade(hex: string, amt: number): string {
   return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, "0")}`;
 }
 
-/** Tooltip con transición suave (fade + slide). */
 function ChartTooltip({ active, payload, label }: any) {
   if (!active || !payload?.length) return null;
   return (
@@ -70,7 +68,6 @@ function ChartTooltip({ active, payload, label }: any) {
   );
 }
 
-/** Segmento de donut en hover: crece hacia afuera con un glow suave. */
 function ActiveDonutSlice(props: any) {
   const { outerRadius, innerRadius, ...rest } = props;
   return (
@@ -80,7 +77,6 @@ function ActiveDonutSlice(props: any) {
   );
 }
 
-/** Barra en hover: conserva el gradiente y añade un glow. */
 function ActiveBar(props: any) {
   const { x, y, width, height, index } = props;
   if (width === undefined || height === undefined) return null;
@@ -98,7 +94,6 @@ function ActiveBar(props: any) {
   );
 }
 
-/** Línea superior degradada de las cards de gráficas (detalle de la home). */
 function CardTopLine() {
   return (
     <div
@@ -108,10 +103,6 @@ function CardTopLine() {
   );
 }
 
-/**
- * Destellos en la punta de cada barra una vez proyectadas (laser).
- * Consulta el DOM de recharts tras el crecimiento de las barras.
- */
 function BarSparks({ containerRef, start }: { containerRef: RefObject<HTMLDivElement | null>; start: boolean }) {
   const [sparks, setSparks] = useState<{ id: number; x: number; y: number }[]>([]);
 
@@ -180,7 +171,6 @@ export function StatsCharts({ projects, className }: { projects: Project[]; clas
     return [...counts.entries()].sort((a, b) => a[0] - b[0]).map(([year, value]) => ({ year, value }));
   }, [projects]);
 
-  /* Dona trazada por láser: anillo que se dibuja con stroke-dashoffset. */
   useEffect(() => {
     const ring = ringRef.current;
     if (!inView || !ring || reduce || techData.length === 0) return;
@@ -200,7 +190,6 @@ export function StatsCharts({ projects, className }: { projects: Project[]; clas
     };
   }, [inView, reduce, techData]);
 
-  /* Dibujo del trazo del área de izquierda a derecha + chispa en la cabeza. */
   useEffect(() => {
     const el = areaRef.current;
     if (!inView || !el || reduce || yearData.length === 0) return;
@@ -266,7 +255,6 @@ export function StatsCharts({ projects, className }: { projects: Project[]; clas
   return (
     <div ref={rootRef} className={className}>
       <div className="grid gap-6 lg:grid-cols-2">
-        {/* Donut trazado por láser */}
         <HoloCard className="p-8">
           <CardTopLine />
           <h3 className="font-mono text-xs tracking-[0.16em] text-muted uppercase">
@@ -322,7 +310,6 @@ export function StatsCharts({ projects, className }: { projects: Project[]; clas
                 </PieChart>
               </ResponsiveContainer>
             </motion.div>
-            {/* Láser: cabeza brillante orbitando + anillo que se dibuja */}
             {inView && !reduce && (
               <div aria-hidden className="pointer-events-none absolute inset-0">
                 <div className="holo-orbit absolute inset-0 m-auto size-[176px]">
@@ -372,7 +359,6 @@ export function StatsCharts({ projects, className }: { projects: Project[]; clas
           </div>
         </HoloCard>
 
-        {/* Barras proyectadas desde el suelo con destello en la punta */}
         <HoloCard className="p-8">
           <CardTopLine />
           <h3 className="font-mono text-xs tracking-[0.16em] text-muted uppercase">
@@ -424,7 +410,6 @@ export function StatsCharts({ projects, className }: { projects: Project[]; clas
           </div>
         </HoloCard>
 
-        {/* Área con chispa siguiendo el trazo */}
         <HoloCard className="p-8 lg:col-span-2">
           <CardTopLine />
           <h3 className="font-mono text-xs tracking-[0.16em] text-muted uppercase">

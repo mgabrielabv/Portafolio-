@@ -6,10 +6,6 @@ import { Layout } from "@/components/layout/Layout";
 import { PageSpinner } from "@/components/ui/Spinner";
 import { useI18n } from "@/i18n";
 
-/**
- * Carga diferida (lazy) de rutas + Suspense:
- * cada página se descarga solo cuando se navega a ella.
- */
 function LazyPage({ Component }: { Component: LazyExoticComponent<ComponentType> }) {
   const { t } = useI18n();
   return (
@@ -29,12 +25,6 @@ const Contact = lazy(() => import("@/pages/Contact"));
 const Dashboard = lazy(() => import("@/pages/Dashboard"));
 const NotFound = lazy(() => import("@/pages/NotFound"));
 
-/**
- * Flujo obligatorio: Login/Register → Portfolio → Dashboard.
- * Las rutas públicas son solo /login y /registro; el resto está
- * protegido (ProtectedRoute). "/" redirige a /home, que a su vez
- * redirige a /login si no hay sesión.
- */
 export function App() {
   return (
     <MotionConfig reducedMotion="user">
@@ -45,12 +35,6 @@ export function App() {
   );
 }
 
-/**
- * Envuelve las rutas en AnimatePresence: las páginas públicas (/login y
- * /registro) transicionan entre sí (fade/slide), mientras que las rutas
- * protegidas mantienen la clave estable para que Layout gestione sus
- * propias transiciones de página.
- */
 function AnimatedRoutes() {
   const location = useLocation();
   const isAuth = location.pathname === "/login" || location.pathname === "/registro";

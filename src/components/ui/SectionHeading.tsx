@@ -4,7 +4,6 @@ import { cn } from "@/utils/cn";
 
 interface SectionHeadingProps {
   eyebrow?: string;
-  /** Número de índice editorial, ej. "01". */
   index?: string;
   title: string;
   description?: string;
@@ -47,7 +46,6 @@ export function SectionHeading({
   );
 }
 
-/** Índice editorial tipo "01" que hace roll de dígitos al entrar en viewport. */
 function OdometerIndex({ value }: { value: string }) {
   return (
     <span aria-hidden className="inline-flex font-mono text-sm text-accent">

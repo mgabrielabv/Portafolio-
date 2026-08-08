@@ -11,10 +11,6 @@ interface FeaturedCarouselProps {
   projects: Project[];
 }
 
-/**
- * Carrusel de proyectos destacados con efecto coverflow (Swiper).
- * Autoplay suave, cursor de agarre y bullets personalizados.
- */
 export function FeaturedCarousel({ projects }: FeaturedCarouselProps) {
   const { t } = useI18n();
   if (projects.length === 0) return null;

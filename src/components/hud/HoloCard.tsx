@@ -8,25 +8,13 @@ const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 interface HoloCardProps {
   children: ReactNode;
   className?: string;
-  /** Retraso del inicio de la materialización. */
   delay?: number;
-  /** Inclinación 3D que sigue al cursor. */
   tilt?: boolean;
-  /** Levitación continua ±3px. */
   levitate?: boolean;
-  /** Elevación sutil (translateY -2px) al hacer hover. */
   elevate?: boolean;
-  /** Barrido de luz durante la entrada. */
   scan?: boolean;
 }
 
-/**
- * Tarjeta holográfica estilo JARVIS:
- * - Materialización: una línea horizontal delgada se expande verticalmente,
- *   con flicker de interferencia y flash de borde neón al terminar.
- * - Barrido de luz durante la entrada + líneas CRT permanentes.
- * - Tilt 3D con perspectiva, levitación continua y elevación en hover (opcional).
- */
 export function HoloCard({
   children,
   className,
@@ -51,7 +39,6 @@ export function HoloCard({
 
   const shell = (
     <>
-      {/* Flash de borde neón al terminar la materialización */}
       <motion.div
         aria-hidden
         variants={{
@@ -63,7 +50,6 @@ export function HoloCard({
         }}
         className="holo-neon pointer-events-none absolute inset-0"
       />
-      {/* Barrido de luz de arriba a abajo */}
       {scan && (
         <motion.div
           aria-hidden
@@ -79,7 +65,6 @@ export function HoloCard({
         />
       )}
       <div aria-hidden className="holo-crt pointer-events-none absolute inset-0" />
-      {/* Contenido: fade rápido desde el centro + elevación en hover */}
       <motion.div
         variants={{
           init: { opacity: 0, scale: 0.94 },

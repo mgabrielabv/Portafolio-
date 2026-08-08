@@ -28,7 +28,6 @@ const screen: Variants = {
   exit: { opacity: 0, transition: { duration: 0.3, ease: EASE } },
 };
 
-/** Pantalla de autenticación: tarjeta centrada con fondo animado (partículas + orbes). */
 export function AuthLayout({ title, subtitle, children }: AuthLayoutProps) {
   return (
     <motion.div
@@ -38,7 +37,6 @@ export function AuthLayout({ title, subtitle, children }: AuthLayoutProps) {
       exit="exit"
       className="relative flex min-h-dvh items-center justify-center overflow-hidden px-4 py-12"
     >
-      {/* Fondo animado */}
       <ParticleField className="pointer-events-none absolute inset-0 h-full w-full" />
       <div
         aria-hidden
@@ -70,7 +68,6 @@ export function AuthLayout({ title, subtitle, children }: AuthLayoutProps) {
             style={{ animationDelay: "0.8s", animationDuration: "10s" }}
           />
 
-          {/* Encabezado */}
           <motion.div variants={item} className="text-center">
             <h1 className="font-sans text-3xl font-bold tracking-tight text-content sm:text-4xl">
               {title}

@@ -9,10 +9,6 @@ export const CATEGORIES: Record<Category, CategoryMeta> = {
 
 const GH = "https://github.com/mgabrielabv";
 
-/**
- * Proyectos reales (github.com/mgabrielabv).
- * Se siembran en localStorage la primera vez que se abre la app.
- */
 export const MOCK_PROJECTS: Project[] = [
   {
     id: "proyectodb",

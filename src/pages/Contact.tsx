@@ -54,7 +54,6 @@ export default function Contact() {
       />
 
       <div className="mt-14 grid gap-10 lg:grid-cols-[0.85fr_1.15fr]">
-        {/* Info */}
         <Reveal>
           <div className="space-y-6">
             <div className="border-t border-line">
@@ -107,7 +106,6 @@ export default function Contact() {
           </div>
         </Reveal>
 
-        {/* Formulario */}
         <Reveal delay={0.1}>
           <form onSubmit={onSubmit} className="glass relative overflow-hidden rounded-[2rem] p-6 sm:p-8" noValidate>
             {isSubmitSuccessful && (

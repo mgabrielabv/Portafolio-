@@ -1,8 +1,3 @@
-/**
- * Capa de "base de datos" simulada sobre localStorage.
- * Simula latencia de red para que la UI muestre estados de carga reales.
- */
-
 export const STORAGE_KEYS = {
   users: "pf_users",
   token: "pf_token",

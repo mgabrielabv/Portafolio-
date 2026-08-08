@@ -10,13 +10,11 @@ export interface AccordionItem {
 
 interface AccordionProps {
   items: AccordionItem[];
-  /** Permite abrir varias secciones a la vez. */
   multiple?: boolean;
   defaultOpenIndex?: number;
   className?: string;
 }
 
-/** Acordeón accesible con animación de altura. */
 export function Accordion({ items, multiple = false, defaultOpenIndex, className }: AccordionProps) {
   const [open, setOpen] = useState<number[]>(defaultOpenIndex === undefined ? [] : [defaultOpenIndex]);
   const baseId = useId();

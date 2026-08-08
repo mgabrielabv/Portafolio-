@@ -31,7 +31,6 @@ export default function About() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 pt-32 pb-16 sm:px-6">
-      {/* ------- Header ------- */}
       <header className="max-w-4xl">
         <Reveal>
           <p className="font-mono text-xs tracking-[0.18em] text-accent uppercase">{t("about.eyebrow")}</p>
@@ -52,7 +51,6 @@ export default function About() {
         </Reveal>
       </header>
 
-      {/* ------- Timeline ------- */}
       <section className="mt-20" aria-label={t("about.timeline.title")}>
         <SectionHeading eyebrow={t("about.timeline.eyebrow")} title={t("about.timeline.title")} />
         <ol className="relative mt-12 space-y-12 border-l border-line/70 pl-8 sm:pl-10">
@@ -90,7 +88,6 @@ export default function About() {
         </ol>
       </section>
 
-      {/* ------- Stack tecnológico ------- */}
       <section className="mt-24" aria-label={t("about.stack.title")}>
         <SectionHeading
           eyebrow={t("about.stack.eyebrow")}
@@ -143,7 +140,6 @@ export default function About() {
         </Reveal>
       </section>
 
-      {/* ------- Más información (acordeón) ------- */}
       <section className="mx-auto mt-24 max-w-3xl" aria-label={t("about.more.title")}>
         <SectionHeading eyebrow={t("about.more.eyebrow")} title={t("about.more.title")} />
         <Reveal delay={0.1} className="mt-10">
@@ -163,7 +159,6 @@ export default function About() {
         </Reveal>
       </section>
 
-      {/* ------- CV ------- */}
       <section
         id="descargar-cv"
         className="glass glow-rose relative mt-24 overflow-hidden rounded-[2rem] p-10 sm:p-14"

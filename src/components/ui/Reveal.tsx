@@ -8,7 +8,6 @@ interface RevealProps {
   className?: string;
 }
 
-/** Fade-in + slide corto al entrar en viewport, con la curva de easing única del sitio. */
 export function Reveal({ children, delay = 0, y = 12, className }: RevealProps) {
   return (
     <motion.div

@@ -96,7 +96,6 @@ export function ProjectForm({ project, onDone, onCancel }: ProjectFormProps) {
 
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-5" noValidate>
-      {/* Imágenes */}
       <div className="rounded-2xl border border-dashed border-line bg-surface-2/50 p-4">
         <p className="text-sm font-medium text-content">{t("form.images")}</p>
         <p className="mt-0.5 text-xs text-muted">{t("form.images.hint")}</p>

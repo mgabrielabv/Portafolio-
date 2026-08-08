@@ -1,5 +1,3 @@
-/* Tipos globales de la aplicación */
-
 export type Category = "web" | "fundamentos";
 
 export interface Project {

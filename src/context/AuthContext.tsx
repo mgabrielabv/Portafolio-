@@ -12,10 +12,6 @@ interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
-/**
- * Gestión del estado de autenticación.
- * La sesión se lee de localStorage (token simulado) al montar la app.
- */
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [initializing, setInitializing] = useState(true);

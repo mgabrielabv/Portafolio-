@@ -22,8 +22,6 @@ import type { Project } from "@/types";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-/* Referencia por métrica para que la barra de carga represente un % real
-   (no se compara con Visitas, que desbalanceaba las demás barras). */
 const BAR_REF: Record<string, number> = {
   projects: 10,
   techs: 30,
@@ -101,7 +99,6 @@ export default function Dashboard() {
   const techCount = projects ? new Set(projects.flatMap((p) => p.technologies)).size : 0;
   const visits = total * 88 + 14;
 
-  // Series sintéticas para los sparklines del dashboard
   const sparkProjects = useMemo(() => {
     if (!projects) return [0];
     const byYear = new Map<number, number>();
@@ -134,7 +131,6 @@ export default function Dashboard() {
 
   return (
     <div className="relative">
-      {/* Fondo animado: aurora rosa/burgundy + grano sutil */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div className="animate-aurora absolute top-[-12%] left-[-6%] size-[42rem] rounded-full bg-[radial-gradient(circle,rgb(143_98_108/0.14),transparent_60%)] blur-3xl" />
         <div
@@ -149,7 +145,6 @@ export default function Dashboard() {
       </div>
 
       <div className="mx-auto max-w-7xl px-4 pt-32 pb-16 sm:px-6">
-      {/* ===== Header ===== */}
       <Reveal>
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
@@ -173,7 +168,6 @@ export default function Dashboard() {
         </div>
       </Reveal>
 
-      {/* ===== Stats cards ===== */}
       <div className="relative isolate">
         <div
           aria-hidden
@@ -191,18 +185,15 @@ export default function Dashboard() {
                 className="group p-10 transition-[box-shadow,border-color] duration-300 ease-out hover:border-accent/35 hover:shadow-[0_22px_60px_-22px_rgb(201_139_155/0.6)]"
               >
                 <div className="relative flex h-full flex-col items-center text-center">
-                  {/* Halo radial detrás del ícono */}
                   <div
                     aria-hidden
                     className="pointer-events-none absolute -top-8 -left-8 size-40 rounded-full bg-[radial-gradient(circle_at_center,rgb(201_139_155/0.2),transparent_62%)] blur-xl"
                   />
-                  {/* Blob tenue arriba a la derecha */}
                   <div
                     aria-hidden
                     className="absolute -top-10 -right-10 size-24 rounded-full blur-2xl"
                     style={{ background: i % 2 === 0 ? "rgb(201 139 155 / 0.16)" : "rgb(143 98 108 / 0.14)" }}
                   />
-                  {/* Ícono centrado con halo */}
                   <span className="relative mt-2">
                     <span
                       aria-hidden
@@ -212,7 +203,6 @@ export default function Dashboard() {
                       <Icon className="size-6" aria-hidden />
                     </span>
                   </span>
-                  {/* Badge de tendencia con "pop" */}
                   <motion.span
                     initial={{ scale: 0.8, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
@@ -232,7 +222,6 @@ export default function Dashboard() {
                   <p className="mt-2 font-mono text-[10px] tracking-[0.16em] text-muted/70 uppercase">
                     {t(labelKey)}
                   </p>
-                  {/* Barra de carga anclada a la base, con cabeza de láser */}
                   <div className="mt-auto w-full pt-5">
                     <div className="h-2 rounded-full bg-line/60">
                       <motion.div
@@ -257,7 +246,6 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* ===== Charts ===== */}
       {projects && projects.length > 0 && (
         <div className="mt-12 border-t border-line/60 pt-10">
           <Reveal>
@@ -272,7 +260,6 @@ export default function Dashboard() {
         </div>
       )}
 
-      {/* ===== CRUD: lista de proyectos ===== */}
       <div ref={scrollRef} className="mt-12">
         <div className="flex items-end justify-between">
           <h2 className="font-display text-3xl text-content">{t("dashboard.stat.projects")}</h2>
@@ -344,7 +331,6 @@ export default function Dashboard() {
         )}
       </div>
 
-      {/* Modal crear/editar */}
       <Modal
         open={formOpen}
         onClose={() => setFormOpen(false)}
@@ -360,7 +346,6 @@ export default function Dashboard() {
         />
       </Modal>
 
-      {/* Confirmar borrado */}
       <ConfirmDialog
         open={pendingDelete !== null}
         onClose={() => setPendingDelete(null)}

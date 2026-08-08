@@ -16,7 +16,6 @@ interface Particle {
 const LINK_DIST = 130;
 const ROSE = "201, 139, 155";
 
-/** Fondo de constelación: partículas lentas conectadas por líneas finas. */
 export function ParticleField({ className }: ParticleFieldProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 

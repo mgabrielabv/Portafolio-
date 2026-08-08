@@ -22,7 +22,6 @@ export interface MoreInfoItem {
   content: string[];
 }
 
-/** Stack tecnológico por áreas. Cada tab muestra nivel y proyectos relacionados. */
 export const SKILL_GROUPS: SkillGroup[] = [
   {
     id: "frontend",
@@ -81,7 +80,6 @@ export const SKILL_GROUPS: SkillGroup[] = [
   },
 ];
 
-/** Timeline del recorrido (animada con scroll). */
 export const TIMELINE: TimelineEntry[] = [
   {
     period: "2024",
@@ -106,7 +104,6 @@ export const TIMELINE: TimelineEntry[] = [
   },
 ];
 
-/** Acordeón "Más información": experiencia, educación y proceso. */
 export const MORE_INFO: MoreInfoItem[] = [
   {
     title: "Experiencia",

@@ -3,7 +3,6 @@ import { Eye, EyeOff } from "lucide-react";
 import { useI18n } from "@/i18n";
 import { Input, type InputProps } from "./Field";
 
-/** Campo de contraseña con botón para mostrar/ocultar el texto. */
 export const PasswordInput = forwardRef<HTMLInputElement, InputProps>(function PasswordInput(
   { type, ...props },
   ref,

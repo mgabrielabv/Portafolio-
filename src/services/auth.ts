@@ -5,7 +5,6 @@ interface StoredUser extends User {
   password: string;
 }
 
-/** Hash simple (simulado, NO usar en producción). */
 function hashPassword(password: string): string {
   let hash = 5381;
   const salted = `pf::${password}::salt`;
@@ -27,7 +26,6 @@ function toPublicUser(u: StoredUser): User {
   return { id: u.id, name: u.name, username: u.username, email: u.email, createdAt: u.createdAt };
 }
 
-/** Devuelve la sesión activa (usuario + token simulado) o null. */
 export function getSession(): { user: User; token: string } | null {
   const token = localStorage.getItem(STORAGE_KEYS.token);
   const user = read<User | null>(STORAGE_KEYS.sessionUser, null);

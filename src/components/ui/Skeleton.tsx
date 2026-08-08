@@ -8,7 +8,6 @@ export function Skeleton({ className }: SkeletonProps) {
   return <div className={cn("animate-shimmer rounded-md bg-surface-2", className)} aria-hidden />;
 }
 
-/** Skeleton de card premium para la grilla de proyectos. */
 export function ProjectCardSkeleton() {
   return (
     <div className="overflow-hidden rounded-2xl border border-line bg-surface">

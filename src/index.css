@@ -1,12 +1,5 @@
 @import "tailwindcss";
 
-/* ---------------------------------------------------------------------------
-   Design tokens — "Sofisticado oscuro con rosa elegante".
-   Base: negro cálido #0D0C0C · tarjetas #171414 · bordes #33272B.
-   Texto: #F5F0EB (principal) / #A99D98 (secundario).
-   Acentos: rosa elegante #C98B9B (primario) + rosa oscuro #8F626C (soft).
-   Tipografía: Manrope (títulos e interfaz, sin cursivas) + JetBrains Mono.
---------------------------------------------------------------------------- */
 :root {
   --bg: #0D0C0C;
   --surface: #171414;
@@ -45,7 +38,6 @@
   --font-display: "Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 
-  /* Una sola curva de easing y dos duraciones para todo el sitio */
   --ease-clean: cubic-bezier(0.22, 1, 0.36, 1);
   --transition-duration-fast: 180ms;
   --transition-duration-base: 280ms;
@@ -55,9 +47,6 @@
   --radius-4xl: 2rem;
 }
 
-/* ---------------------------------------------------------------------------
-   Base
---------------------------------------------------------------------------- */
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -83,7 +72,6 @@
     @apply outline-2 outline-offset-2 outline-accent;
   }
 
-  /* Controles nativos en tema oscuro (select, número, fecha, checkbox…) */
   select option {
     background-color: var(--surface-2);
     color: var(--content);
@@ -108,9 +96,6 @@
   }
 }
 
-/* ---------------------------------------------------------------------------
-   Keyframes
---------------------------------------------------------------------------- */
 @keyframes caret-blink {
   0%, 45% { opacity: 1; }
   50%, 100% { opacity: 0; }
@@ -151,19 +136,12 @@
   50% { opacity: 0.35; }
 }
 
-/* Aurora / mesh gradient: deriva lenta de los resplandores de fondo */
 @keyframes aurora-drift {
   0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
   33% { transform: translate3d(5%, -4%, 0) scale(1.12); }
   66% { transform: translate3d(-4%, 4%, 0) scale(0.94); }
 }
 
-/* ---------------------------------------------------------------------------
-   HUD / Holograma (estilo JARVIS) — efectos continuos en CSS puro.
-   Paleta rosa/burgundy; solo transform/opacity/filter.
---------------------------------------------------------------------------- */
-
-/* Interferencia sutil: parpadeo de opacidad casi imperceptible */
 @keyframes holo-flicker {
   0%, 100% { opacity: 1; }
   4% { opacity: 0.93; }
@@ -174,39 +152,33 @@
   72% { opacity: 1; }
 }
 
-/* Levitación continua (±3px) */
 @keyframes holo-levitate {
   0%, 100% { transform: translate3d(0, 0, 0); }
   50% { transform: translate3d(0, -3px, 0); }
 }
 
-/* Onda expansiva al "tocar" un botón */
 @keyframes holo-ripple {
   from { transform: translate(-50%, -50%) scale(0); opacity: 0.7; }
   to { transform: translate(-50%, -50%) scale(3.6); opacity: 0; }
 }
 
-/* Destello en la punta de las barras al proyectarse */
 @keyframes holo-spark {
   0% { transform: translate(-50%, -50%) scale(0.2); opacity: 0; }
   25% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
   100% { transform: translate(-50%, -50%) scale(0.05); opacity: 0; }
 }
 
-/* Cabeza del láser orbitando la dona (punto brillante) */
 @keyframes holo-orbit {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
 
-/* Grano con parpadeo muy tenue (opcional, para no distraer) */
 @keyframes grain-flicker {
   0%, 100% { opacity: 0.45; }
   50% { opacity: 0.9; }
 }
 
 @layer utilities {
-  /* Cursor de terminal parpadeando */
   .caret::after {
     content: "";
     display: inline-block;
@@ -218,7 +190,6 @@
     animation: caret-blink 1.1s steps(1) infinite;
   }
 
-  /* Glassmorphism cálido */
   .glass {
     background-color: var(--glass-bg);
     border: 1px solid var(--glass-border);
@@ -226,12 +197,10 @@
     -webkit-backdrop-filter: blur(14px);
   }
 
-  /* Resplandor rosa sutil */
   .glow-rose {
     box-shadow: var(--glow-rose);
   }
 
-  /* Texto con degradado rosa (detalle premium) */
   .text-gradient {
     background: linear-gradient(105deg, var(--accent-faint) 0%, var(--accent) 45%, var(--accent-soft) 100%);
     -webkit-background-clip: text;
@@ -239,13 +208,11 @@
     color: transparent;
   }
 
-  /* Texto con contorno rosa (relleno transparente) */
   .text-stroke {
     -webkit-text-stroke: 1.5px rgb(201 139 155 / 0.5);
     color: transparent;
   }
 
-  /* Rejilla sutil de fondo */
   .bg-grid {
     background-image:
       linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
@@ -258,12 +225,10 @@
     -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, black, transparent 75%);
   }
 
-  /* Grano sutil para evitar banding */
   .bg-grain {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
   }
 
-  /* Punto de disponibilidad con pulso */
   .pulse-dot {
     animation: pulse-dot 2.4s ease-in-out infinite;
   }
@@ -276,30 +241,23 @@
     animation: marquee-x 32s linear infinite;
   }
 
-  /* Resplandor aurora: deriva lenta, solo transform (sin reflow) */
   .animate-aurora {
     animation: aurora-drift 24s ease-in-out infinite;
     will-change: transform;
   }
 
-  /* Grano con movimiento sutil */
   .animate-grain {
     animation: grain-flicker 9s ease-in-out infinite;
   }
 
-  /* --- HUD holográfico --- */
-
-  /* Levitación continua de tarjetas */
   .holo-levitate {
     animation: holo-levitate 5s ease-in-out infinite;
   }
 
-  /* Interferencia holográfica continua (muy tenue) */
   .holo-flicker {
     animation: holo-flicker 6.5s ease-in-out infinite;
   }
 
-  /* Líneas CRT permanentes (muy tenues, no deben estorbar la lectura) */
   .holo-crt {
     background-image: repeating-linear-gradient(
       to bottom,
@@ -310,7 +268,6 @@
     );
   }
 
-  /* Borde neón holográfico (flash al final de la materialización) */
   .holo-neon {
     border: 1px solid rgb(201 139 155 / 0.5);
     box-shadow: 0 0 20px rgb(201 139 155 / 0.28), inset 0 0 26px rgb(201 139 155 / 0.07);
@@ -321,7 +278,6 @@
     box-shadow: 0 0 26px rgb(201 139 155 / 0.45), inset 0 0 30px rgb(201 139 155 / 0.1);
   }
 
-  /* Barrido de luz que recorre la tarjeta durante la entrada */
   .holo-sweep {
     background: linear-gradient(
       to bottom,
@@ -333,7 +289,6 @@
     );
   }
 
-  /* Onda expansiva rosa al hacer clic */
   .holo-ripple {
     position: absolute;
     width: 14px;
@@ -344,7 +299,6 @@
     animation: holo-ripple 0.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
 
-  /* Destello en la punta de una barra */
   .holo-spark {
     position: absolute;
     width: 10px;
@@ -356,12 +310,10 @@
     animation: holo-spark 0.7s ease-out forwards;
   }
 
-  /* Orbita de la cabeza del láser de la dona */
   .holo-orbit {
     animation: holo-orbit 1.15s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 
-  /* Punto brillante en la cabeza del láser */
   .holo-head-dot {
     position: absolute;
     top: 0;
@@ -374,7 +326,6 @@
     box-shadow: 0 0 10px rgb(201 139 155 / 0.9), 0 0 22px rgb(201 139 155 / 0.5);
   }
 
-  /* Chispa que sigue el trazo del gráfico de área */
   .holo-spark-dot {
     width: 8px;
     height: 8px;
@@ -383,12 +334,10 @@
     box-shadow: 0 0 8px rgb(201 139 155 / 0.9), 0 0 20px rgb(201 139 155 / 0.45);
   }
 
-  /* Esfera 3D wireframe: rotación suave e infinita sobre el eje Y */
   .animate-sphere {
     animation: sphere-spin 30s linear infinite;
   }
 
-  /* Punto de estado con pulso de opacidad */
   .pulse-opacity {
     animation: pulse-opacity 2.2s ease-in-out infinite;
   }
@@ -422,13 +371,11 @@
     scrollbar-width: none;
   }
 
-  /* Ocultar la "X" que coloca Safari en los inputs */
   input::-webkit-search-decoration,
   input::-webkit-search-cancel-button {
     -webkit-appearance: none;
   }
 
-  /* Bullets de Swiper (carousel de destacados) */
   .swiper-rose-bullet {
     display: inline-block;
     width: 6px;

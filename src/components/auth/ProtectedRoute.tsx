@@ -3,7 +3,6 @@ import { PageSpinner } from "@/components/ui/Spinner";
 import { useAuth } from "@/context/AuthContext";
 import { useI18n } from "@/i18n";
 
-/** Ruta protegida: solo accesible con sesión activa. */
 export function ProtectedRoute() {
   const { user, initializing } = useAuth();
   const { t } = useI18n();

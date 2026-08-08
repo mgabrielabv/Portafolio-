@@ -36,6 +36,5 @@ for (let i = 0; i < objects.length; i++) {
 }
 pdf += `trailer\n<< /Size ${objects.length + 1} /Root 1 0 R >>\nstartxref\n${xrefPos}\n%%EOF`;
 
-// Se escribe en latin1 para que los caracteres acentuados usen la codificación WinAnsi del PDF
 writeFileSync("public/cv.pdf", Buffer.from(pdf, "latin1"));
 console.log("cv.pdf generado:", pdf.length, "bytes");
